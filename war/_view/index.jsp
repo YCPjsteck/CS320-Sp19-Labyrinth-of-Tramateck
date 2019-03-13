@@ -10,7 +10,6 @@
 		<form action="${pageContext.servletContext.contextPath}/index" method="post">
 			<input type="Submit" name="add" value="Add Numbers">
 			<input type="Submit" name="multiply" value="Multiply Numbers">
-			<input type="Submit" name="guessing" value="Guessing Game">
 		</form>
 	</body>
 </html>
