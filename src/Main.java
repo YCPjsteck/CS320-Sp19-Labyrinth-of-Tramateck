@@ -51,7 +51,7 @@ public class Main {
 		moveLocations = new TreeSet<String>();
 		moveLocations.add("north");
 		moveLocations.add("south");
-		moveLocations.add("east");
+		moveLocations.add("east"); // move east seems to be broken
 		moveLocations.add("west");
 		
 		// Monsters would be added to the attackLocations by the dungeon class,
