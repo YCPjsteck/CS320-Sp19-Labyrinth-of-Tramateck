@@ -1,4 +1,4 @@
-package edu.ycp.cs320.assign01.ajax;
+package edu.ycp.cs320.assign01.servlet.ajax;
 
 import java.io.IOException;
 

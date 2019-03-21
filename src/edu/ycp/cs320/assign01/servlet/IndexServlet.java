@@ -31,8 +31,6 @@ public class IndexServlet extends HttpServlet {
 			req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
 		} else if(req.getParameter("multiply") != null) {
 			req.getRequestDispatcher("/_view/multiplyNumbers.jsp").forward(req, resp);	
-		} else if(req.getParameter("guessing") != null) {
-			req.getRequestDispatcher("/_view/guessingGame.jsp").forward(req, resp);
 		}
 	}
 }
