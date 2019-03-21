@@ -60,7 +60,7 @@ public class Dungeon {
 		else if(direction.equals("south"))
 			return (y+1 <= roomMap[0].length-1 && roomMap[x][y+1] != 0);
 		else if(direction.equals("east"))
-			return (y+1 <= roomMap[0].length-1 && roomMap[x+1][y] != 0);
+			return (x+1 <= roomMap[0].length-1 && roomMap[x+1][y] != 0);
 		else if(direction.equals("west"))
 			return (x-1 >= 0 && roomMap[x-1][y] != 0);
 		else
