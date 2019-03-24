@@ -18,6 +18,10 @@
     <servlet-name>MultiplyNumbersServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.assign01.servlet.MultiplyNumbersServlet</servlet-class>
   </servlet>
+    <servlet>
+    <servlet-name>GameServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.assign01.servlet.GameServlet</servlet-class>
+  </servlet>
   
   <!-- AJAX servlets. -->
   <servlet>
@@ -41,6 +45,10 @@
   <servlet-mapping>
     <servlet-name>MultiplyNumbersServlet</servlet-name>
     <url-pattern>/multiplyNumbers</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>GameServlet</servlet-name>
+    <url-pattern>/game</url-pattern>
   </servlet-mapping>
   
   <!--  AJAX servlet mappings. -->
