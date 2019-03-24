@@ -15,18 +15,14 @@
     <servlet-class>edu.ycp.cs320.assign01.servlet.AddNumbersServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>MultiplyNumbersServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.assign01.servlet.MultiplyNumbersServlet</servlet-class>
+    <servlet-name>TextBasedServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.assign01.servlet.TextBasedServlet</servlet-class>
   </servlet>
   
   <!-- AJAX servlets. -->
   <servlet>
     <servlet-name>AddNumbersAjaxServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.assign01.servlet.ajax.AddNumbersAjaxServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>MultiplyNumbersAjaxServlet</servlet-name>
-    <servlet-class>edu.ycp.cs320.assign01.servlet.ajax.MultiplyNumbersAjaxServlet</servlet-class>
   </servlet>
 
   <!-- Servlet mappings -->
@@ -39,18 +35,14 @@
     <url-pattern>/addNumbers</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>MultiplyNumbersServlet</servlet-name>
-    <url-pattern>/multiplyNumbers</url-pattern>
+    <servlet-name>TextBasedServlet</servlet-name>
+    <url-pattern>/textBased</url-pattern>
   </servlet-mapping>
   
   <!--  AJAX servlet mappings. -->
   <servlet-mapping>
     <servlet-name>AddNumbersAjaxServlet</servlet-name>
     <url-pattern>/ajax/addNumbers</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>MultiplyNumbersAjaxServlet</servlet-name>
-    <url-pattern>/ajax/multiplyNumbers</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
