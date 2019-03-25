@@ -1,5 +1,5 @@
 package edu.ycp.cs320.assign01.model;
 
-public class GameTest {
+public class GameModelTest {
 
 }
