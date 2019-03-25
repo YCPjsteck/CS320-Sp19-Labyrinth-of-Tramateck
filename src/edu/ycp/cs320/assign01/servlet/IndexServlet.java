@@ -29,8 +29,8 @@ public class IndexServlet extends HttpServlet {
 		// jsp for that button.
 		if(req.getParameter("add") != null) {
 			req.getRequestDispatcher("/_view/addNumbers.jsp").forward(req, resp);
-		} else if(req.getParameter("multiply") != null) {
-			req.getRequestDispatcher("/_view/multiplyNumbers.jsp").forward(req, resp);	
+		} else if(req.getParameter("text") != null) {
+			req.getRequestDispatcher("/_view/textBased.jsp").forward(req, resp);	
 		}
 	}
 }
