@@ -15,6 +15,10 @@ public class GameController {
 		this.model = model;
 	}
 	
+	public ArrayList<String> getGameLogArray() {
+		return gameLog;
+	}
+	
 	public String getGameLog() {
 		String log = "";
 		for (String str : gameLog) {
