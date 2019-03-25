@@ -2,26 +2,27 @@ package edu.ycp.cs320.assign01.model;
 
 import java.util.ArrayList;
 
-public class Dungeon {
+public class Location implements Navigable, Named {
 	private ArrayList<Room> roomList;
 	private int[][] roomMap;
-	private int roomX, roomY;
+	private int playerX, playerY, id;
+	private String shortDesc, longDesc, name;
 
-	public Dungeon() {
+	public Location() {
 		roomList = new ArrayList<Room>();
 	}
-	public Dungeon(int[][] map) {
+	
+	public void setMap(int[][] map) {
 		roomMap = map;
-		roomList = new ArrayList<Room>();
 	}
 	
 	/**
 	 * Set the dungeon's active room location
 	 * Assumes that the location is valid.
 	 */
-	public void setActiveLocation(int x, int y) {
-		roomX = x;
-		roomY = y;
+	public void setPlayer(int x, int y) {
+		playerX = x;
+		playerY = y;
 	}
 	
 	// TODO: randomly generate the map instead of having the map
@@ -41,7 +42,7 @@ public class Dungeon {
 			for(int j = 0; j < roomMap[0].length; j++) {
 				if(roomMap[i][j] != 0) {
 					Room r = new Room();
-					r.setID(roomMap[i][j]);
+					r.setId(roomMap[i][j]);
 					roomList.add(r);
 				}
 			}
@@ -54,8 +55,8 @@ public class Dungeon {
 	 * by checking the roomMap.
 	 */
 	public boolean canTravel(String direction) {
-		int x = roomX;
-		int y = roomY;
+		int x = playerX;
+		int y = playerY;
 		
 		if(direction.equals("north"))
 			return (y-1 >= 0 && roomMap[x][y-1] != 0);
@@ -75,13 +76,13 @@ public class Dungeon {
 	 */
 	public void travel(String direction) {
 		if(direction.equals("north"))
-			roomY--;
+			playerY--;
 		else if(direction.equals("south"))
-			roomY++;
+			playerY++;
 		else if(direction.equals("east"))
-			roomX++;
+			playerX++;
 		else if(direction.equals("west"))
-			roomX--;
+			playerX--;
 	}
 	
 	/**
@@ -89,12 +90,12 @@ public class Dungeon {
 	 * is located in.
 	 */
 	public Room curRoom() {
-		int x = roomX;
-		int y = roomY;
+		int x = playerX;
+		int y = playerY;
 		int id = roomMap[x][y];
 		
 		for(Room r : roomList)
-			if(r.getID() == id)
+			if(r.getId() == id)
 				return r;
 		
 		return null;
@@ -105,7 +106,7 @@ public class Dungeon {
 	 */
 	public Room getRoom(int id) {
 		for(Room r : roomList)
-			if(r.getID() == id)
+			if(r.getId() == id)
 				return r;
 		
 		return null;
@@ -122,6 +123,21 @@ public class Dungeon {
 		return true;
 	}
 	
+	public void printMap() {
+		for(int j = 0; j < roomMap[0].length; j++) {
+			for(int i = 0; i < roomMap.length; i++) {
+				if(roomMap[i][j] != 0) {
+					if(i == playerX && j == playerY)
+						System.out.print("x ");
+					else
+						System.out.print("o ");
+				} else {
+					System.out.print("  ");
+				}
+			}
+			System.out.println();
+		}
+	}
 	public ArrayList<String> getMapString() {
 		ArrayList<String> str = new ArrayList<String>();
 		String temp = "";
@@ -129,7 +145,7 @@ public class Dungeon {
 		for(int j = 0; j < roomMap[0].length; j++) {
 			for(int i = 0; i < roomMap.length; i++) {
 				if(roomMap[i][j] != 0) {
-					if(i == roomX && j == roomY)
+					if(i == playerX && j == playerY)
 						temp += "x ";
 					else
 						temp += "o ";
@@ -141,5 +157,33 @@ public class Dungeon {
 			temp = "";
 		}
 		return str;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getName() {
+		return name;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getId() {
+		return id;
+	}
+
+	public void setLongDesc(String desc) {
+		longDesc = desc;
+	}
+	public void setShortDesc(String desc) {
+		shortDesc = desc;
+	}
+
+	public String getLongDesc() {
+		return longDesc;
+	}
+	public String getShortDesc() {
+		return shortDesc;
 	}
 }

@@ -3,11 +3,14 @@ package edu.ycp.cs320.assign01.model;
 import java.util.ArrayList;
 
 public class Player {
-	ArrayList<Item> inventory, equipment;
-	int playerHealth;
+	private ArrayList<Item> inventory, equipment;
+	private int health, experience, level, score, currency;
+	// TODO: 
+	// 		add player skills
+	//		create equip/unequip methods
 	
 	public Player() {
-		playerHealth = 100;
+		health = 100;
 		inventory = new ArrayList<Item>();
 		equipment = new ArrayList<Item>();
 	}
@@ -17,7 +20,7 @@ public class Player {
 	}
 	
 	public void changeHealth(int change) {
-		playerHealth += change;
+		health += change;
 	}
 	
 	public void addItem(Item item) {
@@ -25,6 +28,34 @@ public class Player {
 	}
 	
 	public boolean isDead() {
-		return (playerHealth <= 0);
+		return (health <= 0);
+	}
+
+	public void addExperience(int experience) {
+		this.experience += experience;
+	}
+	public int getExperience() {
+		return experience;
+	}
+
+	public void incrementLevel() {
+		level++;
+	}
+	public int getLevel() {
+		return level;
+	}
+
+	public int getScore() {
+		return score;
+	}
+	public void changeScore(int score) {
+		this.score += score;
+	}
+
+	public int getCurrency() {
+		return currency;
+	}
+	public void changeCurrency(int currency) {
+		this.currency += currency;
 	}
 }

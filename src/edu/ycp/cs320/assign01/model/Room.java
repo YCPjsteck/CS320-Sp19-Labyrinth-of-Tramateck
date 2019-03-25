@@ -2,12 +2,12 @@ package edu.ycp.cs320.assign01.model;
 
 import java.util.ArrayList;
 
-public class Room {
-	ArrayList<String> monsters;
-	ArrayList<Monster> monsterList;
-	String roomDescription;
-	int roomID;
-	boolean entered;
+public class Room implements Named {
+	private ArrayList<String> monsters;
+	private ArrayList<NPC> monsterList;
+	private String shortDesc, longDesc;
+	private int roomID;
+	private boolean entered;
 	
 	// TODO: 
 	//		Add the ability for rooms to contain puzzles
@@ -15,7 +15,7 @@ public class Room {
 	
 	public Room() {
 		monsters = new ArrayList<String>();
-		monsterList = new ArrayList<Monster>();
+		monsterList = new ArrayList<NPC>();
 		entered = false;
 	}
 	
@@ -23,15 +23,25 @@ public class Room {
 	 * A set of methods for setting and querying the
 	 * room's ID number and description
 	 */
-	public void setID(int ID) {
+	public void setId(int ID) {
 		roomID = ID;
 	}
-	public int getID() {
+	public int getId() {
 		return roomID;
 	}
-	public void setDescription(String description) {
-		roomDescription = description;
+	public void setLongDesc(String desc) {
+		longDesc = desc;
 	}
+	public void setShortDesc(String desc) {
+		shortDesc = desc;
+	}
+	public String getLongDesc() {
+		return longDesc;
+	}
+	public String getShortDesc() {
+		return shortDesc;
+	}
+	
 	public String getDescription() {
 		// return roomDescription;
 		String description = "This room contains: ";
@@ -53,25 +63,26 @@ public class Room {
 		monsters.addAll(list);
 		int id = 1;
 		for(String s : monsters) {
-			Monster monster = new Monster(1);
-			monster.setID(id);
+			NPC monster = new NPC(1);
+			monster.setId(id);
 			monster.setName(s);
 			id++;
 		}
 	}
+	
 	// TODO: return a list of monster objects
 	public ArrayList<String> getMonsters() {
 		return monsters;
 	}
-	public Monster getMonster(int id) {
-		for(Monster m : monsterList)
-			if(m.getID() == id)
+	public NPC getMonster(int id) {
+		for(NPC m : monsterList)
+			if(m.getId() == id)
 				return m;
 		
 		return null;
 	}
-	public Monster getMonster(String name) {
-		for(Monster m : monsterList)
+	public NPC getMonster(String name) {
+		for(NPC m : monsterList)
 			if(m.getName().equals(name))
 				return m;
 		
@@ -98,5 +109,15 @@ public class Room {
 		return true;
 		*/
 		return (monsters.size() == 0);
+	}
+
+	/**
+	 * Rooms don't need names; these are only here from the
+	 * Named interface
+	 */
+	public void setName(String name) {
+	}
+	public String getName() {
+		return null;
 	}
 }
