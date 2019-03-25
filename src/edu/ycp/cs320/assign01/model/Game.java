@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Game {
 	private Player player;
 	private Location dungeon;
-	private ArrayList<String> gameLog;
 	
 	public Game() {
 		player = new Player();

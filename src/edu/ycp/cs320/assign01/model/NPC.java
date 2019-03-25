@@ -1,6 +1,6 @@
 package edu.ycp.cs320.assign01.model;
 
-public class NPC implements Named{
+public class NPC implements Named {
 	private String name, shortDesc, longDesc;
 	private int level, health, id;
 	private Item loot;

@@ -42,6 +42,7 @@ public class Room implements Named {
 		return shortDesc;
 	}
 	
+	// TODO: Replace this method with getLongDesc and getShortDesc
 	public String getDescription() {
 		// return roomDescription;
 		String description = "This room contains: ";

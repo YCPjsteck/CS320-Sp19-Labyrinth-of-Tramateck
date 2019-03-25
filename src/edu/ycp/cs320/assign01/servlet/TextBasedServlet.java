@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.assign01.controller.GameController;
+import edu.ycp.cs320.assign01.model.Game;
+
 public class TextBasedServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -29,12 +32,16 @@ public class TextBasedServlet extends HttpServlet {
 		String errorMessage = null;
 		String output = null;
 		String input = req.getParameter("input");
-		// TextBasedModel model;
-		// if(req.getAttribute("game") != null)
-		// 	model = req.getAttribute("game");
-		// else
-		//	model = new TextBasedModel();
-		// TextBasedController controller = new TextBasedController(model);
+		
+		// TODO: Sustain the model/model information between actions
+		Game model;
+		System.out.println(req.getAttribute("game") != null);
+		if(req.getAttribute("game") != null)
+		 	model = (Game)req.getAttribute("game");
+		else
+			model = new Game();
+		GameController controller = new GameController();
+		controller.setModel(model);
 
 		// check for errors in the form data before using is in a calculation
 		if (input == null || input.equals("")) {
@@ -45,8 +52,8 @@ public class TextBasedServlet extends HttpServlet {
 		// the view does not alter data, only controller methods should be used for that
 		// thus, always call a controller method to operate on the data
 		else {
-			// output = controller.getOutput(input);
-			output = "You entered \"" + input + "\"";
+			controller.actionSet(input);
+			output = controller.getGameLog();
 		}
 		
 		// Add parameters as request attributes
@@ -55,12 +62,11 @@ public class TextBasedServlet extends HttpServlet {
 		// they don't have to be named the same, but in this case, since we are passing them back
 		// and forth, it's a good idea
 		
-		//req.setAttribute("game", model);
+		req.setAttribute("game", model);
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
-		// req.setAttribute("result", result);
 		req.setAttribute("output", output);
 		
 		// Forward to view to render the result HTML document

@@ -23,6 +23,13 @@ public class GameController {
 		return log;
 	}
 	
+	public void actionSet(String input) {
+		loadActions();
+		preAction();
+		Action(input);
+		postAction();
+	}
+	
 	private void preAction() {
 		gameLog.addAll(model.getDungeon().getMapString());
 		attackLocations.addAll(model.getDungeon().curRoom().getMonsters());
@@ -79,6 +86,8 @@ public class GameController {
 	}
 	
 	private void loadActions() {
+		gameLog = new ArrayList<String>();
+		
 		// Actions would be always accessible
 		// New actions could be added though over time
 		actions = new TreeSet<String>();
