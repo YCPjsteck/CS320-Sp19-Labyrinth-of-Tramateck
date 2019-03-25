@@ -19,9 +19,10 @@ public class GameTest {
 		int[][] map = {	{0, 0, 4},
 						{1, 2, 3},
 						{0, 0, 5}};
-		Dungeon dungeon = new Dungeon(map);
+		Location dungeon = new Location();
+		dungeon.setMap(map);
 		dungeon.generateRooms();
-		dungeon.setActiveLocation(1, 0);
+		dungeon.setPlayer(1, 0);
 		
 		// For testing purposes. In game, rooms would be populated
 		// by themselves.
@@ -75,7 +76,7 @@ public class GameTest {
 		while(true) {
 			// At the beginning of each action, print the map
 			// and make sure the attackLocations are populated.
-			dungeon.getMapString();
+			dungeon.printMap();
 			attackLocations.addAll(dungeon.curRoom().getMonsters());
 			System.out.println(dungeon.curRoom().getDescription());
 			
