@@ -99,10 +99,12 @@ public class GameTest {
 						dungeon.travel(words.get(1));
 						System.out.println("Traveled " + words.get(1));
 					} else {
-						if(!dungeon.curRoom().roomComplete())
-							System.out.println("There are still monsters to fight.");
-						if(!dungeon.canTravel(words.get(1)))
-							System.out.println("Can not travel in that direction.");
+						if(words.size() > 1) {
+							if(!dungeon.curRoom().roomComplete())
+								System.out.println("There are still monsters to fight.");
+							if(!dungeon.canTravel(words.get(1)))
+								System.out.println("Can not travel in that direction.");
+						}
 					}
 				}
 				if(words.get(0).equals("attack")) {
