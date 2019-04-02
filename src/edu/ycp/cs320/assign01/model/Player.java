@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Player {
 	private ArrayList<Item> inventory, equipment;
-	private int health, experience, level, score, currency;
+	private int health, experience, level, score, currency, intellect, strength, dexterity;
 	// TODO: 
 	// 		add player skills
 	//		create equip/unequip methods
@@ -13,6 +13,17 @@ public class Player {
 		health = 100;
 		inventory = new ArrayList<Item>();
 		equipment = new ArrayList<Item>();
+		currency = 0;
+		score = 0;
+		
+		//Level
+		experience = 0;
+		level = 1;
+		
+		//Stats
+		intellect = 50;
+		strength = 50;
+		dexterity = 50;
 	}
 	
 	public int attack() {

@@ -53,10 +53,12 @@ public class GameController {
 					model.getDungeon().travel(words.get(1));
 					gameLog.add("Traveled " + words.get(1));
 				} else {
-					if(!model.getDungeon().curRoom().roomComplete())
-						gameLog.add("There are still monsters to fight.");
-					if(!model.getDungeon().canTravel(words.get(1)))
-						gameLog.add("Can not travel in that direction.");
+					if(words.size() > 1) {
+						if(!model.getDungeon().curRoom().roomComplete())
+							gameLog.add("There are still monsters to fight.");
+						if(!model.getDungeon().canTravel(words.get(1)))
+							gameLog.add("Can not travel in that direction.");
+					}
 				}
 			}
 			else if(words.get(0).equals("attack")) {
