@@ -1,0 +1,32 @@
+location Jungle
+	level 1 3
+	type Dangerous
+	map 3 3
+		o.o
+		ooo
+		o.o
+	room
+		coord 0 0
+		exit
+		
+	room
+		coord 0 1
+		npc Jaguar
+		
+	room
+		coord 0 2
+		
+	room
+		coord 1 1
+		start
+		
+	room
+		coord 2 0
+		
+	room
+		coord 2 1
+		npc Monkey
+		
+	room
+		coord 2 2
+		exit

@@ -19,6 +19,10 @@ public class WorldMap implements Navigable {
 		playerX = x;
 		playerY = y;
 	}
+
+	public void addLocation(Location l) {
+		locationList.add(l);
+	}
 	
 	public ArrayList<Location> getLocations() {
 		return locationList;

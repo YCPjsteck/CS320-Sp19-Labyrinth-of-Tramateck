@@ -7,6 +7,9 @@ public class Location implements Navigable, Named {
 	private int[][] roomMap;
 	private int playerX, playerY, id;
 	private String shortDesc, longDesc, name;
+	
+	private int minLevel, maxLevel;
+	private String type;
 
 	public Location() {
 		roomList = new ArrayList<Room>();
@@ -14,6 +17,10 @@ public class Location implements Navigable, Named {
 	
 	public void setMap(int[][] map) {
 		roomMap = map;
+	}
+	
+	public int[][] getMap() {
+		return roomMap;
 	}
 	
 	/**
@@ -93,12 +100,15 @@ public class Location implements Navigable, Named {
 		int x = playerX;
 		int y = playerY;
 		int id = roomMap[x][y];
-		
 		for(Room r : roomList)
 			if(r.getId() == id)
 				return r;
-		
+
 		return null;
+	}
+	
+	public void addRoom(Room r) {
+		roomList.add(r);
 	}
 	
 	/**
@@ -185,5 +195,33 @@ public class Location implements Navigable, Named {
 	}
 	public String getShortDesc() {
 		return shortDesc;
+	}
+
+	public int getMinLevel() {
+		return minLevel;
+	}
+
+	public void setMinLevel(int minLevel) {
+		this.minLevel = minLevel;
+	}
+
+	public int getMaxLevel() {
+		return maxLevel;
+	}
+
+	public void setMaxLevel(int maxLevel) {
+		this.maxLevel = maxLevel;
+	}
+	
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public ArrayList<Room> getRooms() {
+		return roomList;
 	}
 }
