@@ -5,9 +5,15 @@ import java.util.ArrayList;
 public class Player {
 	private ArrayList<Item> inventory, equipment;
 	private int health, experience, level, score, currency, intellect, strength, dexterity;
-	// TODO: 
-	// 		add player skills
-	//		create equip/unequip methods
+	/* TODO: 
+	* 		add player skills
+	*			- Added set and get methods as a start 
+	*			as we implement the skills we may want to
+	*			add different methods to more easily adjust 
+	*			these values
+	*
+	*		create equip/unequip methods
+	*/
 	
 	public Player() {
 		health = 100;
@@ -68,5 +74,31 @@ public class Player {
 	}
 	public void changeCurrency(int currency) {
 		this.currency += currency;
+	}
+	
+	
+	// Set and Get methods for Player stats
+	public int getIntellect() {
+		return intellect;
+	}
+	
+	public void setIntellect(int intellect) {
+		this.intellect = intellect;
+	}
+	
+	public int getStrength() {
+		return strength;
+	}
+	
+	public void setStrength(int strength) {
+		this.strength = strength;
+	}
+	
+	public int getDexterity() {
+		return dexterity;
+	}
+	
+	public void setDexterity(int dexterity) {
+		this.dexterity = dexterity;
 	}
 }
