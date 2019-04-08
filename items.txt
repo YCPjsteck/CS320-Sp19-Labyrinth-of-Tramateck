@@ -1,0 +1,14 @@
+item Monkey Paw
+	rarity Common
+	weight 1
+	worth 10
+
+item Monkey Tail
+	rarity Rare
+	weight 2
+	worth 50
+
+item Monkey Head
+	rarity Legendary
+	weight 5
+	worth 1000

@@ -7,13 +7,27 @@ import java.util.Scanner;
 
 public class Library {
 	
-	ArrayList<Location> locationList; // locations.txt
-	ArrayList<NPC> npcList; // npcs.txt
-	ArrayList<Item> itemList; // items.txt
+	private ArrayList<Location> locationList; // locations.txt
+	private ArrayList<NPC> npcList; // npcs.txt
+	private ArrayList<Item> itemList; // items.txt
 	// ArrayList<Event> eventList; // events.txt
+	
+	public Library() {
+		locationList = new ArrayList<Location>();
+		npcList = new ArrayList<NPC>();
+		itemList = new ArrayList<Item>();
+	}
 	
 	public ArrayList<Location> getLocations() {
 		return locationList;
+	}
+	
+	public ArrayList<NPC> getNPCs() {
+		return npcList;
+	}
+
+	public ArrayList<Item> getItems() {
+		return itemList;
 	}
 	
 	public WorldMap generateWorld() {
@@ -55,7 +69,6 @@ public class Library {
 	
 	public void generateLocations() throws FileNotFoundException {
 		Scanner reader = new Scanner(new File("locations.txt"));
-		locationList = new ArrayList<Location>();
 		
 		WordFinder finder = new WordFinder();
 		Location loc;
