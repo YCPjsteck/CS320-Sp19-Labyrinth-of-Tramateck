@@ -1,6 +1,7 @@
 package edu.ycp.cs320.assign01.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,16 +31,17 @@ public class TextBasedServlet extends HttpServlet {
 		System.out.println("TextBased Servlet: doPost");
 		
 		String errorMessage = null;
-		String output = null;
+		ArrayList<String> output = new ArrayList<String>();
 		String input = req.getParameter("input");
 		
 		// TODO: Sustain the model/model information between actions
 		Game model;
 		System.out.println(req.getAttribute("game") != null);
 		if(req.getAttribute("game") != null)
-		 	model = (Game)req.getAttribute("game");
+		 	model = new Game(((Game) req.getAttribute("game")).getPlayer(), ((Game) req.getAttribute("game")).getDungeon());
 		else
 			model = new Game();
+		
 		GameController controller = new GameController();
 		controller.setModel(model);
 
