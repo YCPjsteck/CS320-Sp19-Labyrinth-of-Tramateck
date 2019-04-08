@@ -8,6 +8,7 @@ public class Room implements Named {
 	private String shortDesc, longDesc;
 	private int roomID;
 	private boolean entered;
+	private boolean start, exit;
 	
 	// TODO: 
 	//		Add the ability for rooms to contain puzzles
@@ -68,6 +69,7 @@ public class Room implements Named {
 			monster.setId(id);
 			monster.setName(s);
 			id++;
+			monsterList.add(monster);
 		}
 	}
 	
@@ -75,6 +77,7 @@ public class Room implements Named {
 	public ArrayList<String> getMonsters() {
 		return monsters;
 	}
+	
 	public NPC getMonster(int id) {
 		for(NPC m : monsterList)
 			if(m.getId() == id)
@@ -121,4 +124,19 @@ public class Room implements Named {
 	public String getName() {
 		return null;
 	}
+	
+	public void isStart() {
+		start = true;
+	}
+	public boolean getStart() {
+		return start;
+	}
+	
+	public void isExit() {
+		exit = true;
+	}
+	public boolean getExit() {
+		return exit;
+	}
+	
 }
