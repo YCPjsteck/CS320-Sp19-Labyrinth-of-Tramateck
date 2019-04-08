@@ -1,0 +1,24 @@
+.error {
+	color: red;
+	}
+body {
+	background-color: black;
+	}
+td {
+	color: #39ff14;
+	text-align: center;
+	}
+td.label {
+	color: #39ff14;
+	text-align: right;
+	}
+input {
+   	color: #39ff14;
+    border: 2px solid #606060;
+    background-color: black;
+	}
+hr {
+   	color: #39ff14;
+	border-style: solid;
+  	border-width: 1px;    
+	}
