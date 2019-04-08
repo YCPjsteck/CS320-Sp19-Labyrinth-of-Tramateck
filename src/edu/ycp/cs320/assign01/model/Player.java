@@ -30,6 +30,7 @@ public class Player {
 		intellect = 5;
 		strength = 5;
 		dexterity = 5;
+
 	}
 	
 	public int attack() {
@@ -93,7 +94,7 @@ public class Player {
 	public int getHealth() {
 		return health;
 	}
-	
+
 	public int getIntellect() {
 		return intellect;
 	}
