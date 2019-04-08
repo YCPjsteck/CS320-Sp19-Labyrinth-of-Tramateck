@@ -24,10 +24,11 @@ public class Library {
 		
 		map.setPlayer(0, 0);
 		
-		try { 
-			generateLocations();
-			generateNPCs();
+		try {
 			generateItems();
+			generateNPCs();
+			// generateEvents();
+			generateLocations();
 		} 
 		catch (FileNotFoundException e) { 
 			e.printStackTrace();
@@ -147,6 +148,8 @@ public class Library {
 		Scanner reader = new Scanner(new File("npcs.txt"));
 		WordFinder finder = new WordFinder();
 		
+		// TODO: Instead of reading for "npc" then finding the type,
+		// read for the type first.
 		while(reader.hasNext()) {
 			NPC npc = new NPC();
 			String str = reader.nextLine();
@@ -157,7 +160,7 @@ public class Library {
 				words = finder.findWords(str);
 				while(!str.equals("")) {
 					if(words.get(0).equals("type")) {
-						String type = words.get(0);
+						String type = words.get(1);
 						if(type.equals("enemy")) {
 							npc = new Enemy();
 						} else if(type.equals("vendor")) {
@@ -206,16 +209,16 @@ public class Library {
 			String str = reader.nextLine();
 			ArrayList<String> words = finder.findWords(str);
 			if(words.get(0).equals("item")) {
-				String name = str.substring(words.get(0).length()).trim();
+				item.setName(str.substring(words.get(0).length()).trim());
 				str = reader.nextLine();
 				words = finder.findWords(str);
 				while(!str.equals("")) {
-					if(words.get(0).equals("type")) {
-						String type = words.get(0);
-						if(type.equals("")) {
-						}
-						item.setName(name);
-					} else if(words.get(0).equals("")) {
+					if(words.get(0).equals("rarity")) {
+						item.setRarity(words.get(1));
+					} else if(words.get(0).equals("worth")) {
+						item.setWorth(Integer.parseInt(words.get(1)));
+					} else if(words.get(0).equals("weight")) {
+						item.setWorth(Integer.parseInt(words.get(1)));
 					}
 					
 					if(reader.hasNext())
