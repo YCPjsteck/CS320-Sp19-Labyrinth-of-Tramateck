@@ -4,51 +4,115 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class Event {
-	private TreeMap<String, String> dialogue = new TreeMap<String, String>();
-	private String logKey;
-	private String logLine;
-	private int ticks;		//When ticks == 0 the event is failed and exited
-	private int threshold;	//Will add later value to specify stat
 	private Player player;
-	private String playerKey;
+	private String prompt, aPassLog, aFailLog, bPassLog, bFailLog;	 //0 = hp, 1 = str, 2 = int, 3 = dex, 4 = inventory
+	private int aReadId, aReadScale, aPassId, aPassScale, aFailId, aFailScale,
+				bReadId, bReadScale, bPassId, bPassScale, bFailId, bFailScale;
+	private int key;
 	
-	public Event(ArrayList<String> rawLog, int ticks, int threshold, Player player) {
-		loadDialogue(rawLog);
-		this.ticks = ticks;
-		this.threshold = threshold;
+	public Event(Player player) {
 		this.player = player;
-		playerKey = "T";
+		
+	}
+	public String getPrompt() {
+		return prompt;
 	}
 	
-	public boolean isResolved() {
-		return (ticks > 0);
+	public String getDialogue() {
+		switch (key) {
+		case 1:
+			return aPassLog;
+		case 2:
+			return aFailLog;
+		case 3:
+			return bPassLog;
+		case 4:
+			return bFailLog;
+		default:
+			return null;
+		}
 	}
 	
-	public String runEvent() {
-		if (dialogue.get(playerKey).indexOf("%R") < 0) {
+	public Boolean isDone() {
+		return (key > 0);
+	}
+	
+	public EventResult roll(boolean choice) {
+		boolean pass = false;
+		if (choice) {
+			key = 2;
+			switch (aReadId) {
+			case 0:
+				if (player.getHealth() > aReadScale) {
+					pass = true;
+					key = 1;
+				}
+				break;
+			case 1:
+				if (player.getStrength() > aReadScale) {
+					pass = true;
+					key = 1;
+				}
+				break;
+			case 3:
+				if (player.getIntellect() > aReadScale) {
+					pass = true;
+					key = 1;
+				}
+				break;
+			case 4:
+				if (player.getHealth() > aReadScale) {
+					pass = true;
+					key = 1;
+				}
+				break;
+			default:
+				break;
+			}
 			
-			return dialogue.get(playerKey).substring(2);
-		}
-		return dialogue.get(playerKey).substring(2);
-	}
-	
-	private void loadDialogue(ArrayList<String> rawLog) {
-		while (!rawLog.isEmpty()) {
-			logLine = rawLog.get(0).substring(rawLog.get(0).indexOf("%%") + 2);
-			logKey = rawLog.get(0).substring(0, rawLog.get(0).indexOf("%%")); //KEY WOULD LOOK LIKE T, TTF, TTT, TFFF
-			dialogue.put(logKey, logLine);
-		}
-	}
-	
-	private boolean roll() {
-		if (player.attack() > threshold) {
-			playerKey += 'T';
-			return true;
+			if (pass) {
+				return new EventResult(aPassId, aPassScale);
+			} else {
+				return new EventResult(aFailId, aFailScale);
+			}
+			
 		} else {
-			playerKey += 'F';
-			ticks--;
-			return false;
+			key = 4;
+			switch (bReadId) {
+			case 0:
+				if (player.getHealth() > bReadScale) {
+					pass = true;
+					key = 1;
+				}
+				break;
+			case 1:
+				if (player.getStrength() > bReadScale) {
+					pass = true;
+					key = 1;
+				}
+				break;
+			case 3:
+				if (player.getIntellect() > bReadScale) {
+					pass = true;
+					key = 1;
+				}
+				break;
+			case 4:
+				if (player.getHealth() > bReadScale) {
+					pass = true;
+					key = 1;
+				}
+				break;
+			default:
+				break;
+			}
+			
+			if (pass) {
+				return new EventResult(bPassId, bPassScale);
+			} else {
+				return new EventResult(bFailId, bFailScale);
+			}
 		}
 	}
-	
+
 }
