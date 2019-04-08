@@ -27,17 +27,30 @@ public class Player {
 		level = 1;
 		
 		//Stats
-		intellect = 50;
-		strength = 50;
-		dexterity = 50;
+		intellect = 5;
+		strength = 5;
+		dexterity = 5;
+
 	}
 	
 	public int attack() {
-		return 10;
+		return strength;
 	}
 	
 	public void changeHealth(int change) {
 		health += change;
+	}
+	
+	public void changeStrength(int change) {
+		strength += change;
+	}
+	
+	public void changeIntellect(int change) {
+		intellect += change;
+	}
+	
+	public void changeDexterity(int change) {
+		dexterity += change;
 	}
 	
 	public void addItem(Item item) {
@@ -78,6 +91,10 @@ public class Player {
 	
 	
 	// Set and Get methods for Player stats
+	public int getHealth() {
+		return health;
+	}
+
 	public int getIntellect() {
 		return intellect;
 	}
@@ -100,5 +117,26 @@ public class Player {
 	
 	public void setDexterity(int dexterity) {
 		this.dexterity = dexterity;
+	}
+	
+	public void eventResult(EventResult result) {
+		switch (result.getId()) {
+			case 0:
+				changeHealth(result.getScale());
+				break;
+			case 1:
+				changeStrength(result.getScale());
+				break;
+			case 2:
+				changeIntellect(result.getScale());
+				break;
+			case 3:
+				changeDexterity(result.getScale());
+				break;
+			case 4: //TO LATER MODIFY INVENTORY
+				break;
+			default:
+				break;
+		}
 	}
 }

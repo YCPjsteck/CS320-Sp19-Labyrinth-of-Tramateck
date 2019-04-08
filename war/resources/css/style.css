@@ -1,0 +1,23 @@
+body {
+    background-color: black;
+}
+
+.error {
+    color: red;
+}
+
+td.label {
+    text-align: right;
+}
+
+#outputScreen {
+    border-color: dodgerblue;
+    color: dodgerblue;
+    height: 40%;
+    width: 50%;
+    margin: 50%
+}
+
+#inputBox {
+    width: 50%;
+}
