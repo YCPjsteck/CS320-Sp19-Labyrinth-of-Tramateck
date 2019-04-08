@@ -66,7 +66,7 @@ public class Library {
 				ArrayList<String> words = finder.findWords(str);
 				//System.out.println(str);
 				if(words.get(0).equals("location")) {
-					loc.setName(words.get(1));
+					loc.setName(str.substring(words.get(0).length()).trim());
 				} else if(words.get(0).equals("level")) {
 					loc.setMinLevel(Integer.parseInt(words.get(1)));
 					loc.setMaxLevel(Integer.parseInt(words.get(2)));
@@ -85,7 +85,8 @@ public class Library {
 					str = "";
 			}
 			
-			locationList.add(loc);
+			if(loc.getName() != null)
+				locationList.add(loc);
 		}
 		reader.close();
 	}
@@ -144,29 +145,52 @@ public class Library {
 	
 	public void generateNPCs() throws FileNotFoundException {
 		Scanner reader = new Scanner(new File("npcs.txt"));
-
 		WordFinder finder = new WordFinder();
-		NPC npc;
+		
 		while(reader.hasNext()) {
-			npc = new NPC();
+			NPC npc = new NPC();
 			String str = reader.nextLine();
 			ArrayList<String> words = finder.findWords(str);
 			if(words.get(0).equals("npc")) {
-				
-			} else if(words.get(0).equals("type")) {
-				
-			} else if(words.get(0).equals("health")) {
-				
-			} else if(words.get(0).equals("attack")) {
-				
-			} else if(words.get(0).equals("loot")) {
-				
-			} else if(words.get(0).equals("inventory")) {
-				
-			} else if(words.get(0).equals("part")) {
-				
-			} else if(words.get(0).equals("weakness")) {
-				
+				String name = str.substring(words.get(0).length()).trim();
+				str = reader.nextLine();
+				words = finder.findWords(str);
+				while(!str.equals("")) {
+					if(words.get(0).equals("type")) {
+						String type = words.get(0);
+						if(type.equals("enemy")) {
+							npc = new Enemy();
+						} else if(type.equals("vendor")) {
+							npc = new Vendor();
+						}
+						npc.setName(name);
+					} else if(words.get(0).equals("health")) {
+						npc.setHealth(Integer.parseInt(words.get(1)));
+					} else if(words.get(0).equals("attack")) {
+						npc.setMinAttack(Integer.parseInt(words.get(1)));
+						npc.setMaxAttack(Integer.parseInt(words.get(2)));
+					} else if(words.get(0).equals("loot")) {
+						Item item = findItem(words.get(1));
+						int weight = Integer.parseInt(words.get(2));
+						int size = Integer.parseInt(words.get(3));
+						npc.addLoot(item, weight, size);
+					} else if(words.get(0).equals("inventory")) {
+						Item item = findItem(words.get(1));
+						int weight = Integer.parseInt(words.get(2));
+						int size = Integer.parseInt(words.get(3));
+						((Vendor)npc).addInventory(item, weight, size);
+					} else if(words.get(0).equals("part")) {
+						((Enemy)npc).setPart(words.get(1));
+					} else if(words.get(0).equals("weakness")) {
+						((Enemy)npc).setWeakness(words.get(1));
+					}
+					
+					if(reader.hasNext())
+						str = reader.nextLine().trim();
+					else
+						str = "";
+				}
+				npcList.add(npc);
 			}
 		}
 		
@@ -175,6 +199,34 @@ public class Library {
 	
 	public void generateItems() throws FileNotFoundException {
 		Scanner reader = new Scanner(new File("items.txt"));
+		WordFinder finder = new WordFinder();
+		
+		while(reader.hasNext()) {
+			Item item = new Item();
+			String str = reader.nextLine();
+			ArrayList<String> words = finder.findWords(str);
+			if(words.get(0).equals("item")) {
+				String name = str.substring(words.get(0).length()).trim();
+				str = reader.nextLine();
+				words = finder.findWords(str);
+				while(!str.equals("")) {
+					if(words.get(0).equals("type")) {
+						String type = words.get(0);
+						if(type.equals("")) {
+						}
+						item.setName(name);
+					} else if(words.get(0).equals("")) {
+					}
+					
+					if(reader.hasNext())
+						str = reader.nextLine().trim();
+					else
+						str = "";
+				}
+				itemList.add(item);
+			}
+		}
+		
 		reader.close();
 	}
 }

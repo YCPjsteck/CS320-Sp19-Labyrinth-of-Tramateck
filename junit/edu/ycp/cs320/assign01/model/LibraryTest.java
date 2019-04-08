@@ -1,6 +1,5 @@
 package edu.ycp.cs320.assign01.model;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
@@ -18,7 +17,7 @@ public class LibraryTest {
 	}
 	
 	@Test
-	public void testLibrary() {
+	public void testLocations() {
 		try {
 			lib.generateLocations();
 		} catch (FileNotFoundException e) {
@@ -42,22 +41,30 @@ public class LibraryTest {
 		assertTrue(loc.getRooms().size() == 7);
 		
 		loc.printMap();
-		System.out.println(loc.getRooms().size());
 		
-		System.out.println(loc.canTravel("east"));
+		//System.out.println(loc.canTravel("east"));
 		loc.travel("east");
 		
 		loc.printMap();
 		Room room = loc.curRoom();
 		ArrayList<String> monsters = room.getMonsters();
 		System.out.println(monsters.get(0));
-		room.monsterKilled("monkey");
-		System.out.println(monsters.size());
-		System.out.println(loc.canTravel("east"));
-		System.out.println(loc.canTravel("north"));
-		System.out.println(loc.canTravel("south"));
+		//room.monsterKilled("monkey");
+		//System.out.println(monsters.size());
+		//System.out.println(loc.canTravel("east"));
+		//System.out.println(loc.canTravel("north"));
+		//System.out.println(loc.canTravel("south"));
 		loc.travel("south");
 		
 		loc.printMap();
+		
+		loc = locations.get(1);
+		assertTrue(loc.getName().equals("dungeon"));
+		assertTrue(loc.getMinLevel() == 3);
+		assertTrue(loc.getMaxLevel() == 5);
+		assertTrue(loc.getType().equals("dangerous"));
+		assertTrue(loc.getMap().length == 5);
+		assertTrue(loc.getMap()[0].length == 5);
+		assertTrue(loc.getRooms().size() == 14);
 	}
 }

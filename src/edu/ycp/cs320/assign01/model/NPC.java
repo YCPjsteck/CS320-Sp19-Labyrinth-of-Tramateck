@@ -1,16 +1,19 @@
 package edu.ycp.cs320.assign01.model;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class NPC implements Named {
 	private String name, shortDesc, longDesc;
-	private int level, health, id;
-	private Item loot;
+	private int level, health, id, minAttack, maxAttack;
+	private ArrayList<Triple<Item,Integer,Integer>> loot;
 	
 	public NPC() {
+		loot = new ArrayList<Triple<Item,Integer,Integer>>();
 	}
 	
 	public NPC(int level) {
 		this.level = level;
-		setHealth();
 	}
 	
 	public int getLevel() {
@@ -21,8 +24,8 @@ public class NPC implements Named {
 	 * Set, get, or change this NPCs health, and
 	 * find out if it is dead.
 	 */
-	public void setHealth() {
-		health = level * 10;
+	public void setHealth(int health) {
+		health = level * health;
 	}
 	public int getHealth() {
 		return health;
@@ -37,18 +40,21 @@ public class NPC implements Named {
 	/**
 	 * Set or get this NPC's loot.
 	 */
-	public void setLoot(Item i) {
-		loot = i;
+	public void addLoot(Item item, int weight, int size) {
+		loot.add(new Triple<Item,Integer,Integer>(item, weight, size));
 	}
-	public Item getLoot() {
-		return loot;
+	public ArrayList<Pair<Item,Integer>> getLoot() {
+		// TODO: Run through the loot array list and calculate the loot that
+		// gets returned based off of the weights and sizes.
+		return null;
 	}
 	
 	/**
 	 * This NPC's attack damage.
 	 */
 	public int attack() {
-		return 4 + level;
+		Random rand = new Random();
+		return (rand.nextInt(maxAttack-minAttack) + minAttack) * level;
 	}
 	
 	/**
@@ -77,5 +83,21 @@ public class NPC implements Named {
 	}
 	public String getShortDesc() {
 		return shortDesc;
+	}
+
+	public int getMinAttack() {
+		return minAttack;
+	}
+
+	public void setMinAttack(int minAttack) {
+		this.minAttack = minAttack;
+	}
+
+	public int getMaxAttack() {
+		return maxAttack;
+	}
+
+	public void setMaxAttack(int maxAttack) {
+		this.maxAttack = maxAttack;
 	}
 }
