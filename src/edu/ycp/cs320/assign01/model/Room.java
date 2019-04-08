@@ -68,6 +68,7 @@ public class Room implements Named {
 			monster.setId(id);
 			monster.setName(s);
 			id++;
+			monsterList.add(monster);
 		}
 	}
 	

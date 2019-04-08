@@ -29,7 +29,9 @@ public class RoomTest {
 		monsters.add("rat");
 		
 		room.populate(monsters);
-		assertTrue(room.getMonster(1) != null);
+		assertTrue(room.getMonster(1).getName() == "rat");
+		assertTrue(room.getMonster(2).getName() == "squid");
+		assertTrue(room.getMonster(3).getName() == "rat");
 		
 	}
 	
