@@ -138,25 +138,26 @@ public class Location implements Navigable, Named {
 			System.out.println();
 		}
 	}
+	
 	public ArrayList<String> getMapString() {
-		ArrayList<String> str = new ArrayList<String>();
-		String temp = "";
+		ArrayList<String> temp = new ArrayList<String>();
+		String str = "";
 		
 		for(int j = 0; j < roomMap[0].length; j++) {
 			for(int i = 0; i < roomMap.length; i++) {
 				if(roomMap[i][j] != 0) {
 					if(i == playerX && j == playerY)
-						temp += "x ";
+						str += "-x-";
 					else
-						temp += "o ";
+						str += "-o-";
 				} else {
-					temp += "  ";
+					str += "---";
 				}
 			}
-			str.add(temp);
-			temp = "";
+			temp.add(str);
+			str = "";
 		}
-		return str;
+		return temp;
 	}
 
 	public void setName(String name) {
