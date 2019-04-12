@@ -1,6 +1,6 @@
 package edu.ycp.cs320.assign01.controller;
 
-import edu.ycp.cs320.assign01.model.Numbers;
+import edu.ycp.cs320.assign01.model.utility.Numbers;
 
 public class NumbersController {
 	private Numbers model;

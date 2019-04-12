@@ -1,9 +1,17 @@
-package edu.ycp.cs320.assign01.model;
+package edu.ycp.cs320.assign01.model.utility;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import edu.ycp.cs320.assign01.model.Enemy;
+import edu.ycp.cs320.assign01.model.Item;
+import edu.ycp.cs320.assign01.model.NPC;
+import edu.ycp.cs320.assign01.model.Vendor;
+import edu.ycp.cs320.assign01.model.movement.Location;
+import edu.ycp.cs320.assign01.model.movement.Room;
+import edu.ycp.cs320.assign01.model.movement.WorldMap;
 
 public class Library {
 	

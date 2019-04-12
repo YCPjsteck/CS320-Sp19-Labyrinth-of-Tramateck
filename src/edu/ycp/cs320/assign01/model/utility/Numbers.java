@@ -1,4 +1,4 @@
-package edu.ycp.cs320.assign01.model;
+package edu.ycp.cs320.assign01.model.utility;
 
 public class Numbers {
 	private double first, second, third;

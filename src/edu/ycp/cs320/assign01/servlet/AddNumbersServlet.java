@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.assign01.controller.NumbersController;
-import edu.ycp.cs320.assign01.model.Numbers;
+import edu.ycp.cs320.assign01.model.utility.Numbers;
 
 public class AddNumbersServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

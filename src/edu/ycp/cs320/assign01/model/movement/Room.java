@@ -1,6 +1,9 @@
-package edu.ycp.cs320.assign01.model;
+package edu.ycp.cs320.assign01.model.movement;
 
 import java.util.ArrayList;
+
+import edu.ycp.cs320.assign01.model.NPC;
+import edu.ycp.cs320.assign01.model.interfaces.Named;
 
 public class Room implements Named {
 	private ArrayList<String> monsters;

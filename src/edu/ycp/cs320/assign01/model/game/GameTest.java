@@ -1,9 +1,13 @@
-package edu.ycp.cs320.assign01.model;
+package edu.ycp.cs320.assign01.model.game;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
+
+import edu.ycp.cs320.assign01.model.Player;
+import edu.ycp.cs320.assign01.model.movement.Location;
+import edu.ycp.cs320.assign01.model.movement.Room;
 
 public class GameTest {
 	public static Set<String> actions, moveLocations, attackLocations, attackModifiers;

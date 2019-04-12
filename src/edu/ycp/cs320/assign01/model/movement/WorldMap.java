@@ -1,6 +1,8 @@
-package edu.ycp.cs320.assign01.model;
+package edu.ycp.cs320.assign01.model.movement;
 
 import java.util.ArrayList;
+
+import edu.ycp.cs320.assign01.model.interfaces.Navigable;
 
 public class WorldMap implements Navigable {
 	private ArrayList<Location> locationList, locationAccess;

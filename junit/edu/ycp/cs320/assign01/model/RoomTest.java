@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.assign01.model.movement.Room;
+
 public class RoomTest {
 	
 	private Room room;

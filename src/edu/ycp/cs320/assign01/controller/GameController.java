@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
-import edu.ycp.cs320.assign01.model.Game;
+import edu.ycp.cs320.assign01.model.game.Game;
 
 public class GameController {
 	private Game model;

@@ -2,6 +2,8 @@ package edu.ycp.cs320.assign01.model;
 
 import java.util.ArrayList;
 
+import edu.ycp.cs320.assign01.model.utility.Triple;
+
 public class Vendor extends NPC {
 	private ArrayList<Triple<Item,Integer,Integer>> fullInventory;
 	

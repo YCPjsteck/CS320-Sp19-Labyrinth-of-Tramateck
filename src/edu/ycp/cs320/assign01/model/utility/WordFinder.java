@@ -1,4 +1,4 @@
-package edu.ycp.cs320.assign01.model;
+package edu.ycp.cs320.assign01.model.utility;
 
 import java.util.ArrayList;
 

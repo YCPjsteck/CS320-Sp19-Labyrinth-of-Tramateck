@@ -1,5 +1,7 @@
 package edu.ycp.cs320.assign01.model;
 
+import edu.ycp.cs320.assign01.model.interfaces.Named;
+
 public class Item implements Named {
 	private String name, longDesc, shortDesc, rarity;
 	private int id, worth, weight, level;

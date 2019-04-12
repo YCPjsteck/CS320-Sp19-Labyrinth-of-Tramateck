@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.assign01.model.game.Game;
+import edu.ycp.cs320.assign01.model.movement.Location;
+import edu.ycp.cs320.assign01.model.movement.Room;
+
 public class GameModelTest {
 	private Game game;
 	

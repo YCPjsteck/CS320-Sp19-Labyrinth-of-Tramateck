@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ycp.cs320.assign01.model.Game;
+import edu.ycp.cs320.assign01.model.game.Game;
 
 public class GameControllerTest {
 	private Game model;

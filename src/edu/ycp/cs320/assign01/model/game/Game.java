@@ -1,6 +1,10 @@
-package edu.ycp.cs320.assign01.model;
+package edu.ycp.cs320.assign01.model.game;
 
 import java.util.ArrayList;
+
+import edu.ycp.cs320.assign01.model.Player;
+import edu.ycp.cs320.assign01.model.movement.Location;
+import edu.ycp.cs320.assign01.model.movement.Room;
 
 public class Game {
 	private Player player;
