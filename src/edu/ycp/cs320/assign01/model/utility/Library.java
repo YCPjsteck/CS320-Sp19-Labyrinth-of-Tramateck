@@ -198,7 +198,7 @@ public class Library {
 						int weight = Integer.parseInt(words.get(2));
 						int size = Integer.parseInt(words.get(3));
 						npc.addLoot(item, weight, size);
-					} else if(words.get(0).equals("inventory")) {
+					} else if(words.get(0).equals("inventory")) { // TODO: have the name be read last.
 						Item item = findItem(words.get(1));
 						int weight = Integer.parseInt(words.get(2));
 						int size = Integer.parseInt(words.get(3));
