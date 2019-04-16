@@ -68,7 +68,8 @@ public class Room implements Named {
 		monsters.addAll(list);
 		int id = 1;
 		for(String s : monsters) {
-			NPC monster = new NPC(1);
+			NPC monster = new NPC();
+			monster.setLevel(1);
 			monster.setId(id);
 			monster.setName(s);
 			id++;

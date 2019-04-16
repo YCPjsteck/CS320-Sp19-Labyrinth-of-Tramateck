@@ -47,10 +47,10 @@ public class Library {
 		map.setPlayer(0, 0);
 		
 		try {
-			generateItems();
-			generateNPCs();
-			// generateEvents();
-			generateLocations();
+			generateItems("items.txt");
+			generateNPCs("npcs.txt");
+			// generateEvents("events.txt");
+			generateLocations("locations.txt");
 		} 
 		catch (FileNotFoundException e) { 
 			e.printStackTrace();
@@ -61,7 +61,7 @@ public class Library {
 	
 	public NPC findNPC(String name) {
 		for(NPC n : npcList) {
-			if(n.getName().equals(name))
+			if(n.getName().equalsIgnoreCase(name))
 				return n;
 		}
 		return null;
@@ -69,14 +69,14 @@ public class Library {
 
 	public Item findItem(String name) {
 		for(Item i : itemList) {
-			if(i.getName().equals(name))
+			if(i.getName().equalsIgnoreCase(name))
 				return i;
 		}
 		return null;
 	}
 	
-	public void generateLocations() throws FileNotFoundException {
-		Scanner reader = new Scanner(new File("locations.txt"));
+	public void generateLocations(String file) throws FileNotFoundException {
+		Scanner reader = new Scanner(new File(file));
 		
 		WordFinder finder = new WordFinder();
 		Location loc;
@@ -84,21 +84,20 @@ public class Library {
 			String str = reader.nextLine().trim();
 			loc = new Location();
 			
-			while(!str.equals("")) {
+			while(!str.equalsIgnoreCase("")) {
 				ArrayList<String> words = finder.findWords(str);
-				//System.out.println(str);
-				if(words.get(0).equals("location")) {
+				if(words.get(0).equalsIgnoreCase("location")) {
 					loc.setName(str.substring(words.get(0).length()).trim());
-				} else if(words.get(0).equals("level")) {
+				} else if(words.get(0).equalsIgnoreCase("level")) {
 					loc.setMinLevel(Integer.parseInt(words.get(1)));
 					loc.setMaxLevel(Integer.parseInt(words.get(2)));
-				} else if(words.get(0).equals("type")) {
+				} else if(words.get(0).equalsIgnoreCase("type")) {
 					loc.setType(words.get(1));
-				} else if(words.get(0).equals("map")) {
+				} else if(words.get(0).equalsIgnoreCase("map")) {
 					int x = Integer.parseInt(words.get(1));
 					int y = Integer.parseInt(words.get(2));
 					loc.setMap(generateLocMap(reader, x, y));
-				} else if(words.get(0).equals("room")) {
+				} else if(words.get(0).equalsIgnoreCase("room")) {
 					loc.addRoom(generateRoom(reader, loc));
 				}
 				if(reader.hasNext())
@@ -119,11 +118,9 @@ public class Library {
 		
 		for(int i = 0; i < y; i++) {
 			String str = reader.nextLine().trim();
-			//System.out.println(str);
 			for(int j = 0; j < str.length(); j++) {
 				char c = str.charAt(j);
 				if(c == 'o') {
-					//System.out.println(i + " " + j + " " + id);
 					map[j][i] = id;
 					id++;
 				}
@@ -138,24 +135,23 @@ public class Library {
 		Room room = new Room();
 
 		String str = reader.nextLine().trim();
-		while(!str.equals("")) {
+		while(!str.equalsIgnoreCase("")) {
 			ArrayList<String> words = finder.findWords(str);
-			//System.out.println(str);
-			if(words.get(0).equals("coord")) {
+			if(words.get(0).equalsIgnoreCase("coord")) {
 				int x = Integer.parseInt(words.get(1));
 				int y = Integer.parseInt(words.get(2));
 				int ID = loc.getMap()[x][y];
 				room.setId(ID);
-			} else if(words.get(0).equals("start")) {
+			} else if(words.get(0).equalsIgnoreCase("start")) {
 				room.isStart();
-			} else if(words.get(0).equals("exit")) {
+			} else if(words.get(0).equalsIgnoreCase("exit")) {
 				room.isExit();
-			} else if(words.get(0).equals("npc")) {
+			} else if(words.get(0).equalsIgnoreCase("npc")) {
 				room.getMonsters().add(words.get(1));
 				// room.getMonsters().add(findNPC(words.get(1)));
-			} else if(words.get(0).equals("event")) {
-			} else if(words.get(0).equals("item")) {
-			} else if(words.get(0).equals("travel")) {
+			} else if(words.get(0).equalsIgnoreCase("event")) {
+			} else if(words.get(0).equalsIgnoreCase("item")) {
+			} else if(words.get(0).equalsIgnoreCase("travel")) {
 			}
 			if(reader.hasNext())
 				str = reader.nextLine().trim();
@@ -165,8 +161,8 @@ public class Library {
 		return room;
 	}
 	
-	public void generateNPCs() throws FileNotFoundException {
-		Scanner reader = new Scanner(new File("npcs.txt"));
+	public void generateNPCs(String file) throws FileNotFoundException {
+		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
 		
 		// TODO: Instead of reading for "npc" then finding the type,
@@ -175,37 +171,37 @@ public class Library {
 			NPC npc = new NPC();
 			String str = reader.nextLine();
 			ArrayList<String> words = finder.findWords(str);
-			if(words.get(0).equals("npc")) {
+			if(words.get(0).equalsIgnoreCase("npc")) {
 				String name = str.substring(words.get(0).length()).trim();
-				str = reader.nextLine();
-				words = finder.findWords(str);
-				while(!str.equals("")) {
-					if(words.get(0).equals("type")) {
+				str = reader.nextLine().trim();
+				while(!str.equalsIgnoreCase("")) {
+					words = finder.findWords(str);
+					if(words.get(0).equalsIgnoreCase("type")) {
 						String type = words.get(1);
-						if(type.equals("enemy")) {
+						if(type.equalsIgnoreCase("enemy")) {
 							npc = new Enemy();
-						} else if(type.equals("vendor")) {
+						} else if(type.equalsIgnoreCase("vendor")) {
 							npc = new Vendor();
 						}
 						npc.setName(name);
-					} else if(words.get(0).equals("health")) {
+					} else if(words.get(0).equalsIgnoreCase("health")) {
 						npc.setHealth(Integer.parseInt(words.get(1)));
-					} else if(words.get(0).equals("attack")) {
+					} else if(words.get(0).equalsIgnoreCase("attack")) {
 						npc.setMinAttack(Integer.parseInt(words.get(1)));
 						npc.setMaxAttack(Integer.parseInt(words.get(2)));
-					} else if(words.get(0).equals("loot")) {
-						Item item = findItem(words.get(1));
-						int weight = Integer.parseInt(words.get(2));
-						int size = Integer.parseInt(words.get(3));
+					} else if(words.get(0).equalsIgnoreCase("loot")) {
+						int weight = Integer.parseInt(words.get(1));
+						int size = Integer.parseInt(words.get(2));
+						Item item = findItem(str.substring(str.indexOf("|") + 1).trim());
 						npc.addLoot(item, weight, size);
-					} else if(words.get(0).equals("inventory")) { // TODO: have the name be read last.
-						Item item = findItem(words.get(1));
-						int weight = Integer.parseInt(words.get(2));
-						int size = Integer.parseInt(words.get(3));
+					} else if(words.get(0).equalsIgnoreCase("inventory")) {
+						int weight = Integer.parseInt(words.get(1));
+						int size = Integer.parseInt(words.get(2));
+						Item item = findItem(str.substring(str.indexOf("|") + 1).trim());
 						((Vendor)npc).addInventory(item, weight, size);
-					} else if(words.get(0).equals("part")) {
+					} else if(words.get(0).equalsIgnoreCase("part")) {
 						((Enemy)npc).setPart(words.get(1));
-					} else if(words.get(0).equals("weakness")) {
+					} else if(words.get(0).equalsIgnoreCase("weakness")) {
 						((Enemy)npc).setWeakness(words.get(1));
 					}
 					
@@ -221,27 +217,27 @@ public class Library {
 		reader.close();
 	}
 	
-	public void generateItems() throws FileNotFoundException {
-		Scanner reader = new Scanner(new File("items.txt"));
+	public void generateItems(String file) throws FileNotFoundException {
+		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
 		
 		while(reader.hasNext()) {
-			Item item = new Item();
 			String str = reader.nextLine();
 			ArrayList<String> words = finder.findWords(str);
-			if(words.get(0).equals("item")) {
+			if(words.get(0).equalsIgnoreCase("item")) {
+				Item item = new Item();
 				item.setName(str.substring(words.get(0).length()).trim());
 				str = reader.nextLine();
-				words = finder.findWords(str);
-				while(!str.equals("")) {
-					if(words.get(0).equals("rarity")) {
+				while(!str.equalsIgnoreCase("")) {
+					words = finder.findWords(str);
+					if(words.get(0).equalsIgnoreCase("rarity")) {
 						item.setRarity(words.get(1));
-					} else if(words.get(0).equals("worth")) {
+					} else if(words.get(0).equalsIgnoreCase("worth")) {
 						item.setWorth(Integer.parseInt(words.get(1)));
-					} else if(words.get(0).equals("weight")) {
-						item.setWorth(Integer.parseInt(words.get(1)));
+					} else if(words.get(0).equalsIgnoreCase("weight")) {
+						item.setWeight(Integer.parseInt(words.get(1)));
 					}
-					
+
 					if(reader.hasNext())
 						str = reader.nextLine().trim();
 					else

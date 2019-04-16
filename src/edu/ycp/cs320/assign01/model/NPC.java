@@ -9,61 +9,73 @@ import edu.ycp.cs320.assign01.model.utility.Triple;
 
 public class NPC implements Named {
 	private String name, shortDesc, longDesc;
-	private int level, health, id, minAttack, maxAttack;
+	private int level, baseHealth, currHealth, id, minAttack, maxAttack;
 	private ArrayList<Triple<Item,Integer,Integer>> loot;
 	
 	public NPC() {
 		loot = new ArrayList<Triple<Item,Integer,Integer>>();
 	}
 	
-	public NPC(int level) {
+	/*****************
+	 * Level methods *
+	 *****************/
+	public void setLevel(int level) {
 		this.level = level;
 	}
-	
 	public int getLevel() {
 		return level;
 	}
 	
-	/**
-	 * Set, get, or change this NPCs health, and
-	 * find out if it is dead.
-	 */
+	/******************
+	 * Health methods *
+	 ******************/
 	public void setHealth(int health) {
-		health = level * health;
+		baseHealth = health;
+	}
+	public int getBaseHealth() {
+		return baseHealth;
 	}
 	public int getHealth() {
-		return health;
+		return currHealth;
+	}
+	public int getMaxHealth() {
+		return baseHealth * level;
+	}
+	public void calHealth() {
+		currHealth = getMaxHealth();
 	}
 	public void changeHealth(int change) {
-		health += change;
+		currHealth += change;
+		if(currHealth > getMaxHealth())
+			currHealth = getMaxHealth();
 	}
 	public boolean isDead() {
-		return (health <= 0);
+		return (currHealth <= 0);
 	}
 	
-	/**
-	 * Set or get this NPC's loot.
-	 */
+	/****************
+	 * Loot methods *
+	 ****************/
 	public void addLoot(Item item, int weight, int size) {
 		loot.add(new Triple<Item,Integer,Integer>(item, weight, size));
 	}
+	/**
+	 * Travel through this NPC's loot arraylist and calculate the loot to randomly return
+	 * based off of each loot's drop chance.
+	 * @return an arraylist of pairs of items and an integer representing the number of that item.
+	 */
 	public ArrayList<Pair<Item,Integer>> getLoot() {
-		// TODO: Run through the loot array list and calculate the loot that
-		// gets returned based off of the weights and sizes.
-		return null;
-	}
-	
-	/**
-	 * This NPC's attack damage.
-	 */
-	public int attack() {
+		ArrayList<Pair<Item,Integer>> items = new ArrayList<Pair<Item,Integer>>();
 		Random rand = new Random();
-		return (rand.nextInt(maxAttack-minAttack) + minAttack) * level;
+		return items;
+	}
+	public ArrayList<Triple<Item,Integer,Integer>> getAllLoot() {
+		return loot;
 	}
 	
-	/**
-	 * Set or get this NPC's name, description, and ID.
-	 */
+	/*************************************
+	 * Name, ID, and description methods *
+	 *************************************/
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -88,20 +100,28 @@ public class NPC implements Named {
 	public String getShortDesc() {
 		return shortDesc;
 	}
-
-	public int getMinAttack() {
-		return minAttack;
+	
+	/******************
+	 * Attack methods *
+	 ******************/
+	/**
+	 * @return a random attack number between the min and 
+	 * max attack of this NPC multiplied by its level
+	 */
+	public int attack() {
+		Random rand = new Random();
+		return (rand.nextInt(maxAttack-minAttack) + minAttack) * level;
 	}
-
 	public void setMinAttack(int minAttack) {
 		this.minAttack = minAttack;
 	}
-
-	public int getMaxAttack() {
-		return maxAttack;
+	public int getMinAttack() {
+		return minAttack;
 	}
-
 	public void setMaxAttack(int maxAttack) {
 		this.maxAttack = maxAttack;
+	}
+	public int getMaxAttack() {
+		return maxAttack;
 	}
 }
