@@ -67,6 +67,19 @@ public class NPC implements Named {
 	public ArrayList<Pair<Item,Integer>> getLoot() {
 		ArrayList<Pair<Item,Integer>> items = new ArrayList<Pair<Item,Integer>>();
 		Random rand = new Random();
+		// For each triple in the loot list
+		for(Triple<Item,Integer,Integer> t : loot) {
+			Item item = t.getLeft(); // set the item to the triple's item
+			int number = 0;
+			// From 0 to the size of this triple (right integer)
+			for(int i = 0; i < t.getRight(); i++) {
+				// If a random number from 0 to 99 is less than this triple's chance (middle integer)
+				if(rand.nextInt(100) < t.getMiddle())
+					number++; // increment the number of items
+			}
+			if(number >= 0) // If number is greater than zero
+				items.add(new Pair<Item,Integer>(item,number)); // Add this item and its number to the loot drop list
+		}
 		return items;
 	}
 	public ArrayList<Triple<Item,Integer,Integer>> getAllLoot() {
