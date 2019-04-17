@@ -9,7 +9,7 @@ import edu.ycp.cs320.assign01.model.utility.Triple;
 
 public class NPC implements Named {
 	private String name, shortDesc, longDesc;
-	private int level, health, id, minAttack, maxAttack;
+	private int level, currHealth, baseHealth, id, minAttack, maxAttack;
 	private ArrayList<Triple<Item,Integer,Integer>> loot;
 	
 	public NPC() {
@@ -29,16 +29,27 @@ public class NPC implements Named {
 	 * find out if it is dead.
 	 */
 	public void setHealth(int health) {
-		health = level * health;
+		baseHealth = health;
+	}
+	public int getBaseHealth() {
+		return baseHealth;
 	}
 	public int getHealth() {
-		return health;
+		return currHealth;
+	}
+	public int getMaxHealth() {
+		return baseHealth * level;
+	}
+	public void calHealth() {
+		currHealth = getMaxHealth();
 	}
 	public void changeHealth(int change) {
-		health += change;
+		currHealth += change;
+		if(currHealth > getMaxHealth())
+			currHealth = getMaxHealth();
 	}
 	public boolean isDead() {
-		return (health <= 0);
+		return (currHealth <= 0);
 	}
 	
 	/**
@@ -50,6 +61,9 @@ public class NPC implements Named {
 	public ArrayList<Pair<Item,Integer>> getLoot() {
 		// TODO: Run through the loot array list and calculate the loot that
 		// gets returned based off of the weights and sizes.
+		return null;
+	}
+	public ArrayList<Item> getAllLoot() {
 		return null;
 	}
 	
