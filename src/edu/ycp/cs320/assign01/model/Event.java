@@ -1,22 +1,16 @@
 package edu.ycp.cs320.assign01.model;
 
-import java.util.ArrayList;
-import java.util.TreeMap;
+import edu.ycp.cs320.assign01.model.utility.Pair;
 
 public class Event {
 	private Player player;
 	private String prompt, aPassLog, aFailLog, bPassLog, bFailLog;	 //0 = hp, 1 = str, 2 = int, 3 = dex, 4 = inventory
-	private int aReadId, aReadScale, aPassId, aPassScale, aFailId, aFailScale,
-				bReadId, bReadScale, bPassId, bPassScale, bFailId, bFailScale;
-	private int key;
+	private Pair<Integer, Integer> aReadPair, bReadPair, aPassPair, aFailPair, bPassPair, bFailPair; //LEFT = ID, RIGHT = MAGNITUDE
+	private int key; //USED TO FIND DIALOGUE
 	
-	public Event(Player player) {
-		this.player = player;
-		
+	public Event() {
 	}
-	public String getPrompt() {
-		return prompt;
-	}
+	
 	
 	public String getDialogue() {
 		switch (key) {
@@ -37,11 +31,12 @@ public class Event {
 		return (key > 0);
 	}
 	
-	public EventResult roll(boolean choice) {
-		boolean pass = false;
-		if (choice) {
+	public Pair<Integer, Integer> roll(boolean choice) {
+		boolean pass = false; //IS SET TO TRUE IF PLAYER STATS ARE GREATER THAN NEEDED THRESHOLD
+		if (choice) { //CHOICE A
+			int aReadScale = aReadPair.getRight();
 			key = 2;
-			switch (aReadId) {
+			switch (aReadPair.getLeft()) { //SWITCH TO COMPARE CORRESPONDING STAT TO ID
 			case 0:
 				if (player.getHealth() > aReadScale) {
 					pass = true;
@@ -71,36 +66,37 @@ public class Event {
 			}
 			
 			if (pass) {
-				return new EventResult(aPassId, aPassScale);
+				return aPassPair;
 			} else {
-				return new EventResult(aFailId, aFailScale);
+				return aFailPair;
 			}
 			
-		} else {
+		} else { //CHOICE B
+			int bReadScale = bReadPair.getRight();
 			key = 4;
-			switch (bReadId) {
+			switch (bReadPair.getLeft()) {
 			case 0:
 				if (player.getHealth() > bReadScale) {
 					pass = true;
-					key = 1;
+					key = 3;
 				}
 				break;
 			case 1:
 				if (player.getStrength() > bReadScale) {
 					pass = true;
-					key = 1;
+					key = 3;
 				}
 				break;
 			case 3:
 				if (player.getIntellect() > bReadScale) {
 					pass = true;
-					key = 1;
+					key = 3;
 				}
 				break;
 			case 4:
 				if (player.getHealth() > bReadScale) {
 					pass = true;
-					key = 1;
+					key = 3;
 				}
 				break;
 			default:
@@ -108,11 +104,95 @@ public class Event {
 			}
 			
 			if (pass) {
-				return new EventResult(bPassId, bPassScale);
+				return bPassPair;
 			} else {
-				return new EventResult(bFailId, bFailScale);
+				return bFailPair;
 			}
 		}
+	}
+	
+	
+	public Player getPlayer() {
+		return player;
+	}
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+
+	public String getPrompt() {
+		return prompt;
+	}
+	public void setPrompt(String prompt) {
+		this.prompt = prompt;
+	}
+
+
+	public String getaPassLog() {
+		return aPassLog;
+	}
+	public void setaPassLog(String aPassLog) {
+		this.aPassLog = aPassLog;
+	}
+
+
+	public String getaFailLog() {
+		return aFailLog;
+	}
+	public void setaFailLog(String aFailLog) {
+		this.aFailLog = aFailLog;
+	}
+
+
+	public String getbPassLog() {
+		return bPassLog;
+	}
+	public void setbPassLog(String bPassLog) {
+		this.bPassLog = bPassLog;
+	}
+
+
+	public String getbFailLog() {
+		return bFailLog;
+	}
+	public void setbFailLog(String bFailLog) {
+		this.bFailLog = bFailLog;
+	}
+
+	public void setAReadPair(int left, int right) {
+		aReadPair.setLeft(left);
+		aReadPair.setRight(right);
+	}
+	
+	public void setAPassPair(int left, int right) {
+		aPassPair.setLeft(left);
+		aPassPair.setRight(right);
+	}
+	
+	public void setAFailPair(int left, int right) {
+		aFailPair.setLeft(left);
+		aFailPair.setRight(right);
+	}
+	
+	public void setBReadPair(int left, int right) {
+		bReadPair.setLeft(left);
+		bReadPair.setRight(right);
+	}
+	
+	public void setBPassPair(int left, int right) {
+		bPassPair.setLeft(left);
+		bPassPair.setRight(right);
+	}
+	public void setBFailPair(int left, int right) {
+		bFailPair.setLeft(left);
+		bFailPair.setRight(right);
+	}
+
+	public int getKey() {
+		return key;
+	}
+	public void setKey(int key) {
+		this.key = key;
 	}
 
 }

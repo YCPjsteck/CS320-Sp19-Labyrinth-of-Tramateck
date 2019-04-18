@@ -7,8 +7,10 @@
             <head>
                 <title>Text Based</title>
                 <link href="../resources/css/style.css" rel="stylesheet" type="text/css">
+                <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
                 <style>
                     * {
+                        font-family: 'Share Tech Mono', monospace;
                         font-weight: 300;
                     }
                     body {
@@ -41,6 +43,7 @@
                         border-radius: 0px;
                         cursor: pointer;
                         display: border-box;
+                        outline: none;
                     }
 
                     #contentGrid {

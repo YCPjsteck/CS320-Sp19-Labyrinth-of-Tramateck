@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import edu.ycp.cs320.assign01.model.Enemy;
+import edu.ycp.cs320.assign01.model.Event;
 import edu.ycp.cs320.assign01.model.Item;
 import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.Vendor;
@@ -231,6 +232,39 @@ public class Library {
 			ArrayList<String> words = finder.findWords(str);
 			if(words.get(0).equals("item")) {
 				item.setName(str.substring(words.get(0).length()).trim());
+				str = reader.nextLine();
+				words = finder.findWords(str);
+				while(!str.equals("")) {
+					if(words.get(0).equals("rarity")) {
+						item.setRarity(words.get(1));
+					} else if(words.get(0).equals("worth")) {
+						item.setWorth(Integer.parseInt(words.get(1)));
+					} else if(words.get(0).equals("weight")) {
+						item.setWorth(Integer.parseInt(words.get(1)));
+					}
+					
+					if(reader.hasNext())
+						str = reader.nextLine().trim();
+					else
+						str = "";
+				}
+				itemList.add(item);
+			}
+		}
+		
+		reader.close();
+	}
+	
+	public void generateEvents() throws FileNotFoundException {
+		Scanner reader = new Scanner(new File("events.txt"));
+		WordFinder finder = new WordFinder();
+		
+		while(reader.hasNext()) {
+			Event event = new Event();
+			String str = reader.nextLine();
+			ArrayList<String> words = finder.findWords(str);
+			if(words.get(0).equals("event")) {
+				event.setName(str.substring(words.get(0).length()).trim());
 				str = reader.nextLine();
 				words = finder.findWords(str);
 				while(!str.equals("")) {
