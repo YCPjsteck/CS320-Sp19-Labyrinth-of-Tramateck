@@ -5,14 +5,17 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import edu.ycp.cs320.assign01.model.game.Game;
+import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
 public class GameController {
 	private Game model;
 	private Set<String> actions, moveLocations, attackLocations, attackModifiers;
 	private ArrayList<String> gameLog;
+	private WordFinder finder;
 	
 	public void setModel(Game model) {
 		this.model = model;
+		finder = new WordFinder();
 	}
 	
 	public ArrayList<String> getGameLog() {
@@ -28,13 +31,13 @@ public class GameController {
 	
 	private void preAction() {
 		gameLog.addAll(model.getDungeon().getMapString());
-		attackLocations.addAll(model.getDungeon().curRoom().getMonsters());
-		gameLog.add(model.getDungeon().curRoom().getDescription());
+		attackLocations.addAll(model.getDungeon().curRoom().getNPCNames());
+		gameLog.add(model.getDungeon().curRoom().getLongDesc());
 	}
 	
 	private void Action(String input) {
 		// Split up the player's input into multiple words.
-		ArrayList<String> words = findWord(input);
+		ArrayList<String> words = finder.findWords(input);
 		
 		// Determine if the first word is a proper action
 		if(actions.contains(words.get(0))) {
@@ -53,13 +56,13 @@ public class GameController {
 					}
 				}
 			}
-			else if(words.get(0).equals("attack")) {
+			else if(words.get(0).equals("attack")) { // TODO handle combat in a different method/controller
 				boolean test = action(words, attackLocations, attackModifiers);
 				if(test) {
 					//Monster monster = dungeon.curRoom().getMonster(words.get(1));
 					//monster.changeHealth(-1*player.attack());
-					model.getDungeon().curRoom().monsterKilled(words.get(1));
-					gameLog.add("You killed " + words.get(1));
+					//model.getDungeon().curRoom().monsterKilled(words.get(1));
+					//gameLog.add("You killed " + words.get(1));
 					/*
 					System.out.println("You attacked the " + words.get(1));
 					player.changeHealth(-1*monster.attack());
@@ -114,22 +117,6 @@ public class GameController {
 		attackModifiers.add("chest");
 	}
 	
-	private ArrayList<String> findWord(String input) {
-		ArrayList<String> words = new ArrayList<String>();
-		input = input.trim().toLowerCase();
-		while(!input.equals("")) {
-			int space = input.indexOf(" ");
-			if(space == -1) {
-				words.add(input);
-				input = "";
-			} else {
-				words.add(input.substring(0, space));
-				input = input.substring(space).trim();
-			}
-		}
-		return words;
-	}
-
 	private boolean action(ArrayList<String> input, Set<String> locations) {
 		if(input.size() > 1 && locations.contains(input.get(1))) {
 			if(input.size() > 2) {
