@@ -8,7 +8,7 @@ import edu.ycp.cs320.assign01.model.utility.Pair;
 import edu.ycp.cs320.assign01.model.utility.Triple;
 
 public class NPC implements Named {
-	private String name, shortDesc, longDesc;
+	private String name, shortDesc, longDesc, type;
 	private int level, baseHealth, currHealth, id, minAttack, maxAttack;
 	private ArrayList<Triple<Item,Integer,Integer>> loot;
 	
@@ -29,18 +29,33 @@ public class NPC implements Named {
 	/******************
 	 * Health methods *
 	 ******************/
+	/**
+	 * @param health the base health of this NPC
+	 */
 	public void setHealth(int health) {
 		baseHealth = health;
 	}
+	/**
+	 * @return this NPC's base health
+	 */
 	public int getBaseHealth() {
 		return baseHealth;
 	}
+	/**
+	 * @return the current health of this NPC
+	 */
 	public int getHealth() {
 		return currHealth;
 	}
+	/**
+	 * @return the max health of this NPC, based off of the base health multiplied by the level
+	 */
 	public int getMaxHealth() {
 		return baseHealth * level;
 	}
+	/**
+	 * Sets the current health to the max health
+	 */
 	public void calHealth() {
 		currHealth = getMaxHealth();
 	}
@@ -136,5 +151,15 @@ public class NPC implements Named {
 	}
 	public int getMaxAttack() {
 		return maxAttack;
+	}
+
+	/****************
+	 * Type methods *
+	 ****************/
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getType() {
+		return type;
 	}
 }

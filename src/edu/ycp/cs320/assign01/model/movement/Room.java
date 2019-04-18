@@ -6,141 +6,194 @@ import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.interfaces.Named;
 
 public class Room implements Named {
-	private ArrayList<String> monsters;
-	private ArrayList<NPC> monsterList;
-	private String shortDesc, longDesc;
-	private int roomID;
+	private ArrayList<NPC> npcList;
+	private String shortDesc, longDesc, name;
+	private int id;
 	private boolean entered;
 	private boolean start, exit;
 	
 	// TODO: 
-	//		Add the ability for rooms to contain puzzles
-	//		Long description vs short description
+	//		Implement events
+	//		Rooms override travel
+	//		Rooms connected to non-adjacent rooms
 	
 	public Room() {
-		monsters = new ArrayList<String>();
-		monsterList = new ArrayList<NPC>();
+		npcList = new ArrayList<NPC>();
 		entered = false;
+		start = false;
+		exit = false;
 	}
 	
+	/***************
+	 * NPC methods *
+	 ***************/
 	/**
-	 * A set of methods for setting and querying the
-	 * room's ID number and description
+	 * Add an NPC to this room
 	 */
-	public void setId(int ID) {
-		roomID = ID;
+	public void addNPC(NPC n) {
+		npcList.add(n);
 	}
-	public int getId() {
-		return roomID;
+	/**
+	 * @return the arrayList of NPCs in this room
+	 */
+	public ArrayList<NPC> getNPCs() {
+		return npcList;
 	}
-	public void setLongDesc(String desc) {
-		longDesc = desc;
-	}
-	public void setShortDesc(String desc) {
-		shortDesc = desc;
-	}
-	public String getLongDesc() {
-		return longDesc;
-	}
-	public String getShortDesc() {
-		return shortDesc;
-	}
-	
-	// TODO: Replace this method with getLongDesc and getShortDesc
-	public String getDescription() {
-		// return roomDescription;
-		String description = "This room contains: ";
-		for(String s : monsters) 
-			description += s + " ";
-		/*
-		for(Monster m : monsterList)
-			if(!m.isDead())
-				description += m.getName() + " "; 
-				*/
-		if(description.equals("This room contains: "))
-			description += "nothing";
-		
-		return description;
-	}
-	
-	// TODO: randomly populate the monsters list
-	public void populate(ArrayList<String> list) {
-		monsters.addAll(list);
-		int id = 1;
-		for(String s : monsters) {
-			NPC monster = new NPC();
-			monster.setLevel(1);
-			monster.setId(id);
-			monster.setName(s);
-			id++;
-			monsterList.add(monster);
+	/**
+	 * @return an arrayList of the names of all the NPCs in this room
+	 */
+	public ArrayList<String> getNPCNames() {
+		ArrayList<String> names = new ArrayList<String>();
+		for(NPC n : npcList) {
+			names.add(n.getName());
 		}
+		return names;
 	}
-	
-	// TODO: return a list of monster objects
-	public ArrayList<String> getMonsters() {
-		return monsters;
-	}
-	
-	public NPC getMonster(int id) {
-		for(NPC m : monsterList)
+	/**
+	 * Find an NPC by its ID
+	 */
+	public NPC getNPC(int id) {
+		for(NPC m : npcList)
 			if(m.getId() == id)
 				return m;
 		
 		return null;
 	}
-	public NPC getMonster(String name) {
-		for(NPC m : monsterList)
+	/**
+	 * Find an NPC by its name
+	 */
+	public NPC getNPC(String name) {
+		for(NPC m : npcList)
 			if(m.getName().equals(name))
 				return m;
 		
 		return null;
 	}
-	// TODO: be able to track specific monsters in a room by an ID number,
-	// meaning that two monsters can share the same name in a room.
-	public void monsterKilled(String monster) {
-		for(int i = 0; i < monsters.size(); i++)
-			if(monster.equals(monsters.get(i))) {
-				monsters.remove(i);
-				return;
-			}
-	}
 	
 	/**
-	 * The room is complete is there are no more monsters left alive.
+	 * The room is complete if there are no more hostile NPCs left alive and all events are complete.
 	 */
+	// TODO: check for events and make distinctions between hostile and friendly NPCs
 	public boolean roomComplete() {
-		/*
-		for(Monster m : monsterList)
-			if(!m.isDead())
+		for(NPC n : npcList)
+			if(!n.isDead())
 				return false;
 		return true;
-		*/
-		return (monsters.size() == 0);
 	}
 
+	/*******************
+	 * Boolean methods *
+	 *******************/
 	/**
-	 * Rooms don't need names; these are only here from the
-	 * Named interface
+	 * Toggles the entered boolean of this rooms. Starts off false.
 	 */
-	public void setName(String name) {
+	public void isEntered() {
+		entered = !entered;
 	}
-	public String getName() {
-		return null;
+	/**
+	 * @return the entered boolean of this room
+	 */
+	public boolean getEntered() {
+		return entered;
 	}
-	
+	/**
+	 * Toggles the start boolean of this rooms. Starts off false.
+	 */
 	public void isStart() {
-		start = true;
+		start = !start;
 	}
+	/**
+	 * @return the start boolean of this room
+	 */
 	public boolean getStart() {
 		return start;
 	}
-	
+	/**
+	 * Toggles the exit boolean of this rooms. Starts off false.
+	 */
 	public void isExit() {
-		exit = true;
+		exit = !exit;
 	}
+	/**
+	 * @return the exit boolean of this room
+	 */
 	public boolean getExit() {
 		return exit;
 	}
-	
+
+	/*************************************
+	 * Name, ID, and description methods *
+	 *************************************/
+	/**
+	 * Set this room's ID number
+	 */
+	public void setId(int ID) {
+		this.id = ID;
+	}
+	/**
+	 * Get this room's ID number
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * Set this room's long description
+	 */
+	public void setLongDesc(String desc) {
+		longDesc = desc;
+	}
+	/**
+	 * Set this room's short description
+	 */
+	public void setShortDesc(String desc) {
+		shortDesc = desc;
+	}
+	/**
+	 * Get this room's long description
+	 */
+	public String getLongDesc() {
+		String desc = "";
+		if(name != null) {
+			desc += "This room is known as " + name + " ";
+		}
+		return desc + longDesc + getContains();
+	}
+	/**
+	 * Get this room's short description
+	 */
+	public String getShortDesc() {
+		return shortDesc + getContains();
+	}
+	/**
+	 * Creates a string that says what NPCs are in this room
+	 */
+	// TODO return infomration about events.
+	// Short contains vs long contains?
+	private String getContains() {
+		String desc = " ";
+		if(npcList.size() > 0) {
+			String cont = "This room contains: ";
+			for(NPC n : npcList) {
+				if(!n.isDead())
+					cont += "a " + n.getName() + ", ";
+				if(n.isDead())
+					cont += "a dead " + n.getName() + ", ";
+			}
+			if(!cont.equals("This room contains: "))
+				desc += cont;
+		}
+		return desc;
+	}
+	/**
+	 * Set this room's name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	/**
+	 * Get this room's name
+	 */
+	public String getName() {
+		return name;
+	}
 }

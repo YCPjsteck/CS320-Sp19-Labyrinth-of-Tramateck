@@ -20,16 +20,19 @@ public class GameTest {
 		// to room 1. 
 		// TODO: possibly overload setPlayer to take in a room ID instead of map coordinates
 		// Rotate this map 90 degrees clockwise and mirror it to get the actual map
+		// TODO: generate the locations from the library instead of making one.
+		Location dungeon = new Location();
+		/*
 		int[][] map = {	{0, 0, 4},
 						{1, 2, 3},
 						{0, 0, 5}};
-		Location dungeon = new Location();
 		dungeon.setMap(map);
 		dungeon.generateRooms();
 		dungeon.setPlayer(1, 0);
+		*/
 		
-		// For testing purposes. In game, rooms would be populated
-		// by themselves.
+		// TODO create actual NPC objects to populate the rooms with.
+		/*
 		ArrayList<String> monsters = new ArrayList<String>();
 		
 		monsters.add("zombie");
@@ -47,6 +50,7 @@ public class GameTest {
 		room = dungeon.getRoom(4);
 		room.populate(monsters);
 		monsters.clear();
+		*/
 		
 		// Actions would be always accessible
 		// New actions could be added though over time
@@ -81,8 +85,8 @@ public class GameTest {
 			// At the beginning of each action, print the map
 			// and make sure the attackLocations are populated.
 			dungeon.printMap();
-			attackLocations.addAll(dungeon.curRoom().getMonsters());
-			System.out.println(dungeon.curRoom().getDescription());
+			attackLocations.addAll(dungeon.curRoom().getNPCNames());
+			System.out.println(dungeon.curRoom().getLongDesc());
 			
 			// Ask the player to enter a command. If the command is "quit",
 			// then terminate the program.
@@ -111,12 +115,12 @@ public class GameTest {
 						}
 					}
 				}
-				if(words.get(0).equals("attack")) {
+				if(words.get(0).equals("attack")) { // TODO handle combat in a different method/controller
 					boolean test = action(words, attackLocations, attackModifiers);
 					if(test) {
 						//Monster monster = dungeon.curRoom().getMonster(words.get(1));
 						//monster.changeHealth(-1*player.attack());
-						dungeon.curRoom().monsterKilled(words.get(1));
+						//dungeon.curRoom().monsterKilled(words.get(1));
 						/*
 						System.out.println("You attacked the " + words.get(1));
 						player.changeHealth(-1*monster.attack());

@@ -28,8 +28,8 @@ public class GameController {
 	
 	private void preAction() {
 		gameLog.addAll(model.getDungeon().getMapString());
-		attackLocations.addAll(model.getDungeon().curRoom().getMonsters());
-		gameLog.add(model.getDungeon().curRoom().getDescription());
+		attackLocations.addAll(model.getDungeon().curRoom().getNPCNames());
+		gameLog.add(model.getDungeon().curRoom().getLongDesc());
 	}
 	
 	private void Action(String input) {
@@ -53,13 +53,13 @@ public class GameController {
 					}
 				}
 			}
-			else if(words.get(0).equals("attack")) {
+			else if(words.get(0).equals("attack")) { // TODO handle combat in a different method/controller
 				boolean test = action(words, attackLocations, attackModifiers);
 				if(test) {
 					//Monster monster = dungeon.curRoom().getMonster(words.get(1));
 					//monster.changeHealth(-1*player.attack());
-					model.getDungeon().curRoom().monsterKilled(words.get(1));
-					gameLog.add("You killed " + words.get(1));
+					//model.getDungeon().curRoom().monsterKilled(words.get(1));
+					//gameLog.add("You killed " + words.get(1));
 					/*
 					System.out.println("You attacked the " + words.get(1));
 					player.changeHealth(-1*monster.attack());

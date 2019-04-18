@@ -75,6 +75,7 @@ public class Library {
 		return null;
 	}
 	
+	// TODO have generateLocations track the ID number of all NPCs added to the rooms of the location
 	public void generateLocations(String file) throws FileNotFoundException {
 		Scanner reader = new Scanner(new File(file));
 		
@@ -147,8 +148,7 @@ public class Library {
 			} else if(words.get(0).equalsIgnoreCase("exit")) {
 				room.isExit();
 			} else if(words.get(0).equalsIgnoreCase("npc")) {
-				room.getMonsters().add(words.get(1));
-				// room.getMonsters().add(findNPC(words.get(1)));
+				room.addNPC(findNPC(words.get(1)));
 			} else if(words.get(0).equalsIgnoreCase("event")) {
 			} else if(words.get(0).equalsIgnoreCase("item")) {
 			} else if(words.get(0).equalsIgnoreCase("travel")) {
@@ -217,6 +217,7 @@ public class Library {
 		reader.close();
 	}
 	
+	// TODO be able to read items of various subclasses
 	public void generateItems(String file) throws FileNotFoundException {
 		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
