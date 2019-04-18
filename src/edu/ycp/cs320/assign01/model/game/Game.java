@@ -12,14 +12,19 @@ public class Game {
 	
 	public Game() {
 		player = new Player();
+		dungeon = new Location();
+		// TODO: use the library class instead of creating your own location
+		/*
 		int[][] map = {	{0, 0, 4},
 						{1, 2, 3},
 						{0, 0, 5}};
-		dungeon = new Location();
 		dungeon.setMap(map);
 		dungeon.generateRooms();
 		dungeon.setPlayer(1, 0);
+		*/
 		
+		// TODO create actual NPC objects to populate the rooms with.
+		/*
 		ArrayList<String> monsters = new ArrayList<String>();
 		
 		monsters.add("zombie");
@@ -37,6 +42,7 @@ public class Game {
 		room = dungeon.getRoom(4);
 		room.populate(monsters);
 		monsters.clear();
+		*/
 	}
 	
 	public Game(Player player, Location dungeon) {

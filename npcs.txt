@@ -2,6 +2,7 @@ npc Monkey
 	type Enemy
 	health 10
 	attack 1 2
+	loot 10 4 | Monkey Paw
 	part head
 	part tail
 	weakness tail
@@ -10,4 +11,3 @@ npc Rat
 	type Vendor
 	health 100
 	attack 0 1
-	part body

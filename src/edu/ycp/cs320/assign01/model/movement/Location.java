@@ -13,6 +13,8 @@ public class Location implements Navigable, Named {
 	
 	private int minLevel, maxLevel;
 	private String type;
+	
+	// TODO: rooms connected to nonadjacent rooms
 
 	public Location() {
 		roomList = new ArrayList<Room>();
@@ -33,30 +35,6 @@ public class Location implements Navigable, Named {
 	public void setPlayer(int x, int y) {
 		playerX = x;
 		playerY = y;
-	}
-	
-	// TODO: randomly generate the map instead of having the map
-	// be passed to the Dungeon on creation.
-	public void generateMap() {
-		generateRooms();
-	}
-	
-	/**
-	 * Creates the rooms in the dungeon based off of
-	 * the roomMap 2D array. Each created room is given an ID
-	 * number based off of the roomMap.
-	 * Assumed that no IDs repeat.
-	 */
-	public void generateRooms() {
-		for(int i = 0; i < roomMap.length; i++) {
-			for(int j = 0; j < roomMap[0].length; j++) {
-				if(roomMap[i][j] != 0) {
-					Room r = new Room();
-					r.setId(roomMap[i][j]);
-					roomList.add(r);
-				}
-			}
-		}
 	}
 	
 	/**
@@ -136,6 +114,9 @@ public class Location implements Navigable, Named {
 		return true;
 	}
 	
+	/**
+	 * Print the room map to the console
+	 */
 	public void printMap() {
 		for(int j = 0; j < roomMap[0].length; j++) {
 			for(int i = 0; i < roomMap.length; i++) {
@@ -152,6 +133,9 @@ public class Location implements Navigable, Named {
 		}
 	}
 	
+	/**
+	 * @return an arrayList of strings representing the room map
+	 */
 	public ArrayList<String> getMapString() {
 		ArrayList<String> temp = new ArrayList<String>();
 		String str = "";
