@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.movement.Location;
 import edu.ycp.cs320.assign01.model.movement.Room;
+import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
 public class GameTest {
 	public static Set<String> actions, moveLocations, attackLocations, attackModifiers;
@@ -15,6 +16,7 @@ public class GameTest {
 	public static void main(String[] args) {
 		
 		Player player = new Player();
+		WordFinder finder = new WordFinder();
 		
 		// Create the dungeon using the following map. Set the player's location
 		// to room 1. 
@@ -96,7 +98,7 @@ public class GameTest {
 				return;
 			
 			// Split up the player's input into multiple words.
-			ArrayList<String> words = findWord(input);
+			ArrayList<String> words = finder.findWords(input);
 			
 			// Determine if the first word is a proper action
 			if(actions.contains(words.get(0))) {
@@ -142,22 +144,6 @@ public class GameTest {
 			}
 			System.out.println();
 		}
-	}
-
-	public static ArrayList<String> findWord(String input) {
-		ArrayList<String> words = new ArrayList<String>();
-		input = input.trim().toLowerCase();
-		while(!input.equals("")) {
-			int space = input.indexOf(" ");
-			if(space == -1) {
-				words.add(input);
-				input = "";
-			} else {
-				words.add(input.substring(0, space));
-				input = input.substring(space).trim();
-			}
-		}
-		return words;
 	}
 
 	public static boolean action(ArrayList<String> input, Set<String> locations) {

@@ -5,14 +5,17 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import edu.ycp.cs320.assign01.model.game.Game;
+import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
 public class GameController {
 	private Game model;
 	private Set<String> actions, moveLocations, attackLocations, attackModifiers;
 	private ArrayList<String> gameLog;
+	private WordFinder finder;
 	
 	public void setModel(Game model) {
 		this.model = model;
+		finder = new WordFinder();
 	}
 	
 	public ArrayList<String> getGameLog() {
@@ -34,7 +37,7 @@ public class GameController {
 	
 	private void Action(String input) {
 		// Split up the player's input into multiple words.
-		ArrayList<String> words = findWord(input);
+		ArrayList<String> words = finder.findWords(input);
 		
 		// Determine if the first word is a proper action
 		if(actions.contains(words.get(0))) {
@@ -114,22 +117,6 @@ public class GameController {
 		attackModifiers.add("chest");
 	}
 	
-	private ArrayList<String> findWord(String input) {
-		ArrayList<String> words = new ArrayList<String>();
-		input = input.trim().toLowerCase();
-		while(!input.equals("")) {
-			int space = input.indexOf(" ");
-			if(space == -1) {
-				words.add(input);
-				input = "";
-			} else {
-				words.add(input.substring(0, space));
-				input = input.substring(space).trim();
-			}
-		}
-		return words;
-	}
-
 	private boolean action(ArrayList<String> input, Set<String> locations) {
 		if(input.size() > 1 && locations.contains(input.get(1))) {
 			if(input.size() > 2) {
