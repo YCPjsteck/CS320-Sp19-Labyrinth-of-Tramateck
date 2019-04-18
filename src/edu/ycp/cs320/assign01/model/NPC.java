@@ -8,62 +8,102 @@ import edu.ycp.cs320.assign01.model.utility.Pair;
 import edu.ycp.cs320.assign01.model.utility.Triple;
 
 public class NPC implements Named {
-	private String name, shortDesc, longDesc;
-	private int level, health, id, minAttack, maxAttack;
+	private String name, shortDesc, longDesc, type;
+	private int level, baseHealth, currHealth, id, minAttack, maxAttack;
 	private ArrayList<Triple<Item,Integer,Integer>> loot;
 	
 	public NPC() {
 		loot = new ArrayList<Triple<Item,Integer,Integer>>();
 	}
 	
-	public NPC(int level) {
+	/*****************
+	 * Level methods *
+	 *****************/
+	public void setLevel(int level) {
 		this.level = level;
 	}
-	
 	public int getLevel() {
 		return level;
 	}
 	
+	/******************
+	 * Health methods *
+	 ******************/
 	/**
-	 * Set, get, or change this NPCs health, and
-	 * find out if it is dead.
+	 * @param health the base health of this NPC
 	 */
 	public void setHealth(int health) {
-		health = level * health;
+		baseHealth = health;
 	}
+	/**
+	 * @return this NPC's base health
+	 */
+	public int getBaseHealth() {
+		return baseHealth;
+	}
+	/**
+	 * @return the current health of this NPC
+	 */
 	public int getHealth() {
-		return health;
+		return currHealth;
+	}
+	/**
+	 * @return the max health of this NPC, based off of the base health multiplied by the level
+	 */
+	public int getMaxHealth() {
+		return baseHealth * level;
+	}
+	/**
+	 * Sets the current health to the max health
+	 */
+	public void calHealth() {
+		currHealth = getMaxHealth();
 	}
 	public void changeHealth(int change) {
-		health += change;
+		currHealth += change;
+		if(currHealth > getMaxHealth())
+			currHealth = getMaxHealth();
 	}
 	public boolean isDead() {
-		return (health <= 0);
+		return (currHealth <= 0);
 	}
 	
-	/**
-	 * Set or get this NPC's loot.
-	 */
+	/****************
+	 * Loot methods *
+	 ****************/
 	public void addLoot(Item item, int weight, int size) {
 		loot.add(new Triple<Item,Integer,Integer>(item, weight, size));
 	}
+	/**
+	 * Travel through this NPC's loot arraylist and calculate the loot to randomly return
+	 * based off of each loot's drop chance.
+	 * @return an arraylist of pairs of items and an integer representing the number of that item.
+	 */
 	public ArrayList<Pair<Item,Integer>> getLoot() {
-		// TODO: Run through the loot array list and calculate the loot that
-		// gets returned based off of the weights and sizes.
-		return null;
-	}
-	
-	/**
-	 * This NPC's attack damage.
-	 */
-	public int attack() {
+		ArrayList<Pair<Item,Integer>> items = new ArrayList<Pair<Item,Integer>>();
 		Random rand = new Random();
-		return (rand.nextInt(maxAttack-minAttack) + minAttack) * level;
+		// For each triple in the loot list
+		for(Triple<Item,Integer,Integer> t : loot) {
+			Item item = t.getLeft(); // set the item to the triple's item
+			int number = 0;
+			// From 0 to the size of this triple (right integer)
+			for(int i = 0; i < t.getRight(); i++) {
+				// If a random number from 0 to 99 is less than this triple's chance (middle integer)
+				if(rand.nextInt(100) < t.getMiddle())
+					number++; // increment the number of items
+			}
+			if(number >= 0) // If number is greater than zero
+				items.add(new Pair<Item,Integer>(item,number)); // Add this item and its number to the loot drop list
+		}
+		return items;
+	}
+	public ArrayList<Triple<Item,Integer,Integer>> getAllLoot() {
+		return loot;
 	}
 	
-	/**
-	 * Set or get this NPC's name, description, and ID.
-	 */
+	/*************************************
+	 * Name, ID, and description methods *
+	 *************************************/
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -88,20 +128,38 @@ public class NPC implements Named {
 	public String getShortDesc() {
 		return shortDesc;
 	}
-
-	public int getMinAttack() {
-		return minAttack;
+	
+	/******************
+	 * Attack methods *
+	 ******************/
+	/**
+	 * @return a random attack number between the min and 
+	 * max attack of this NPC multiplied by its level
+	 */
+	public int attack() {
+		Random rand = new Random();
+		return (rand.nextInt(maxAttack-minAttack) + minAttack) * level;
 	}
-
 	public void setMinAttack(int minAttack) {
 		this.minAttack = minAttack;
 	}
-
+	public int getMinAttack() {
+		return minAttack;
+	}
+	public void setMaxAttack(int maxAttack) {
+		this.maxAttack = maxAttack;
+	}
 	public int getMaxAttack() {
 		return maxAttack;
 	}
 
-	public void setMaxAttack(int maxAttack) {
-		this.maxAttack = maxAttack;
+	/****************
+	 * Type methods *
+	 ****************/
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getType() {
+		return type;
 	}
 }
