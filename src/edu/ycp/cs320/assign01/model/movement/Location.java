@@ -14,7 +14,9 @@ public class Location implements Navigable, Named {
 	private int minLevel, maxLevel;
 	private String type;
 	
-	// TODO: rooms connected to nonadjacent rooms
+	// TODO: 
+	// 		rooms connected to nonadjacent rooms
+	//		determine the start location by finding the room labeled start
 
 	public Location() {
 		roomList = new ArrayList<Room>();
