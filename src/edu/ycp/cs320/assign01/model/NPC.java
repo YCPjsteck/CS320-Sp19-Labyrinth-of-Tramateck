@@ -2,72 +2,27 @@ package edu.ycp.cs320.assign01.model;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 import edu.ycp.cs320.assign01.model.interfaces.Named;
 import edu.ycp.cs320.assign01.model.utility.Pair;
 import edu.ycp.cs320.assign01.model.utility.Triple;
 
-public class NPC implements Named {
+public class NPC extends Character implements Named {
 	private String name, shortDesc, longDesc, type;
-	private int level, baseHealth, currHealth, id, minAttack, maxAttack;
+	private int id;
 	
 	private ArrayList<Triple<Item,Integer,Integer>> loot;
+	private ArrayList<Triple<Item,Integer,Integer>> fullInventory;
+	private Set<String> weakPoints, partsList;
 	
-	public NPC() {
+	public NPC(int level) {
+		super(level);
 		loot = new ArrayList<Triple<Item,Integer,Integer>>();
-	}
-	
-	/*****************
-	 * Level methods *
-	 *****************/
-	public void setLevel(int level) {
-		this.level = level;
-	}
-	public int getLevel() {
-		return level;
-	}
-	
-	/******************
-	 * Health methods *
-	 ******************/
-	/**
-	 * @param health the base health of this NPC
-	 */
-	public void setHealth(int health) {
-		baseHealth = health;
-	}
-	
-	/**
-	 * @return this NPC's base health
-	 */
-	public int getBaseHealth() {
-		return baseHealth;
-	}
-	/**
-	 * @return the current health of this NPC
-	 */
-	public int getHealth() {
-		return currHealth;
-	}
-	/**
-	 * @return the max health of this NPC, based off of the base health multiplied by the level
-	 */
-	public int getMaxHealth() {
-		return baseHealth * level;
-	}
-	/**
-	 * Sets the current health to the max health
-	 */
-	public void calHealth() {
-		currHealth = getMaxHealth();
-	}
-	public void changeHealth(int change) {
-		currHealth += change;
-		if(currHealth > getMaxHealth())
-			currHealth = getMaxHealth();
-	}
-	public boolean isDead() {
-		return (currHealth <= 0);
+		fullInventory = new ArrayList<Triple<Item,Integer,Integer>>();
+		weakPoints = new TreeSet<String>();
+		partsList = new TreeSet<String>();
 	}
 	
 	/****************
@@ -95,7 +50,7 @@ public class NPC implements Named {
 				if(rand.nextInt(100) < t.getMiddle())
 					number++; // increment the number of items
 			}
-			if(number >= 0) // If number is greater than zero
+			if(number > 0) // If number is greater than zero
 				items.add(new Pair<Item,Integer>(item,number)); // Add this item and its number to the loot drop list
 		}
 		return items;
@@ -131,30 +86,6 @@ public class NPC implements Named {
 	public String getShortDesc() {
 		return shortDesc;
 	}
-	
-	/******************
-	 * Attack methods *
-	 ******************/
-	/**
-	 * @return a random attack number between the min and 
-	 * max attack of this NPC multiplied by its level
-	 */
-	public int attack() {
-		Random rand = new Random();
-		return (rand.nextInt(maxAttack-minAttack) + minAttack) * level;
-	}
-	public void setMinAttack(int minAttack) {
-		this.minAttack = minAttack;
-	}
-	public int getMinAttack() {
-		return minAttack;
-	}
-	public void setMaxAttack(int maxAttack) {
-		this.maxAttack = maxAttack;
-	}
-	public int getMaxAttack() {
-		return maxAttack;
-	}
 
 	/****************
 	 * Type methods *
@@ -164,5 +95,44 @@ public class NPC implements Named {
 	}
 	public String getType() {
 		return type;
+	}
+	
+	/******************
+	 * Vendor methods *
+	 ******************/
+	public void addInventory(Item item, int weight, int size) {
+		fullInventory.add(new Triple<Item,Integer,Integer>(item, weight, size));
+	}
+	public void generateInventory() {
+		// TODO: go through the fullInventory and generate a temporary
+		// inventory, in a similar way to NPC's getLoot()
+	}
+	public ArrayList<Triple<Item,Integer,Integer>> getFullInventory() {
+		return fullInventory;
+	}
+	
+	/*****************
+	 * Enemy methods *
+	 *****************
+	 **
+	 * Set or get the list of this monster's parts and weak points
+	 */
+	public void setWeakness(String s) {
+		weakPoints.add(s);
+	}
+	public void setWeakPoints(ArrayList<String> list) {
+		weakPoints.addAll(list);
+	}
+	public Set<String> getWeakPoints() {
+		return weakPoints;
+	}
+	public void setPart(String s) {
+		partsList.add(s);
+	}
+	public void setPartsList(ArrayList<String> list) {
+		partsList.addAll(list);
+	}
+	public Set<String> getPartsList() {
+		return partsList;
 	}
 }

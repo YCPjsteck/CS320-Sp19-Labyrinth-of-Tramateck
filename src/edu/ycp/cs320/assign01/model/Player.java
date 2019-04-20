@@ -2,21 +2,16 @@ package edu.ycp.cs320.assign01.model;
 
 import java.util.ArrayList;
 
-public class Player {
+public class Player extends Character{
 	private ArrayList<Item> inventory, equipment;
-	private int health, experience, level, score, currency, intellect, strength, dexterity;
+	private int experience, score, currency, intellect, strength, dexterity;
 	/* TODO: 
-	* 		add player skills
-	*			- Added set and get methods as a start 
-	*			as we implement the skills we may want to
-	*			add different methods to more easily adjust 
-	*			these values
 	*
 	*		create equip/unequip methods
 	*/
 	
 	public Player() {
-		health = 100;
+		super(1);
 		inventory = new ArrayList<Item>();
 		equipment = new ArrayList<Item>();
 		currency = 0;
@@ -24,7 +19,6 @@ public class Player {
 		
 		//Level
 		experience = 0;
-		level = 1;
 		
 		//Stats
 		intellect = 5;
@@ -33,14 +27,9 @@ public class Player {
 
 	}
 	
-	public int attack() {
-		return strength;
-	}
-	
-	public void changeHealth(int change) {
-		health += change;
-	}
-	
+	/****************
+	 * Stat methods *
+	 ****************/
 	public void changeStrength(int change) {
 		strength += change;
 	}
@@ -56,10 +45,6 @@ public class Player {
 	public void addItem(Item item) {
 		inventory.add(item);
 	}
-	
-	public boolean isDead() {
-		return (health <= 0);
-	}
 
 	public void addExperience(int experience) {
 		this.experience += experience;
@@ -69,10 +54,10 @@ public class Player {
 	}
 
 	public void incrementLevel() {
-		level++;
+		super.setLevel(super.getLevel() + 1);
 	}
 	public int getLevel() {
-		return level;
+		return super.getLevel();
 	}
 
 	public int getScore() {
@@ -91,10 +76,6 @@ public class Player {
 	
 	
 	// Set and Get methods for Player stats
-	public int getHealth() {
-		return health;
-	}
-
 	public int getIntellect() {
 		return intellect;
 	}
