@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Account {
 	private String username, password;
 	private ArrayList<Player> players;
+	
+	// TODO hashed passwords
 
 	public Account(String username, String password) {
 		this.username = username;
