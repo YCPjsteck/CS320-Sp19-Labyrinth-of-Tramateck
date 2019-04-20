@@ -20,6 +20,10 @@ public class Library {
 	private ArrayList<Item> itemList; // items.txt
 	// ArrayList<Event> eventList; // events.txt
 	
+	// TODO
+	//		Read events
+	//		NPC levels set by location
+	
 	public Library() {
 		locationList = new ArrayList<Location>();
 		npcList = new ArrayList<NPC>();
