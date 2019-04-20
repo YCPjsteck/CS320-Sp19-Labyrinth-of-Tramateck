@@ -1,7 +1,9 @@
 package edu.ycp.cs320.assign01.enums;
 
-public enum itemQuality {
+public enum ItemQuality {
 		COMMON,
 		UNCOMMON,
-		RARE;
+		RARE,
+		EPIC,
+		LEGENDARY;
 }
