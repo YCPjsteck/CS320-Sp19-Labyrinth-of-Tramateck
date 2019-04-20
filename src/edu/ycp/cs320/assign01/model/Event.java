@@ -6,9 +6,9 @@ public class Event {
 	private Player player;
 	private String prompt, aPassLog, aFailLog, bPassLog, bFailLog;	 //0 = hp, 1 = str, 2 = int, 3 = dex, 4 = inventory
 	private Pair<Integer, Integer> aReadPair, bReadPair, aPassPair, aFailPair, bPassPair, bFailPair; //LEFT = ID, RIGHT = MAGNITUDE
-	private int key; //USED TO FIND DIALOGUE
+	private int key, id; //KEY USED TO FIND DIALOGUE, ID USED TO IDENTIFY EVENT
 	
-	public Event() {
+	public Event() {		//Get prompt -> Get Dialogue after roll -> Modify Player -> Done
 	}
 	
 	
@@ -128,35 +128,18 @@ public class Event {
 	}
 
 
-	public String getaPassLog() {
+	public String getAPassLog() {
 		return aPassLog;
 	}
-	public void setaPassLog(String aPassLog) {
+	public void setAPassLog(String aPassLog) {
 		this.aPassLog = aPassLog;
 	}
 
-
-	public String getaFailLog() {
+	public String getAFailLog() {
 		return aFailLog;
 	}
 	public void setaFailLog(String aFailLog) {
 		this.aFailLog = aFailLog;
-	}
-
-
-	public String getbPassLog() {
-		return bPassLog;
-	}
-	public void setbPassLog(String bPassLog) {
-		this.bPassLog = bPassLog;
-	}
-
-
-	public String getbFailLog() {
-		return bFailLog;
-	}
-	public void setbFailLog(String bFailLog) {
-		this.bFailLog = bFailLog;
 	}
 
 	public void setAReadPair(int left, int right) {
@@ -173,6 +156,21 @@ public class Event {
 		aFailPair.setLeft(left);
 		aFailPair.setRight(right);
 	}
+
+	
+	public String getBPassLog() {
+		return bPassLog;
+	}
+	public void setBPassLog(String bPassLog) {
+		this.bPassLog = bPassLog;
+	}
+
+	public String getBFailLog() {
+		return bFailLog;
+	}
+	public void setBFailLog(String bFailLog) {
+		this.bFailLog = bFailLog;
+	}
 	
 	public void setBReadPair(int left, int right) {
 		bReadPair.setLeft(left);
@@ -183,11 +181,13 @@ public class Event {
 		bPassPair.setLeft(left);
 		bPassPair.setRight(right);
 	}
+	
 	public void setBFailPair(int left, int right) {
 		bFailPair.setLeft(left);
 		bFailPair.setRight(right);
 	}
 
+	
 	public int getKey() {
 		return key;
 	}
@@ -195,4 +195,42 @@ public class Event {
 		this.key = key;
 	}
 
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Pair<Integer, Integer> getAReadPair() {
+		return aReadPair;
+	}
+
+
+	public Pair<Integer, Integer> getBReadPair() {
+		return bReadPair;
+	}
+
+
+	public Pair<Integer, Integer> getAPassPair() {
+		return aPassPair;
+	}
+
+
+	public Pair<Integer, Integer> getAFailPair() {
+		return aFailPair;
+	}
+
+
+	public Pair<Integer, Integer> getBPassPair() {
+		return bPassPair;
+	}
+
+
+	public Pair<Integer, Integer> getBFailPair() {
+		return bFailPair;
+	}
 }

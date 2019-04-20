@@ -2,6 +2,8 @@ package edu.ycp.cs320.assign01.model;
 
 import java.util.ArrayList;
 
+import edu.ycp.cs320.assign01.model.utility.Pair;
+
 public class Player {
 	private ArrayList<Item> inventory, equipment;
 	private int health, experience, level, score, currency, intellect, strength, dexterity;
@@ -119,24 +121,24 @@ public class Player {
 		this.dexterity = dexterity;
 	}
 	
-	public void eventResult(EventResult result) {
-		switch (result.getId()) {
-			case 0:
-				changeHealth(result.getScale());
-				break;
-			case 1:
-				changeStrength(result.getScale());
-				break;
-			case 2:
-				changeIntellect(result.getScale());
-				break;
-			case 3:
-				changeDexterity(result.getScale());
-				break;
-			case 4: //TO LATER MODIFY INVENTORY
-				break;
-			default:
-				break;
-		}
-	}
+//	public void eventResult(Pair<Integer, Integer> result) {
+//		switch (result.getId()) {
+//			case 0:
+//				changeHealth(result.getScale());
+//				break;
+//			case 1:
+//				changeStrength(result.getScale());
+//				break;
+//			case 2:
+//				changeIntellect(result.getScale());
+//				break;
+//			case 3:
+//				changeDexterity(result.getScale());
+//				break;
+//			case 4: //TO LATER MODIFY INVENTORY
+//				break;
+//			default:
+//				break;
+//		}
+//	}
 }

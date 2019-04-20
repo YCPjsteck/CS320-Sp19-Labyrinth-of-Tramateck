@@ -19,12 +19,13 @@ public class Library {
 	private ArrayList<Location> locationList; // locations.txt
 	private ArrayList<NPC> npcList; // npcs.txt
 	private ArrayList<Item> itemList; // items.txt
-	// ArrayList<Event> eventList; // events.txt
+	ArrayList<Event> eventList; // events.txt
 	
 	public Library() {
 		locationList = new ArrayList<Location>();
 		npcList = new ArrayList<NPC>();
 		itemList = new ArrayList<Item>();
+		eventList = new ArrayList<Event>();
 	}
 	
 	public ArrayList<Location> getLocations() {
@@ -37,6 +38,10 @@ public class Library {
 
 	public ArrayList<Item> getItems() {
 		return itemList;
+	}
+	
+	public ArrayList<Event> getEvents() {
+		return eventList;
 	}
 	
 	public WorldMap generateWorld() {
@@ -261,16 +266,33 @@ public class Library {
 			String str = reader.nextLine();
 			ArrayList<String> words = finder.findWords(str);
 			if(words.get(0).equals("event")) {
-				event.setName(str.substring(words.get(0).length()).trim());
+				event.setId(Integer.parseInt(str.substring(words.get(0).length()).trim()));	//Sets event ID to organize events
 				str = reader.nextLine();
 				words = finder.findWords(str);
+				
 				while(!str.equals("")) {
-					if(words.get(0).equals("rarity")) {
-						item.setRarity(words.get(1));
-					} else if(words.get(0).equals("worth")) {
-						item.setWorth(Integer.parseInt(words.get(1)));
-					} else if(words.get(0).equals("weight")) {
-						item.setWorth(Integer.parseInt(words.get(1)));
+					if(words.get(0).equals("prompt")) {
+						event.setPrompt(str.substring(words.get(0).length()).trim());		//Sets event Prompt
+					} else if(words.get(0).equals("apasslog")) {
+						event.setAPassLog(str.substring(words.get(0).length()).trim());		//Sets event A Pass Log
+					} else if(words.get(0).equals("afaillog")) {
+						event.setaFailLog(str.substring(words.get(0).length()).trim());;	//Sets event A Fail Log
+					} else if(words.get(0).equals("bpasslog")) {
+						event.setBPassLog(str.substring(words.get(0).length()).trim());		//Sets event B Pass Log
+					} else if(words.get(0).equals("bfaillog")) {
+						event.setBFailLog(str.substring(words.get(0).length()).trim());		//Sets event A Fail Log
+					} else if (words.get(0).equals("areadpair")) {
+						event.setAReadPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets A Read Pair
+					} else if (words.get(0).equals("apasspair")) {
+						event.setAPassPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets A Pass Pair
+					} else if (words.get(0).equals("afailpair")) {
+						event.setAFailPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets A Fail Pair
+					} else if (words.get(0).equals("breadpair")) {
+						event.setBReadPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Read Pair
+					} else if (words.get(0).equals("bpasspair")) {
+						event.setBPassPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Pass Pair
+					} else if (words.get(0).equals("bfailpair")) {
+						event.setBFailPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Fail Pair
 					}
 					
 					if(reader.hasNext())
@@ -278,7 +300,7 @@ public class Library {
 					else
 						str = "";
 				}
-				itemList.add(item);
+				eventList.add(event);
 			}
 		}
 		

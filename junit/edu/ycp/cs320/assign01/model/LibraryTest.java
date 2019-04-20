@@ -110,4 +110,23 @@ public class LibraryTest {
 		assertTrue(loc.getRooms().size() == 14);
 		loc.printMap();
 	}
+	
+	@Test
+	public void testEventGeneration() {
+		try {
+			lib.generateItems("events.txt");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		ArrayList<Event> eventList = lib.getEvents();
+		assertTrue(eventList.size() == 1);
+		
+		assertTrue(eventList.get(0).getId() == 1);
+		
+		assertTrue(eventList.get(0).getPrompt().equals("You enter a dark smelly room, the floor is flooded and brooding%a. Search through water.%b. Scan the walls for information."));
+		
+		
+
+	}
 }
