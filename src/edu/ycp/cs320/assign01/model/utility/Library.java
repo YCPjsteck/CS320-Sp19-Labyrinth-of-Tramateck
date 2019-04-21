@@ -95,7 +95,6 @@ public class Library {
 		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
 		int locID = 1;
-		int npcID = 1;
 		int min = 0;
 		int max = 0;
 		
@@ -104,6 +103,7 @@ public class Library {
 			Location loc = new Location();
 			loc.setId(locID);
 			locID++;
+			int npcID = 1;
 			
 			while(!str.equalsIgnoreCase("")) {
 				ArrayList<String> words = finder.findWords(str);
