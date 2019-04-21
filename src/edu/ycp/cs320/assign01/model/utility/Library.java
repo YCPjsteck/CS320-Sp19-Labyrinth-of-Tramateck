@@ -41,7 +41,32 @@ public class Library {
 	public ArrayList<Item> getItems() {
 		return itemList;
 	}
+
+	/**
+	 * Find and return an NPC given its name/
+	 */
+	public NPC findNPC(String name) {
+		for(NPC n : npcList) {
+			if(n.getName().equalsIgnoreCase(name))
+				return n;
+		}
+		return null;
+	}
+
+	/**
+	 * Find and return an item given its name/
+	 */
+	public Item findItem(String name) {
+		for(Item i : itemList) {
+			if(i.getName().equalsIgnoreCase(name))
+				return i;
+		}
+		return null;
+	}
 	
+	/**
+	 * Generate and return the entire game world.
+	 */
 	public WorldMap generateWorld() {
 		WorldMap map = new WorldMap();
 		int[][] locMap = new int[1][1];
@@ -62,23 +87,10 @@ public class Library {
 		
 		return map;
 	}
-	
-	public NPC findNPC(String name) {
-		for(NPC n : npcList) {
-			if(n.getName().equalsIgnoreCase(name))
-				return n;
-		}
-		return null;
-	}
 
-	public Item findItem(String name) {
-		for(Item i : itemList) {
-			if(i.getName().equalsIgnoreCase(name))
-				return i;
-		}
-		return null;
-	}
-	
+	/**
+	 * Read the given file to generate the game's locations.
+	 */
 	public void generateLocations(String file) throws FileNotFoundException {
 		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
@@ -123,7 +135,10 @@ public class Library {
 		reader.close();
 	}
 	
-	public int[][] generateLocMap(Scanner reader, int x, int y) {
+	/**
+	 * Create a 2D array of ints of the given size, using the scanner as input.
+	 */
+	private int[][] generateLocMap(Scanner reader, int x, int y) {
 		int[][] map = new int[x][y];
 		int id = 1;
 		
@@ -137,11 +152,13 @@ public class Library {
 				}
 			}
 		}
-		
 		return map;
 	}
 
-	public Room generateRoom(Scanner reader, Location loc, int id, int min, int max) {
+	/**
+	 * Create a Room, using the scanner as input.
+	 */
+	private Room generateRoom(Scanner reader, Location loc, int id, int min, int max) {
 		WordFinder finder = new WordFinder();
 		Room room = new Room();
 
@@ -176,6 +193,9 @@ public class Library {
 		return room;
 	}
 	
+	/**
+	 * Read the given file to generate the game's NPCs.
+	 */
 	public void generateNPCs(String file) throws FileNotFoundException {
 		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
@@ -220,78 +240,100 @@ public class Library {
 				npcList.add(npc);
 			}
 		}
-		
 		reader.close();
 	}
 	
+	/**
+	 * Read the given file to generate the game's items.
+	 */
 	public void generateItems(String file) throws FileNotFoundException {
 		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
+		int id = 0;
 		
 		while(reader.hasNext()) {
 			String str = reader.nextLine();
 			ArrayList<String> words = finder.findWords(str);
 			if(words.get(0).equalsIgnoreCase("item")) {
-				itemGeneration(reader,str,finder,words);
+				itemGeneration(reader,str,finder,words,id);
 			} else if(words.get(0).equalsIgnoreCase("consumable")) {
-				consumableGeneration(reader,str,finder,words);
+				consumableGeneration(reader,str,finder,words,id);
 			} else if(words.get(0).equalsIgnoreCase("equipment")) {
-				equipmentGeneration(reader,str,finder,words);
+				equipmentGeneration(reader,str,finder,words,id);
 			}
 		}
-		
 		reader.close();
 	}
 	
-	public void itemGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words) {
+	/**
+	 * Generate a basic item.
+	 */
+	private void itemGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words, int id) {
 		Item item = new Item();
 		item.setName(str.substring(words.get(0).length()).trim());
 		str = reader.nextLine();
 		while(!str.equalsIgnoreCase("")) {
-			itemCheck(item,str,finder);
+			words = finder.findWords(str);
+			itemCheck(item,str,words);
 		
 			if(reader.hasNext())
 				str = reader.nextLine().trim();
 			else
 				str = "";
 		}
+		item.setId(id);
+		id++;
 		itemList.add(item);
 	}
 	
-	public void consumableGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words) {
+	/**
+	 * Generate a consumable item.
+	 */
+	private void consumableGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words, int id) {
 		Consumable item = new Consumable();
 		item.setName(str.substring(words.get(0).length()).trim());
 		str = reader.nextLine();
 		while(!str.equalsIgnoreCase("")) {
-			itemCheck(item,str,finder);
-			consumableCheck(item,str,finder);
+			words = finder.findWords(str);
+			itemCheck(item,str,words);
+			consumableCheck(item,str,words);
 			
 			if(reader.hasNext())
 				str = reader.nextLine().trim();
 			else
 				str = "";
 		}
+		item.setId(id);
+		id++;
 		itemList.add(item);
 	}
 	
-	public void equipmentGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words) {
+	/**
+	 * Generate an equipment item.
+	 */
+	private void equipmentGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words, int id) {
 		Equipment item = new Equipment();
 		item.setName(str.substring(words.get(0).length()).trim());
 		str = reader.nextLine();
 		while(!str.equalsIgnoreCase("")) {
-			itemCheck(item,str,finder);
-			equipmentCheck(item,str,finder);
+			words = finder.findWords(str);
+			itemCheck(item,str,words);
+			equipmentCheck(item,str,words);
 			
 			if(reader.hasNext())
 				str = reader.nextLine().trim();
 			else
 				str = "";
 		}
+		item.setId(id);
+		id++;
 		itemList.add(item);
 	}
 	
-	public void itemCheck(Item item, String str, WordFinder finder) {
-		ArrayList<String> words = finder.findWords(str);
+	/**
+	 * Check for the keywords of all items.
+	 */
+	private void itemCheck(Item item, String str, ArrayList<String> words) {
 		if(words.get(0).equalsIgnoreCase("type")) {
 			item.setType(words.get(1));
 		} else if(words.get(0).equalsIgnoreCase("rarity")) {
@@ -307,8 +349,10 @@ public class Library {
 		}
 	}
 	
-	public void consumableCheck(Consumable item, String str, WordFinder finder) {
-		ArrayList<String> words = finder.findWords(str);
+	/**
+	 * Check for the keywords of consumable items.
+	 */
+	private void consumableCheck(Consumable item, String str, ArrayList<String> words) {
 		if(words.get(0).equalsIgnoreCase("health")) {
 			item.setHealth(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("score")) {
@@ -326,8 +370,10 @@ public class Library {
 		}
 	}
 	
-	public void equipmentCheck(Equipment item, String str, WordFinder finder) {
-		ArrayList<String> words = finder.findWords(str);
+	/**
+	 * Check for the keywords of equipment items.
+	 */
+	private void equipmentCheck(Equipment item, String str, ArrayList<String> words) {
 		if(words.get(0).equalsIgnoreCase("health")) {
 			item.setHealth(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("intellect")) {
