@@ -9,7 +9,7 @@ public enum LocationType {
 	private LocationType(String string) {
 		this.string = string;
 	}
-	public String getString(LocationType type) {
+	public String getString() {
 		return string;
 	}
 

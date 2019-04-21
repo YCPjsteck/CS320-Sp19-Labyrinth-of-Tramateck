@@ -14,7 +14,7 @@ public enum ItemType {
 	private ItemType(String string) {
 		this.string = string;
 	}
-	public String getString(ItemType type) {
+	public String getString() {
 		return string;
 	}
 	

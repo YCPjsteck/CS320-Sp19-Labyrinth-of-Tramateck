@@ -9,7 +9,7 @@ public enum NPCType {
 	private NPCType(String string) {
 		this.string = string;
 	}
-	public String getString(NPCType type) {
+	public String getString() {
 		return string;
 	}
 	

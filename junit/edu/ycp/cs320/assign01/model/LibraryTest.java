@@ -35,9 +35,9 @@ public class LibraryTest {
 		assertTrue(itemList.get(1).getName().equals("Monkey Tail"));
 		assertTrue(itemList.get(2).getName().equals("Monkey Head"));
 		
-		assertTrue(itemList.get(0).getRarity().equals("common"));
-		assertTrue(itemList.get(1).getRarity().equals("rare"));
-		assertTrue(itemList.get(2).getRarity().equals("legendary"));
+		assertTrue(itemList.get(0).getRarity().getString().equals("common"));
+		assertTrue(itemList.get(1).getRarity().getString().equals("rare"));
+		assertTrue(itemList.get(2).getRarity().getString().equals("legendary"));
 		
 		assertTrue(itemList.get(0).getWeight() == 1);
 		assertTrue(itemList.get(1).getWeight() == 2);
@@ -92,7 +92,7 @@ public class LibraryTest {
 		assertTrue(loc.getName().equals("Jungle"));
 		assertTrue(loc.getMinLevel() == 1);
 		assertTrue(loc.getMaxLevel() == 3);
-		assertTrue(loc.getType().equals("dangerous"));
+		assertTrue(loc.getType().getString().equals("dangerous"));
 		assertTrue(loc.getMap().length == 3);
 		assertTrue(loc.getMap()[0].length == 3);
 		assertTrue(loc.getRooms().size() == 7);
@@ -104,7 +104,7 @@ public class LibraryTest {
 		assertTrue(loc.getName().equals("Dungeon"));
 		assertTrue(loc.getMinLevel() == 3);
 		assertTrue(loc.getMaxLevel() == 5);
-		assertTrue(loc.getType().equals("dangerous"));
+		assertTrue(loc.getType().getString().equals("dangerous"));
 		assertTrue(loc.getMap().length == 5);
 		assertTrue(loc.getMap()[0].length == 5);
 		assertTrue(loc.getRooms().size() == 14);

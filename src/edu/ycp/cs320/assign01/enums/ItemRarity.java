@@ -12,7 +12,7 @@ public enum ItemRarity {
 	private ItemRarity(String string) {
 		this.string = string;
 	}
-	public String getString(ItemRarity type) {
+	public String getString() {
 		return string;
 	}
 	
