@@ -303,6 +303,7 @@ public class Player extends Character{
 		if(weapon != null) { // If something is equipped here
 			// Upon unqeuipping this item, remove the stat bonuses
 			baseHealth -= weapon.getHealth();
+			changeHealth(0); // Change health by 0 to ensure that the player's health isn't overcharged
 			intellect -= weapon.getIntellect();
 			strength -= weapon.getStrength();
 			dexterity -= weapon.getDexterity();
@@ -320,6 +321,7 @@ public class Player extends Character{
 	public void unequipArmor() {
 		if(armor != null) {
 			baseHealth -= armor.getHealth();
+			changeHealth(0);
 			intellect -= armor.getIntellect();
 			strength -= armor.getStrength();
 			dexterity -= armor.getDexterity();
@@ -334,6 +336,7 @@ public class Player extends Character{
 	public void unequipAccessory() {
 		if(accessory != null) {
 			baseHealth -= accessory.getHealth();
+			changeHealth(0);
 			intellect -= accessory.getIntellect();
 			strength -= accessory.getStrength();
 			dexterity -= accessory.getDexterity();
