@@ -82,13 +82,16 @@ public class Library {
 	public void generateLocations(String file) throws FileNotFoundException {
 		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
-		int id = 1;
+		int locID = 1;
+		int npcID = 1;
 		int min = 0;
 		int max = 0;
 		
 		while(reader.hasNext()) {
 			String str = reader.nextLine().trim();
 			Location loc = new Location();
+			loc.setId(locID);
+			locID++;
 			
 			while(!str.equalsIgnoreCase("")) {
 				ArrayList<String> words = finder.findWords(str);
@@ -106,7 +109,7 @@ public class Library {
 					int y = Integer.parseInt(words.get(2));
 					loc.setMap(generateLocMap(reader, x, y));
 				} else if(words.get(0).equalsIgnoreCase("room")) {
-					loc.addRoom(generateRoom(reader, loc, id, min, max));
+					loc.addRoom(generateRoom(reader, loc, npcID, min, max));
 				}
 				if(reader.hasNext())
 					str = reader.nextLine().trim();
