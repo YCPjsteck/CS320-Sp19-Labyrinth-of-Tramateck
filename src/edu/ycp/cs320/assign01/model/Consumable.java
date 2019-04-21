@@ -14,8 +14,7 @@ public class Consumable extends Item {
 	public void consume(Player p) {
 		p.changeHealth(getHealth());
 		p.addExperience(getExperience());
-		for(int i = 0; i < levelChange; i++)
-			p.incrementLevel();
+		p.incrementLevel(getLevelChange());
 		p.changeScore(getScore());
 		p.changeCurrency(getCurrency());
 		p.changeIntellect(getIntellect());

@@ -1,17 +1,9 @@
 package edu.ycp.cs320.assign01.model;
 
-import java.util.Random;
-
-public class Character {
+public abstract class Character {
 	private int baseHealth, currHealth, minAttack, maxAttack, level;
 	
-	public Character(int level) {
-		//starting health
-		baseHealth = 100;
-		currHealth = 100;
-		
-		//set level
-		this.level = level;
+	public Character() {
 	}
 	
 	/*****************
@@ -33,7 +25,6 @@ public class Character {
 	public void setHealth(int health) {
 		baseHealth = health;
 	}
-	
 	/**
 	 * @return this NPC's base health
 	 */
@@ -58,11 +49,19 @@ public class Character {
 	public void calHealth() {
 		currHealth = getMaxHealth();
 	}
+	/**
+	 * Change the current health by the given integer.
+	 * If the change causes current health to go above max health,
+	 * then the current health is set to the max health.
+	 */
 	public void changeHealth(int change) {
 		currHealth += change;
 		if(currHealth > getMaxHealth())
 			currHealth = getMaxHealth();
 	}
+	/**
+	 * Returns true if the current health is less than or equal to zero
+	 */
 	public boolean isDead() {
 		return (currHealth <= 0);
 	}
@@ -74,10 +73,7 @@ public class Character {
 	 * @return a random attack number between the min and 
 	 * max attack of this NPC multiplied by its level
 	 */
-	public int attack() {
-		Random rand = new Random();
-		return (rand.nextInt(maxAttack-minAttack) + minAttack) * level;
-	}
+	public abstract int attack();
 	public void setMinAttack(int minAttack) {
 		this.minAttack = minAttack;
 	}

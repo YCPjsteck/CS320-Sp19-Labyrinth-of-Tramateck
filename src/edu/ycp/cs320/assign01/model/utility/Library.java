@@ -5,10 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import edu.ycp.cs320.assign01.model.Enemy;
 import edu.ycp.cs320.assign01.model.Item;
 import edu.ycp.cs320.assign01.model.NPC;
-import edu.ycp.cs320.assign01.model.Vendor;
 import edu.ycp.cs320.assign01.model.movement.Location;
 import edu.ycp.cs320.assign01.model.movement.Room;
 import edu.ycp.cs320.assign01.model.movement.WorldMap;
@@ -176,18 +174,12 @@ public class Library {
 			String str = reader.nextLine();
 			ArrayList<String> words = finder.findWords(str);
 			if(words.get(0).equalsIgnoreCase("npc")) {
-				String name = str.substring(words.get(0).length()).trim();
+				npc.setName(str.substring(words.get(0).length()).trim());
 				str = reader.nextLine().trim();
 				while(!str.equalsIgnoreCase("")) {
 					words = finder.findWords(str);
 					if(words.get(0).equalsIgnoreCase("type")) {
-						String type = words.get(1);
-						if(type.equalsIgnoreCase("enemy")) {
-							npc = new Enemy();
-						} else if(type.equalsIgnoreCase("vendor")) {
-							npc = new Vendor();
-						}
-						npc.setName(name);
+						// npc.setType();
 					} else if(words.get(0).equalsIgnoreCase("health")) {
 						npc.setHealth(Integer.parseInt(words.get(1)));
 					} else if(words.get(0).equalsIgnoreCase("attack")) {
@@ -202,11 +194,11 @@ public class Library {
 						int weight = Integer.parseInt(words.get(1));
 						int size = Integer.parseInt(words.get(2));
 						Item item = findItem(str.substring(str.indexOf("|") + 1).trim());
-						((Vendor)npc).addInventory(item, weight, size);
+						npc.addInventory(item, weight, size);
 					} else if(words.get(0).equalsIgnoreCase("part")) {
-						((Enemy)npc).setPart(words.get(1));
+						npc.setPart(words.get(1));
 					} else if(words.get(0).equalsIgnoreCase("weakness")) {
-						((Enemy)npc).setWeakness(words.get(1));
+						npc.setWeakness(words.get(1));
 					}
 					
 					if(reader.hasNext())

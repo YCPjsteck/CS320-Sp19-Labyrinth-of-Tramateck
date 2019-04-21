@@ -11,7 +11,6 @@ public class Player extends Character{
 	*/
 	
 	public Player() {
-		super(1);
 		inventory = new ArrayList<Item>();
 		equipment = new ArrayList<Item>();
 		currency = 0;
@@ -56,8 +55,8 @@ public class Player extends Character{
 	public void incrementLevel() {
 		super.setLevel(super.getLevel() + 1);
 	}
-	public int getLevel() {
-		return super.getLevel();
+	public void incrementLevel(int level) {
+		super.setLevel(super.getLevel() + level);
 	}
 
 	public int getScore() {
@@ -119,5 +118,10 @@ public class Player extends Character{
 			default:
 				break;
 		}
+	}
+
+	@Override
+	public int attack() {
+		return 0;
 	}
 }

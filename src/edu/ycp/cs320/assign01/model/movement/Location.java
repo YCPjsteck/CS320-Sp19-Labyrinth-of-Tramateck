@@ -2,6 +2,7 @@ package edu.ycp.cs320.assign01.model.movement;
 
 import java.util.ArrayList;
 
+import edu.ycp.cs320.assign01.enums.LocationType;
 import edu.ycp.cs320.assign01.model.interfaces.Named;
 import edu.ycp.cs320.assign01.model.interfaces.Navigable;
 
@@ -12,7 +13,7 @@ public class Location implements Navigable, Named {
 	private String shortDesc, longDesc, name;
 	
 	private int minLevel, maxLevel;
-	private String type;
+	private LocationType type;
 	
 	// TODO: 
 	// 		rooms connected to nonadjacent rooms
@@ -20,6 +21,10 @@ public class Location implements Navigable, Named {
 
 	public Location() {
 		roomList = new ArrayList<Room>();
+	}
+
+	public ArrayList<Room> getRooms() {
+		return roomList;
 	}
 	
 	public void setMap(int[][] map) {
@@ -165,53 +170,42 @@ public class Location implements Navigable, Named {
 	public String getName() {
 		return name;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
 	public int getId() {
 		return id;
 	}
-
-	public void setLongDesc(String desc) {
-		longDesc = desc;
-	}
 	public void setShortDesc(String desc) {
 		shortDesc = desc;
-	}
-
-	public String getLongDesc() {
-		return longDesc;
 	}
 	public String getShortDesc() {
 		return shortDesc;
 	}
-
-	public int getMinLevel() {
-		return minLevel;
+	public void setLongDesc(String desc) {
+		longDesc = desc;
 	}
-
+	public String getLongDesc() {
+		return longDesc;
+	}
+	
 	public void setMinLevel(int minLevel) {
 		this.minLevel = minLevel;
 	}
-
+	public int getMinLevel() {
+		return minLevel;
+	}
+	public void setMaxLevel(int maxLevel) {
+		this.maxLevel = maxLevel;
+	}
 	public int getMaxLevel() {
 		return maxLevel;
 	}
 
-	public void setMaxLevel(int maxLevel) {
-		this.maxLevel = maxLevel;
-	}
-	
-	public String getType() {
-		return type;
-	}
-	
 	public void setType(String type) {
-		this.type = type;
+		this.type = LocationType.toType(type);
 	}
-
-	public ArrayList<Room> getRooms() {
-		return roomList;
+	public LocationType getType() {
+		return type;
 	}
 }

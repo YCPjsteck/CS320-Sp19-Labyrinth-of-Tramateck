@@ -5,20 +5,21 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import edu.ycp.cs320.assign01.enums.NPCType;
 import edu.ycp.cs320.assign01.model.interfaces.Named;
 import edu.ycp.cs320.assign01.model.utility.Pair;
 import edu.ycp.cs320.assign01.model.utility.Triple;
 
 public class NPC extends Character implements Named {
-	private String name, shortDesc, longDesc, type;
+	private String name, shortDesc, longDesc;
 	private int id;
+	private NPCType type;
 	
 	private ArrayList<Triple<Item,Integer,Integer>> loot;
 	private ArrayList<Triple<Item,Integer,Integer>> fullInventory;
 	private Set<String> weakPoints, partsList;
 	
-	public NPC(int level) {
-		super(level);
+	public NPC() {
 		loot = new ArrayList<Triple<Item,Integer,Integer>>();
 		fullInventory = new ArrayList<Triple<Item,Integer,Integer>>();
 		weakPoints = new TreeSet<String>();
@@ -91,9 +92,9 @@ public class NPC extends Character implements Named {
 	 * Type methods *
 	 ****************/
 	public void setType(String type) {
-		this.type = type;
+		this.type = NPCType.toType(type);
 	}
-	public String getType() {
+	public NPCType getType() {
 		return type;
 	}
 	
@@ -134,5 +135,11 @@ public class NPC extends Character implements Named {
 	}
 	public Set<String> getPartsList() {
 		return partsList;
+	}
+
+	@Override
+	public int attack() {
+		Random rand = new Random();
+		return (rand.nextInt(getMaxAttack()-getMinAttack()) + getMinAttack()) * getLevel();
 	}
 }
