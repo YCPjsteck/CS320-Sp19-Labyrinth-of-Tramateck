@@ -36,7 +36,7 @@ public class NPC extends Character implements Named {
 	/**
 	 * Travel through this NPC's loot arraylist and calculate the loot to randomly return
 	 * based off of each loot's drop chance.
-	 * @return an arraylist of pairs of items and an integer representing the number of that item.
+	 * @return an arraylist of pairs of items and an integer representing the quantity of that item.
 	 */
 	public ArrayList<Pair<Item,Integer>> getLoot() {
 		ArrayList<Pair<Item,Integer>> items = new ArrayList<Pair<Item,Integer>>();
@@ -44,18 +44,21 @@ public class NPC extends Character implements Named {
 		// For each triple in the loot list
 		for(Triple<Item,Integer,Integer> t : loot) {
 			Item item = t.getLeft(); // set the item to the triple's item
-			int number = 0;
-			// From 0 to the size of this triple (right integer)
+			int quantity = 0;
+			// From 0 to the quantity of this triple (right integer)
 			for(int i = 0; i < t.getRight(); i++) {
 				// If a random number from 0 to 99 is less than this triple's chance (middle integer)
 				if(rand.nextInt(100) < t.getMiddle())
-					number++; // increment the number of items
+					quantity++; // increment the quantity of items
 			}
-			if(number > 0) // If number is greater than zero
-				items.add(new Pair<Item,Integer>(item,number)); // Add this item and its number to the loot drop list
+			if(quantity > 0) // If quantity is greater than zero
+				items.add(new Pair<Item,Integer>(item,quantity)); // Add this item and its number to the loot drop list
 		}
 		return items;
 	}
+	/**
+	 * Get this NPC's loot arraylist
+	 */
 	public ArrayList<Triple<Item,Integer,Integer>> getAllLoot() {
 		return loot;
 	}

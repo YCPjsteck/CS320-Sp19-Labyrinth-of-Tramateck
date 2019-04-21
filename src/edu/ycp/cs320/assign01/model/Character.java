@@ -1,7 +1,7 @@
 package edu.ycp.cs320.assign01.model;
 
 public abstract class Character {
-	private int baseHealth, currHealth, minAttack, maxAttack, level;
+	protected int baseHealth, currHealth, minAttack, maxAttack, level;
 	
 	public Character() {
 	}

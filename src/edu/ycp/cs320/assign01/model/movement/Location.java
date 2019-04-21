@@ -114,7 +114,7 @@ public class Location implements Navigable, Named {
 	 * Check if the dungeon is complete by checking
 	 * if each room is complete
 	 */
-	public boolean dungeonComplete() {
+	public boolean locationComplete() {
 		for(Room r : roomList)
 			if(!r.roomComplete())
 				return false;

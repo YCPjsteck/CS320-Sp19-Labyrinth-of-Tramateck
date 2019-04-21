@@ -7,20 +7,6 @@ public class Equipment extends Item {
 		super();
 	}
 	
-	// TODO have these be methods of player?
-	public void equip(Player p) {
-		p.changeHealth(getHealth());
-		p.changeIntellect(getIntellect());
-		p.changeStrength(getStrength());
-		p.changeDexterity(getDexterity());
-	}
-	public void unequip(Player p) {
-		p.changeHealth(-getHealth());
-		p.changeIntellect(-getIntellect());
-		p.changeStrength(-getStrength());
-		p.changeDexterity(-getDexterity());
-	}
-
 	public int getQuality() {
 		return quality * super.getLevel();
 	}
