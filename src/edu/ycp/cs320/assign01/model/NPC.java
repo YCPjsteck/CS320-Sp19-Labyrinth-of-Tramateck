@@ -92,7 +92,8 @@ public class NPC extends Character implements Named {
 	 */
 	private ArrayList<Pair<Item,Integer>> tripleItem(ArrayList<Triple<Item,Integer,Integer>> list) {
 		ArrayList<Pair<Item,Integer>> items = new ArrayList<Pair<Item,Integer>>();
-		Random rand = new Random();// For each triple in the given list
+		Random rand = new Random();
+		// For each triple in the given list
 		for(Triple<Item,Integer,Integer> t : list) {
 			Item item = t.getLeft(); // set the item to the triple's item
 			int quantity = 0;
@@ -103,7 +104,7 @@ public class NPC extends Character implements Named {
 					quantity++; // increment the quantity of items
 			}
 			if(quantity > 0) // If quantity is greater than zero
-				items.add(new Pair<Item,Integer>(item,quantity)); // Add this item and its number to the loot drop list
+				items.add(new Pair<Item,Integer>(item,quantity)); // Add this item and its quantity to the loot drop list
 		}
 		return items;
 	}
