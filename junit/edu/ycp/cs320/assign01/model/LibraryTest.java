@@ -23,7 +23,7 @@ public class LibraryTest {
 	@Test
 	public void testItemGeneration() {
 		try {
-			lib.generateItems("items.txt");
+			lib.generateItems("test items.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -51,8 +51,8 @@ public class LibraryTest {
 	@Test
 	public void testNpcGeneration() {
 		try {
-			lib.generateItems("items.txt");
-			lib.generateNPCs("npcs.txt");
+			lib.generateItems("test items.txt");
+			lib.generateNPCs("test npcs.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -82,9 +82,9 @@ public class LibraryTest {
 	@Test
 	public void testLocationGeneration() {
 		try {
-			lib.generateItems("items.txt");
-			lib.generateNPCs("npcs.txt");
-			lib.generateLocations("locations.txt");
+			lib.generateItems("test items.txt");
+			lib.generateNPCs("test npcs.txt");
+			lib.generateLocations("test locations.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

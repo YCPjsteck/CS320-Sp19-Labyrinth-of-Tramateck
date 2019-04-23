@@ -128,9 +128,7 @@ public class Library {
 				else
 					str = "";
 			}
-			
-			if(loc.getName() != null)
-				locationList.add(loc);
+			locationList.add(loc);
 		}
 		reader.close();
 	}
