@@ -1,5 +1,5 @@
 npc Monkey
-	type Enemy
+	type Hostile
 	health 10
 	attack 1 2
 	loot 10 4 | Monkey Paw
@@ -7,7 +7,13 @@ npc Monkey
 	part tail
 	weakness tail
 
+npc Jaguar
+	type Hostile
+	health 10
+	attack 2 4
+	part head
+
 npc Rat
-	type Vendor
+	type Friendly
 	health 100
 	attack 0 1
