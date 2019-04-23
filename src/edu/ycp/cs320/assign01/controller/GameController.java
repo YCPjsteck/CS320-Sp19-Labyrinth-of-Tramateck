@@ -79,7 +79,7 @@ public class GameController {
 	}
 	
 	private void postAction() {
-		if(model.getDungeon().dungeonComplete())
+		if(model.getDungeon().locationComplete())
 			gameLog.add("You've killed all the monsters in this dungeon.");
 		if(model.getPlayer().isDead()) {
 			gameLog.add("You died.");
