@@ -136,7 +136,7 @@ public class GameTest {
 			} else {
 				System.out.println("This is not an action.");
 			}
-			if(dungeon.dungeonComplete())
+			if(dungeon.locationComplete())
 				System.out.println("You've killed all the monsters in this dungeon.");
 			if(player.isDead()) {
 				System.out.println("You died.");

@@ -23,7 +23,7 @@ public class LibraryTest {
 	@Test
 	public void testItemGeneration() {
 		try {
-			lib.generateItems("items.txt");
+			lib.generateItems("test items.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -35,9 +35,9 @@ public class LibraryTest {
 		assertTrue(itemList.get(1).getName().equals("Monkey Tail"));
 		assertTrue(itemList.get(2).getName().equals("Monkey Head"));
 		
-		assertTrue(itemList.get(0).getRarity().equals("common"));
-		assertTrue(itemList.get(1).getRarity().equals("rare"));
-		assertTrue(itemList.get(2).getRarity().equals("legendary"));
+		assertTrue(itemList.get(0).getRarity().getString().equals("common"));
+		assertTrue(itemList.get(1).getRarity().getString().equals("rare"));
+		assertTrue(itemList.get(2).getRarity().getString().equals("legendary"));
 		
 		assertTrue(itemList.get(0).getWeight() == 1);
 		assertTrue(itemList.get(1).getWeight() == 2);
@@ -51,18 +51,20 @@ public class LibraryTest {
 	@Test
 	public void testNpcGeneration() {
 		try {
-			lib.generateItems("items.txt");
-			lib.generateNPCs("npcs.txt");
+			lib.generateItems("test items.txt");
+			lib.generateNPCs("test npcs.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		
 		ArrayList<NPC> npcList = lib.getNPCs();
 		
-		assertTrue(npcList.size() == 2);
+		assertTrue(npcList.size() == 3);
 		assertTrue(npcList.get(0).getName().equals("Monkey"));
-		assertTrue(npcList.get(1).getName().equals("Rat"));
+		assertTrue(npcList.get(1).getName().equals("Jaguar"));
+		assertTrue(npcList.get(2).getName().equals("Rat"));
 
+		assertTrue(npcList.get(0).getType().getString().equalsIgnoreCase("hostile"));
 		assertTrue(npcList.get(0).getBaseHealth() == 10);
 		assertTrue(npcList.get(0).getMinAttack() == 1);
 		assertTrue(npcList.get(0).getMaxAttack() == 2);
@@ -71,17 +73,18 @@ public class LibraryTest {
 		assertTrue(npcList.get(0).getAllLoot().get(0).getMiddle() == 10);
 		assertTrue(npcList.get(0).getAllLoot().get(0).getRight() == 4);
 		
-		assertTrue(npcList.get(1).getBaseHealth() == 100);
-		assertTrue(npcList.get(1).getMinAttack() == 0);
-		assertTrue(npcList.get(1).getMaxAttack() == 1);
+		assertTrue(npcList.get(2).getType().getString().equalsIgnoreCase("friendly"));
+		assertTrue(npcList.get(2).getBaseHealth() == 100);
+		assertTrue(npcList.get(2).getMinAttack() == 0);
+		assertTrue(npcList.get(2).getMaxAttack() == 1);
 	}
 	
 	@Test
 	public void testLocationGeneration() {
 		try {
-			lib.generateItems("items.txt");
-			lib.generateNPCs("npcs.txt");
-			lib.generateLocations("locations.txt");
+			lib.generateItems("test items.txt");
+			lib.generateNPCs("test npcs.txt");
+			lib.generateLocations("test locations.txt");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -92,7 +95,7 @@ public class LibraryTest {
 		assertTrue(loc.getName().equals("Jungle"));
 		assertTrue(loc.getMinLevel() == 1);
 		assertTrue(loc.getMaxLevel() == 3);
-		assertTrue(loc.getType().equals("dangerous"));
+		assertTrue(loc.getType().getString().equals("dangerous"));
 		assertTrue(loc.getMap().length == 3);
 		assertTrue(loc.getMap()[0].length == 3);
 		assertTrue(loc.getRooms().size() == 7);
@@ -104,7 +107,7 @@ public class LibraryTest {
 		assertTrue(loc.getName().equals("Dungeon"));
 		assertTrue(loc.getMinLevel() == 3);
 		assertTrue(loc.getMaxLevel() == 5);
-		assertTrue(loc.getType().equals("dangerous"));
+		assertTrue(loc.getType().getString().equals("dangerous"));
 		assertTrue(loc.getMap().length == 5);
 		assertTrue(loc.getMap()[0].length == 5);
 		assertTrue(loc.getRooms().size() == 14);
