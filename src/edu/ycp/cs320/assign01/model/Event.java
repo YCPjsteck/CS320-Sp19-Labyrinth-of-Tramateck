@@ -143,18 +143,15 @@ public class Event {
 	}
 
 	public void setAReadPair(int left, int right) {
-		aReadPair.setLeft(left);
-		aReadPair.setRight(right);
+		aReadPair = new Pair<Integer, Integer>(new Integer(left), new Integer(right));
 	}
 	
 	public void setAPassPair(int left, int right) {
-		aPassPair.setLeft(left);
-		aPassPair.setRight(right);
+		aPassPair = new Pair<Integer, Integer>(new Integer(left), new Integer(right));
 	}
 	
 	public void setAFailPair(int left, int right) {
-		aFailPair.setLeft(left);
-		aFailPair.setRight(right);
+		aFailPair = new Pair<Integer, Integer>(new Integer(left), new Integer(right));
 	}
 
 	
@@ -173,18 +170,15 @@ public class Event {
 	}
 	
 	public void setBReadPair(int left, int right) {
-		bReadPair.setLeft(left);
-		bReadPair.setRight(right);
+		bReadPair = new Pair<Integer, Integer>(new Integer(left), new Integer(right));
 	}
 	
 	public void setBPassPair(int left, int right) {
-		bPassPair.setLeft(left);
-		bPassPair.setRight(right);
+		bPassPair = new Pair<Integer, Integer>(new Integer(left), new Integer(right));
 	}
 	
 	public void setBFailPair(int left, int right) {
-		bFailPair.setLeft(left);
-		bFailPair.setRight(right);
+		bFailPair = new Pair<Integer, Integer>(new Integer(left), new Integer(right));
 	}
 
 	

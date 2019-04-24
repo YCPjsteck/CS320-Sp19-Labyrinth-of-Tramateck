@@ -55,7 +55,7 @@ public class Library {
 		try {
 			generateItems("items.txt");
 			generateNPCs("npcs.txt");
-			// generateEvents("events.txt");
+			generateEvents("events.txt");
 			generateLocations("locations.txt");
 		} 
 		catch (FileNotFoundException e) { 
@@ -77,6 +77,14 @@ public class Library {
 		for(Item i : itemList) {
 			if(i.getName().equalsIgnoreCase(name))
 				return i;
+		}
+		return null;
+	}
+	
+	public Event findEvent(int id) {
+		for (Event e : eventList) {
+			if (e.getId() == id)
+				return e;
 		}
 		return null;
 	}
@@ -257,20 +265,21 @@ public class Library {
 		reader.close();
 	}
 	
-	public void generateEvents() throws FileNotFoundException {
-		Scanner reader = new Scanner(new File("events.txt"));
+	public void generateEvents(String file) throws FileNotFoundException {
+		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
 		
 		while(reader.hasNext()) {
-			Event event = new Event();
 			String str = reader.nextLine();
 			ArrayList<String> words = finder.findWords(str);
+			str = reader.nextLine();
+			
 			if(words.get(0).equals("event")) {
-				event.setId(Integer.parseInt(str.substring(words.get(0).length()).trim()));	//Sets event ID to organize events
-				str = reader.nextLine();
-				words = finder.findWords(str);
+				Event event = new Event();
+				event.setId(Integer.parseInt(words.get(1)));	//Sets event ID to organize events
 				
-				while(!str.equals("")) {
+				while(!str.equalsIgnoreCase("")) {
+					words = finder.findWords(str);
 					if(words.get(0).equals("prompt")) {
 						event.setPrompt(str.substring(words.get(0).length()).trim());		//Sets event Prompt
 					} else if(words.get(0).equals("apasslog")) {
@@ -306,4 +315,5 @@ public class Library {
 		
 		reader.close();
 	}
+	
 }
