@@ -7,22 +7,6 @@ public class Consumable extends Item {
 		super();
 	}
 	
-	/**
-	 * When given a player, apply the effects that this consumable has
-	 */
-	// TODO have this be a method of player?
-	public void consume(Player p) {
-		p.changeHealth(getHealth());
-		p.addExperience(getExperience());
-		for(int i = 0; i < levelChange; i++)
-			p.incrementLevel();
-		p.changeScore(getScore());
-		p.changeCurrency(getCurrency());
-		p.changeIntellect(getIntellect());
-		p.changeStrength(getStrength());
-		p.changeDexterity(getDexterity());
-	}
-
 	public int getHealth() {
 		return health * super.getLevel();
 	}
