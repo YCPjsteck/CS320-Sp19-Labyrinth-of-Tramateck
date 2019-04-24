@@ -12,16 +12,22 @@ public class Player extends Character{
 	
 	public Player() {
 		inventory = new ArrayList<Pair<Item,Integer>>();
+		weapon = null;
+		armor = null;
+		accessory = null;
 		currency = 0;
 		score = 0;
 		
 		// Level
 		experience = 0;
+		level = 1;
+		baseHealth = 100;
+		calHealth();
 		
 		// Stats
-		intellect = 5;
-		strength = 5;
-		dexterity = 5;
+		intellect = 1;
+		strength = 1;
+		dexterity = 1;
 	}
 
 	/*********************
@@ -257,7 +263,9 @@ public class Player extends Character{
 	 * applying its effects to the player.
 	 */
 	public void consume(Consumable item) {
-		removeItem(item);
+		removeItem(item); // Remove this item from the player's inventory to consume it
+		
+		// Change the player's stats according to this consumable
 		changeHealth(item.getHealth());
 		addExperience(item.getExperience());
 		incrementLevel(item.getLevelChange());
@@ -276,7 +284,7 @@ public class Player extends Character{
 		// is assumed that that is where the item is coming from.
 		removeItem(item);
 		
-		// Unequip the previously equipped item and indicated
+		// Unequip the previously equipped item and indicate
 		// that the new item has been equipped
 		if(item.getType() == ItemType.WEAPON) {
 			unequipWeapon();
@@ -291,6 +299,7 @@ public class Player extends Character{
 		
 		// Add to the player's stats based off of this equipment
 		baseHealth += item.getHealth();
+		changeHealth(0); // Change health by 0 to ensure that the player's health isn't overcharged
 		intellect += item.getIntellect();
 		strength += item.getStrength();
 		dexterity += item.getDexterity();
@@ -301,16 +310,8 @@ public class Player extends Character{
 	 */
 	public void unequipWeapon() {
 		if(weapon != null) { // If something is equipped here
-			// Upon unqeuipping this item, remove the stat bonuses
-			baseHealth -= weapon.getHealth();
-			changeHealth(0); // Change health by 0 to ensure that the player's health isn't overcharged
-			intellect -= weapon.getIntellect();
-			strength -= weapon.getStrength();
-			dexterity -= weapon.getDexterity();
-			
-			// Readd the item to the player's inventory
-			addItem(weapon);
-			// Set this equipment to null to indicated that the
+			unequipItem(weapon); // Revert the player's stats
+			// Set this equipment to null to indicate that the
 			// player has nothing equipped
 			weapon = null;
 		}
@@ -320,13 +321,7 @@ public class Player extends Character{
 	 */
 	public void unequipArmor() {
 		if(armor != null) {
-			baseHealth -= armor.getHealth();
-			changeHealth(0);
-			intellect -= armor.getIntellect();
-			strength -= armor.getStrength();
-			dexterity -= armor.getDexterity();
-			
-			addItem(armor);
+			unequipItem(armor);
 			armor = null;
 		}
 	}
@@ -335,15 +330,24 @@ public class Player extends Character{
 	 */
 	public void unequipAccessory() {
 		if(accessory != null) {
-			baseHealth -= accessory.getHealth();
-			changeHealth(0);
-			intellect -= accessory.getIntellect();
-			strength -= accessory.getStrength();
-			dexterity -= accessory.getDexterity();
-			
-			addItem(accessory);
+			unequipItem(accessory);
 			accessory = null;
 		}
+	}
+	/**
+	 * Helper method of the three above unequip methods to revert the player's stats
+	 * back to normal.
+	 */
+	private void unequipItem(Equipment item) {
+		// Upon unqeuipping this item, remove the stat bonuses
+		baseHealth -= item.getHealth();
+		changeHealth(0); // Change health by 0 to ensure that the player's health isn't overcharged
+		intellect -= item.getIntellect();
+		strength -= item.getStrength();
+		dexterity -= item.getDexterity();
+
+		// Readd the item to the player's inventory
+		addItem(item);
 	}
 
 	/**

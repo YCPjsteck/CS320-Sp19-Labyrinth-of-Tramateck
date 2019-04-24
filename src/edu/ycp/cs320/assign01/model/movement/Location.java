@@ -22,21 +22,37 @@ public class Location implements Navigable, Named {
 	public Location() {
 		roomList = new ArrayList<Room>();
 	}
-
+	
+	/**
+	 * @param r a room to be added to this location
+	 */
+	public void addRoom(Room r) {
+		roomList.add(r);
+	}
+	
+	/**
+	 * @return the arraylist of all rooms in this location
+	 */
 	public ArrayList<Room> getRooms() {
 		return roomList;
 	}
 	
+	/**
+	 * @param map the 2D array of integers representing the room IDs of this location
+	 */
 	public void setMap(int[][] map) {
 		roomMap = map;
 	}
 	
+	/**
+	 * @return the 2D array of integers representing to room IDs of this location
+	 */
 	public int[][] getMap() {
 		return roomMap;
 	}
 	
 	/**
-	 * Set the dungeon's active room location
+	 * Set the player's x,y position in the room map.
 	 * Assumes that the location is valid.
 	 */
 	public void setPlayer(int x, int y) {
@@ -95,10 +111,6 @@ public class Location implements Navigable, Named {
 		return null;
 	}
 	
-	public void addRoom(Room r) {
-		roomList.add(r);
-	}
-	
 	/**
 	 * Returns the room with the given ID number
 	 */
@@ -111,7 +123,7 @@ public class Location implements Navigable, Named {
 	}
 
 	/**
-	 * Check if the dungeon is complete by checking
+	 * Check if the location is complete by checking
 	 * if each room is complete
 	 */
 	public boolean locationComplete() {
@@ -164,47 +176,90 @@ public class Location implements Navigable, Named {
 		return temp;
 	}
 
+	/**
+	 * Set this location's name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+	/**
+	 * Get this location's name
+	 */
 	public String getName() {
 		return name;
 	}
+	/**
+	 * Set this location's ID
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+	/**
+	 * Get this location's ID
+	 */
 	public int getId() {
 		return id;
 	}
-	public void setShortDesc(String desc) {
-		shortDesc = desc;
-	}
-	public String getShortDesc() {
-		return shortDesc;
-	}
+	/**
+	 * Set this location's long description
+	 */
 	public void setLongDesc(String desc) {
 		longDesc = desc;
 	}
+	/**
+	 * Set this location's short description
+	 */
+	public void setShortDesc(String desc) {
+		shortDesc = desc;
+	}
+	/**
+	 * Get this location's long description
+	 */
 	public String getLongDesc() {
 		return longDesc;
 	}
+	/**
+	 * Get this location's short description
+	 */
+	public String getShortDesc() {
+		return shortDesc;
+	}
 	
+	/**
+	 * @param minLevel this location's min NPC level
+	 */
 	public void setMinLevel(int minLevel) {
 		this.minLevel = minLevel;
 	}
+	/**
+	 * @return this location's min NPC level
+	 */
 	public int getMinLevel() {
 		return minLevel;
 	}
+	/**
+	 * 
+	 * @param maxLevel this location's max NPC level
+	 */
 	public void setMaxLevel(int maxLevel) {
 		this.maxLevel = maxLevel;
 	}
+	/**
+	 * @return this location's max NPC level
+	 */
 	public int getMaxLevel() {
 		return maxLevel;
 	}
 
+	/**
+	 * @param type this location's LocationType
+	 */
 	public void setType(String type) {
 		this.type = LocationType.toType(type);
 	}
+	/**
+	 * @return this location's LocationType
+	 */
 	public LocationType getType() {
 		return type;
 	}

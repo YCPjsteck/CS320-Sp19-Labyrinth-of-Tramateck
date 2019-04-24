@@ -20,11 +20,31 @@ public class NPC extends Character implements Named {
 	private ArrayList<Pair<Item,Integer>> inventory;
 	private Set<String> weakPoints, partsList;
 	
+	// TODO: Buy/Sell items from NPCs. Have this be a controller?
+	
 	public NPC() {
 		loot = new ArrayList<Triple<Item,Integer,Integer>>();
 		fullInventory = new ArrayList<Triple<Item,Integer,Integer>>();
 		weakPoints = new TreeSet<String>();
 		partsList = new TreeSet<String>();
+	}
+	
+	/**
+	 * @param npc an NPC object to be copied into a new NPC object
+	 */
+	public NPC(NPC npc) {
+		loot = npc.getAllLoot();
+		fullInventory = npc.getFullInventory();
+		weakPoints = npc.getWeaknesses();
+		partsList = npc.getParts();
+		
+		minAttack = npc.getMinAttack();
+		maxAttack = npc.getMaxAttack();
+		baseHealth = npc.getBaseHealth();
+		name = npc.getName();
+		type = npc.getType();
+		shortDesc = npc.getShortDesc();
+		longDesc = npc.getLongDesc();
 	}
 	
 	/****************
@@ -112,27 +132,51 @@ public class NPC extends Character implements Named {
 	/*************************************
 	 * Name, ID, and description methods *
 	 *************************************/
+	/**
+	 * Set this NPC's name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+	/**
+	 * Get this NPC's name
+	 */
 	public String getName() {
 		return name;
 	}
+	/**
+	 * Set this NPC's ID
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+	/**
+	 * Get this NPC's ID
+	 */
 	public int getId() {
 		return id;
 	}
+	/**
+	 * Set this NPC's long description
+	 */
 	public void setLongDesc(String desc) {
 		longDesc = desc;
 	}
+	/**
+	 * Set this NPC's short description
+	 */
 	public void setShortDesc(String desc) {
 		shortDesc = desc;
 	}
+	/**
+	 * Get this NPC's long description
+	 */
 	public String getLongDesc() {
 		return longDesc;
 	}
+	/**
+	 * Get this NPC's short description
+	 */
 	public String getShortDesc() {
 		return shortDesc;
 	}
@@ -140,9 +184,15 @@ public class NPC extends Character implements Named {
 	/****************
 	 * Type methods *
 	 ****************/
+	/**
+	 * Set this NPC's type
+	 */
 	public void setType(String type) {
 		this.type = NPCType.toType(type);
 	}
+	/**
+	 * Get this NPC's type
+	 */
 	public NPCType getType() {
 		return type;
 	}
@@ -159,24 +209,39 @@ public class NPC extends Character implements Named {
 		return (rand.nextInt(getMaxAttack()-getMinAttack()) + getMinAttack()) * getLevel();
 	}
 	 /**
-	 * Set or get the list of this monster's parts and weak points
+	 * Give this NPC a weakness
 	 */
 	public void setWeakness(String s) {
 		weakPoints.add(s);
 	}
-	public void setWeakPoints(ArrayList<String> list) {
+	 /**
+	 * Give this NPC a set of weaknesses
+	 */
+	public void setWeakness(ArrayList<String> list) {
 		weakPoints.addAll(list);
 	}
-	public Set<String> getWeakPoints() {
+	/**
+	 * Get this NPC's weaknesses
+	 */
+	public Set<String> getWeaknesses() {
 		return weakPoints;
 	}
+	 /**
+	 * Give this NPC a part
+	 */
 	public void setPart(String s) {
 		partsList.add(s);
 	}
-	public void setPartsList(ArrayList<String> list) {
+	 /**
+	 * Give this NPC a set of parts
+	 */
+	public void setPart(ArrayList<String> list) {
 		partsList.addAll(list);
 	}
-	public Set<String> getPartsList() {
+	/**
+	 * Get this NPC's parts
+	 */
+	public Set<String> getParts() {
 		return partsList;
 	}
 }
