@@ -8,7 +8,7 @@ public class Vendor extends NPC {
 	private ArrayList<Triple<Item,Integer,Integer>> fullInventory;
 	
 	public Vendor() {
-		super();
+		super(1);
 		fullInventory = new ArrayList<Triple<Item,Integer,Integer>>();
 	}
 	

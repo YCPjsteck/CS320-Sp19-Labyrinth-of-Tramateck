@@ -8,7 +8,7 @@ public class Enemy extends NPC {
 	private Set<String> weakPoints, partsList;
 	
 	public Enemy() {
-		super();
+		super(1);
 		weakPoints = new TreeSet<String>();
 		partsList = new TreeSet<String>();
 	}
