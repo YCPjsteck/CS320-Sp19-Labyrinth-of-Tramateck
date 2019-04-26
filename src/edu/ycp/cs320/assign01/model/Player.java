@@ -225,28 +225,7 @@ public class Player extends Character{
 	public int getDexterity() {
 		return dexterity;
 	}
-	
-	public void eventResult(EventResult result) {
-		switch (result.getId()) {
-			case 0:
-				changeHealth(result.getScale());
-				break;
-			case 1:
-				changeStrength(result.getScale());
-				break;
-			case 2:
-				changeIntellect(result.getScale());
-				break;
-			case 3:
-				changeDexterity(result.getScale());
-				break;
-			case 4: //TO LATER MODIFY INVENTORY
-				break;
-			default:
-				break;
-		}
-	}
-
+  
 	/******************
 	 * Action methods *
 	 ******************/

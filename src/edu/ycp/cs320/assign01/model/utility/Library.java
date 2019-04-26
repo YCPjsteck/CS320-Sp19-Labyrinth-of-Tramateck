@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import edu.ycp.cs320.assign01.model.Event;
 import edu.ycp.cs320.assign01.model.Consumable;
 import edu.ycp.cs320.assign01.model.Equipment;
 import edu.ycp.cs320.assign01.model.Item;
@@ -19,7 +20,7 @@ public class Library {
 	private ArrayList<Location> locationList; // locations.txt
 	private ArrayList<NPC> npcList; // npcs.txt
 	private ArrayList<Item> itemList; // items.txt
-	// ArrayList<Event> eventList; // events.txt
+	ArrayList<Event> eventList; // events.txt
 	
 	// TODO
 	//		Read events
@@ -28,6 +29,7 @@ public class Library {
 		locationList = new ArrayList<Location>();
 		npcList = new ArrayList<NPC>();
 		itemList = new ArrayList<Item>();
+		eventList = new ArrayList<Event>();
 	}
 
 	/**
@@ -48,7 +50,13 @@ public class Library {
 	public ArrayList<Item> getItems() {
 		return itemList;
 	}
-
+	/**
+	 * @return an arraylist of all the events
+	 */
+	public ArrayList<Event> getEvents() {
+		return eventList;
+	}
+	
 	/**
 	 * Find and return an NPC given its name/
 	 */
@@ -72,6 +80,17 @@ public class Library {
 	}
 	
 	/**
+	 * Find and return an event given its id
+	 */
+	public Event findEvent(int id) {
+		for (Event e : eventList) {
+			if (e.getId() == id)
+				return e;
+		}
+		return null;
+	}
+	
+	/**
 	 * Generate and return the entire game world.
 	 */
 	public WorldMap generateWorld() {
@@ -85,7 +104,7 @@ public class Library {
 		try {
 			generateItems("items.txt");
 			generateNPCs("npcs.txt");
-			// generateEvents("events.txt");
+			generateEvents("events.txt");
 			generateLocations("locations.txt");
 		} 
 		catch (FileNotFoundException e) { 
@@ -289,6 +308,57 @@ public class Library {
 				equipmentGeneration(reader,str,finder,words,id);
 			}
 		}
+		reader.close();
+	}
+	
+	public void generateEvents(String file) throws FileNotFoundException {
+		Scanner reader = new Scanner(new File(file));
+		WordFinder finder = new WordFinder();
+		
+		while(reader.hasNext()) {
+			String str = reader.nextLine();
+			ArrayList<String> words = finder.findWords(str);
+			str = reader.nextLine();
+			
+			if(words.get(0).equals("event")) {
+				Event event = new Event();
+				event.setId(Integer.parseInt(words.get(1)));	//Sets event ID to organize events
+				
+				while(!str.equalsIgnoreCase("")) {
+					words = finder.findWords(str);
+					if(words.get(0).equals("prompt")) {
+						event.setPrompt(str.substring(words.get(0).length()).trim());		//Sets event Prompt
+					} else if(words.get(0).equals("apasslog")) {
+						event.setAPassLog(str.substring(words.get(0).length()).trim());		//Sets event A Pass Log
+					} else if(words.get(0).equals("afaillog")) {
+						event.setaFailLog(str.substring(words.get(0).length()).trim());;	//Sets event A Fail Log
+					} else if(words.get(0).equals("bpasslog")) {
+						event.setBPassLog(str.substring(words.get(0).length()).trim());		//Sets event B Pass Log
+					} else if(words.get(0).equals("bfaillog")) {
+						event.setBFailLog(str.substring(words.get(0).length()).trim());		//Sets event A Fail Log
+					} else if (words.get(0).equals("areadpair")) {
+						event.setAReadPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets A Read Pair
+					} else if (words.get(0).equals("apasspair")) {
+						event.setAPassPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets A Pass Pair
+					} else if (words.get(0).equals("afailpair")) {
+						event.setAFailPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets A Fail Pair
+					} else if (words.get(0).equals("breadpair")) {
+						event.setBReadPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Read Pair
+					} else if (words.get(0).equals("bpasspair")) {
+						event.setBPassPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Pass Pair
+					} else if (words.get(0).equals("bfailpair")) {
+						event.setBFailPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Fail Pair
+					}
+					
+					if(reader.hasNext())
+						str = reader.nextLine().trim();
+					else
+						str = "";
+				}
+				eventList.add(event);
+			}
+		}
+		
 		reader.close();
 	}
 	

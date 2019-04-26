@@ -24,5 +24,4 @@ public class WordFinder {
 		}
 		return words; // Return the list of words
 	}
-
 }

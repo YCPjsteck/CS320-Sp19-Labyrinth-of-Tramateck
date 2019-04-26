@@ -2,11 +2,13 @@ package edu.ycp.cs320.assign01.model.movement;
 
 import java.util.ArrayList;
 
+import edu.ycp.cs320.assign01.model.Event;
 import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.interfaces.Named;
 
 public class Room implements Named {
 	private ArrayList<NPC> npcList;
+	private ArrayList<Event> eventList;
 	private String shortDesc, longDesc, name;
 	private int id;
 	private boolean entered;
@@ -75,10 +77,25 @@ public class Room implements Named {
 	 */
 	// TODO: check for events and make distinctions between hostile and friendly NPCs
 	public boolean roomComplete() {
-		for(NPC n : npcList)
-			if(!n.isDead())
+		for(Event e : eventList)
+			if(!e.isDone()) {
 				return false;
+			}
+		for(NPC n : npcList)
+			if(!n.isDead()) {
+				return false;
+			}
 		return true;
+		
+	}
+	/*****************
+	 * Event methods *
+	 *****************/
+	/**
+	 * 
+	 */
+	public void runEvents() {
+		
 	}
 
 	/*******************
