@@ -32,6 +32,14 @@ public class Location implements Navigable, Named {
 		playerY = y;
 	}
 	
+	public int getX() {
+		return playerX;
+	}
+	
+	public int getY() {
+		return playerY;
+	}
+	
 	// TODO: randomly generate the map instead of having the map
 	// be passed to the Dungeon on creation.
 	public void generateMap() {

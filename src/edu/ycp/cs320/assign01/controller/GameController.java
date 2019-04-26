@@ -27,9 +27,7 @@ public class GameController {
 	}
 	
 	private void preAction() {
-		gameLog.addAll(model.getDungeon().getMapString());
 		attackLocations.addAll(model.getDungeon().curRoom().getMonsters());
-		gameLog.add(model.getDungeon().curRoom().getDescription());
 	}
 	
 	private void Action(String input) {
@@ -76,6 +74,8 @@ public class GameController {
 	}
 	
 	private void postAction() {
+		gameLog.addAll(model.getDungeon().getMapString());
+		gameLog.add(model.getDungeon().curRoom().getDescription());
 		if(model.getDungeon().dungeonComplete())
 			gameLog.add("You've killed all the monsters in this dungeon.");
 		if(model.getPlayer().isDead()) {

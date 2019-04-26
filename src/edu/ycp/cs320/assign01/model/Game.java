@@ -47,4 +47,33 @@ public class Game {
 	public Location getDungeon() {
 		return dungeon;
 	}
+	
+	public String stringify() {
+		String str = "";
+		str += dungeon.getX() + " " + dungeon.getY();
+		ArrayList<Room> rooms = dungeon.getRooms();
+		for(Room r : rooms)
+			if(r.roomComplete())
+				str += " " + 1;
+			else
+				str += " " + 0;
+		return str;
+	}
+	
+	// Word 0 = X
+	// Word 1 = Y
+	// Word 2... = If the room is complete
+	public void reconstruct(String str) {
+		WordFinder finder = new WordFinder();
+		ArrayList<String> words = finder.findWords(str);
+		if(words.size() > 0) {
+			int x = Integer.parseInt(words.get(0));
+			int y = Integer.parseInt(words.get(1));
+			dungeon.setPlayer(x, y);
+			ArrayList<Room> rooms = dungeon.getRooms();
+			for(int i = 2; i < words.size(); i++)
+				if(Integer.parseInt(words.get(i)) == 1)
+					rooms.get(i-2).getMonsters().clear();
+		}
+	}
 }

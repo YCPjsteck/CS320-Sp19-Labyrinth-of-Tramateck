@@ -84,7 +84,7 @@
                             <input type="Submit" name="submit" value="Submit" >
                         </div>
                     </div>
-
+                    <input name ="stringify" type="hidden" value="${stringify}">
                 </form>
             </body>
         </html>

@@ -35,12 +35,8 @@ public class TextBasedServlet extends HttpServlet {
 		String input = req.getParameter("input");
 		
 		// TODO: Sustain the model/model information between actions
-		Game model;
-		System.out.println(req.getAttribute("game") != null);
-		if(req.getAttribute("game") != null)
-		 	model = new Game(((Game) req.getAttribute("game")).getPlayer(), ((Game) req.getAttribute("game")).getDungeon());
-		else
-			model = new Game();
+		Game model = new Game();
+		model.reconstruct(req.getParameter("stringify"));
 		
 		GameController controller = new GameController();
 		controller.setModel(model);
@@ -65,6 +61,7 @@ public class TextBasedServlet extends HttpServlet {
 		// and forth, it's a good idea
 		
 		req.setAttribute("game", model);
+		req.setAttribute("stringify", model.stringify());
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
