@@ -7,8 +7,8 @@ public class Character {
 	
 	public Character(int level) {
 		//starting health
-		baseHealth = 100;
-		currHealth = 100;
+		baseHealth = 10;
+		currHealth = 10;
 		
 		//set level
 		this.level = level;
