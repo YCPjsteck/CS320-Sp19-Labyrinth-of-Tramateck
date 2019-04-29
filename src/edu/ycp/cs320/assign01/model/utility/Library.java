@@ -168,6 +168,7 @@ public class Library {
 			} else if(words.get(0).equalsIgnoreCase("npc")) {
 				room.addNPC(findNPC(words.get(1)));
 			} else if(words.get(0).equalsIgnoreCase("event")) {
+				
 			} else if(words.get(0).equalsIgnoreCase("item")) {
 			} else if(words.get(0).equalsIgnoreCase("travel")) {
 			}
@@ -186,7 +187,7 @@ public class Library {
 		// TODO: Instead of reading for "npc" then finding the type,
 		// read for the type first.
 		while(reader.hasNext()) {
-			NPC npc = new NPC();
+			NPC npc = new NPC(0);
 			String str = reader.nextLine();
 			ArrayList<String> words = finder.findWords(str);
 			if(words.get(0).equalsIgnoreCase("npc")) {
@@ -272,6 +273,7 @@ public class Library {
 	public void generateEvents(String file) throws FileNotFoundException {
 		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
+		Event event;
 		
 		while(reader.hasNext()) {
 			String str = reader.nextLine();
@@ -279,7 +281,7 @@ public class Library {
 			str = reader.nextLine();
 			
 			if(words.get(0).equals("event")) {
-				Event event = new Event();
+				event = new Event();
 				event.setId(Integer.parseInt(words.get(1)));	//Sets event ID to organize events
 				
 				while(!str.equalsIgnoreCase("")) {
@@ -306,6 +308,8 @@ public class Library {
 						event.setBPassPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Pass Pair
 					} else if (words.get(0).equals("bfailpair")) {
 						event.setBFailPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Fail Pair
+					} else if (words.get(0).equals("repeat")) {
+						event.setRepeatable(true);
 					}
 					
 					if(reader.hasNext())
