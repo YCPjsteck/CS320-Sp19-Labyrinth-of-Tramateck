@@ -109,7 +109,7 @@ public class DerbyDatabase /*implements IDatabase*/ {
 					System.out.println("Accounts table created");
 					
 					stmt2 = conn.prepareStatement(
-							"create table player (" +
+							"create table players (" +
 							"	player_id integer primary key " +
 							"		generated always as identity (start with 1, increment by 1), " +
 							"	name varchar(40)," +
@@ -141,11 +141,11 @@ public class DerbyDatabase /*implements IDatabase*/ {
 					System.out.println("PlayerAccounts table created");
 						
 					stmt4 = conn.prepareStatement(
-							"create table inventory (" +
-							"	player_id integer constraint player_id references players, " +
-							"	item_id integer," +
-							"	quantity integer" +
-							")"
+						"create table inventory (" +
+						"	player_id integer," +
+						"	item_id integer," +
+						"	quantity integer" +
+						")"
 					);
 					stmt4.executeUpdate();
 					
@@ -153,7 +153,7 @@ public class DerbyDatabase /*implements IDatabase*/ {
 
 					stmt5 = conn.prepareStatement(
 							"create table locationAccess (" +
-							"	player_id integer constraint player_id references players, " +
+							"	player_id integer," +
 							"	location_id integer" +
 							")"
 					);
@@ -227,9 +227,9 @@ public class DerbyDatabase /*implements IDatabase*/ {
 						insertPlayers.setInt(7, player.getDexterity());
 						insertPlayers.setInt(8, player.getStrength());
 						insertPlayers.setInt(9, player.getIntellect());
-						insertPlayers.setInt(10, player.getArmor().getId());
-						insertPlayers.setInt(11, player.getWeapon().getId());
-						insertPlayers.setInt(12, player.getAccessory().getId());
+						insertPlayers.setInt(10, player.getArmorID());
+						insertPlayers.setInt(11, player.getWeaponID());
+						insertPlayers.setInt(12, player.getAccessoryID());
 						insertPlayers.addBatch();
 					}
 					insertPlayers.executeBatch();
@@ -259,7 +259,7 @@ public class DerbyDatabase /*implements IDatabase*/ {
 					
 					System.out.println("Inventory table populated");	
 					
-					insertAccess = conn.prepareStatement("insert into locationAccess (player_id, location_id");
+					insertAccess = conn.prepareStatement("insert into locationAccess (player_id, location_id) values (?,?)");
 					for(Pair<Integer,Integer> access : accessList) {
 						insertAccess.setInt(1, access.getLeft());
 						insertAccess.setInt(2, access.getRight());
