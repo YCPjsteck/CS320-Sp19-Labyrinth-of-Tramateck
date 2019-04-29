@@ -14,7 +14,7 @@ import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.utility.Pair;
 import edu.ycp.cs320.assign01.model.utility.Triple;
 
-public class DerbyDatabase /*implements IDatabase*/ {
+public class DerbyDatabase implements IDatabase {
 	static {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -291,5 +291,258 @@ public class DerbyDatabase /*implements IDatabase*/ {
 		db.loadInitialData();
 		
 		System.out.println("Library DB successfully initialized!");
+	}
+
+	@Override
+	public Player findPlayerByID(int id) {
+		return executeTransaction(new Transaction<Player>() {
+			@Override
+			public Player execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+						"select players.* " +
+						"	from players " +
+						"	where player_id = ? "
+					);
+					stmt.setInt(1, id);
+					
+					Player result = null;
+					
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					
+					while(resultSet.next()) {
+						found = true;
+						result = new Player();
+						loadPlayer(result, resultSet, 1);
+					}
+					
+					if(!found) {
+						System.out.println("Player of ID <" + id + "> was not found");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	@Override
+	public List<Player> findPlayersByAccountID(int id) {
+		return executeTransaction(new Transaction<List<Player>>() {
+			@Override
+			public List<Player> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+						"select players.* " +
+						"	from players, playerAccounts" +
+						"	where playerAccounts.account_id = ? " + 
+						"		and players.player_id = playerAccounts.account_id "
+					);
+					stmt.setInt(1, id);
+					
+					List<Player> result = new ArrayList<Player>();
+					
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					
+					while(resultSet.next()) {
+						found = true;
+						Player player = new Player();
+						loadPlayer(player, resultSet, 1);
+						result.add(player);
+					}
+					
+					if(!found) {
+						System.out.println("No players found of account ID <" + id + ">");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+
+	@Override
+	public Account findAccountByUsername(String name) {
+		return executeTransaction(new Transaction<Account>() {
+			@Override
+			public Account execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+						"select accounts.* " +
+						"	from accounts" +
+						"	where username = ? "
+					);
+					stmt.setString(1, name);
+					
+					Account result = null;
+					
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					
+					while(resultSet.next()) {
+						found = true;
+						result = new Account();
+						loadAccount(result, resultSet, 1);
+					}
+					
+					if(!found) {
+						System.out.println("No account of username <" + name + "> was found");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+
+	@Override
+	public List<Pair<Integer, Integer>> findInventoryByPlayerID(int id) {
+		return executeTransaction(new Transaction<List<Pair<Integer, Integer>>>() {
+			@Override
+			public List<Pair<Integer, Integer>> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+						"select inventory.* " +
+						"	from inventory " +
+						"	where player_id = ? "
+					);
+					stmt.setInt(1, id);
+					
+					List<Pair<Integer, Integer>> result = new ArrayList<Pair<Integer, Integer>>();
+					
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					
+					while(resultSet.next()) {
+						found = true;
+						int index = 1;
+						resultSet.getInt(index++); // Ignore the player ID
+						int itemID = resultSet.getInt(index++);
+						int quantity = resultSet.getInt(index++);
+						Pair<Integer, Integer> pair = new Pair<Integer, Integer>(itemID, quantity);
+						result.add(pair);
+					}
+					
+					if(!found) {
+						System.out.println("No inventory found with player id <" + id + ">");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+
+	@Override
+	public List<Integer> findAccessByPlayerID(int id) {
+		return executeTransaction(new Transaction<List<Integer>>() {
+			@Override
+			public List<Integer> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+						"select locationAccess.* " +
+						"	from locationAccess" +
+						"	where player_id = ? "
+					);
+					stmt.setInt(1, id);
+					
+					List<Integer> result = new ArrayList<Integer>();
+					
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					
+					while(resultSet.next()) {
+						found = true;
+						int index = 1;
+						resultSet.getInt(index++); // Ignore the player ID
+						result.add(resultSet.getInt(index++));
+					}
+					
+					if(!found) {
+						System.out.println("No access found with player id <" + id + ">");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+
+	@Override
+	public void clearAccount(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void clearPlayer(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addPlayerAccessByPlayerID(int playerID, int locationID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertPlayerIntoAccount(int accountID) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void loadPlayer(Player player, ResultSet resultSet, int index) throws SQLException {
+		player.setId(resultSet.getInt(index++));
+		player.setName(resultSet.getString(index++));
+		player.setLocationID(resultSet.getInt(index++));
+		player.setLevel(resultSet.getInt(index++));
+		player.setExperience(resultSet.getInt(index++));
+		player.setScore(resultSet.getInt(index++));
+		player.setCurrency(resultSet.getInt(index++));
+		player.setDexterity(resultSet.getInt(index++));
+		player.setStrength(resultSet.getInt(index++));
+		player.setIntellect(resultSet.getInt(index++));
+		player.setArmorID(resultSet.getInt(index++));
+		player.setWeaponID(resultSet.getInt(index++));
+		player.setAccessoryID(resultSet.getInt(index++));
+	}
+	
+	private void loadAccount(Account account, ResultSet resultSet, int index) throws SQLException {
+		account.setId(resultSet.getInt(index++));
+		account.setUsername(resultSet.getString(index++));
+		account.setPassword(resultSet.getString(index++));
 	}
 }
