@@ -15,7 +15,7 @@ public class NPCTest {
 	
 	@Before
 	public void setUp() {
-		npc = new NPC(1);
+		npc = new NPC();
 	}
 	
 	
@@ -28,6 +28,7 @@ public class NPCTest {
 	 */
 	@Test
 	public void testSetHealth() {
+		npc.setLevel(1);
 		npc.setHealth(10);
 		assertTrue(npc.getBaseHealth() == 10);
 		npc.setHealth(35);
@@ -46,6 +47,7 @@ public class NPCTest {
 	 */
 	@Test
 	public void testCalHealth() {
+		npc.setLevel(1);
 		npc.setHealth(55);
 		assertFalse(npc.getHealth() == npc.getMaxHealth());
 		npc.calHealth();
@@ -66,6 +68,7 @@ public class NPCTest {
 	 */
 	@Test
 	public void testChangeHealth() {
+		npc.setLevel(1);
 		npc.setHealth(23);
 		int tempHealth = npc.getHealth();
 		npc.changeHealth(10);
@@ -78,6 +81,7 @@ public class NPCTest {
 	
 	@Test
 	public void testIsDead() {
+		npc.setLevel(1);
 		npc.setHealth(23);
 		npc.calHealth();
 		assertFalse(npc.isDead());
