@@ -294,6 +294,83 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
+	public List<Player> findAllPlayers() {
+		return executeTransaction(new Transaction<List<Player>>() {
+			@Override
+			public List<Player> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+						"select players.* " +
+						"	from players"
+					);
+					
+					List<Player> result = new ArrayList<Player>();
+					
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					
+					while(resultSet.next()) {
+						found = true;
+						Player player = new Player();
+						loadPlayer(player, resultSet, 1);
+						result.add(player);
+					}
+					
+					if(!found) {
+						System.out.println("No players found");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+
+	@Override
+	public List<Account> findAllAccounts() {
+		return executeTransaction(new Transaction<List<Account>>() {
+			@Override
+			public List<Account> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+						"select accounts.* " +
+						"	from accounts"
+					);
+					
+					List<Account> result = new ArrayList<Account>();
+					
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					
+					while(resultSet.next()) {
+						found = true;
+						Account account = new Account();
+						loadAccount(account, resultSet, 1);
+						result.add(account);
+					}
+					
+					if(!found) {
+						System.out.println("No players found");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	@Override
 	public Player findPlayerByID(int id) {
 		return executeTransaction(new Transaction<Player>() {
 			@Override

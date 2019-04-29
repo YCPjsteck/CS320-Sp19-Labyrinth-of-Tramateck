@@ -16,6 +16,8 @@ public interface IDatabase {
 	public List<Author> removeBookByTitle(String title);
 	*/
 	
+	public List<Player> findAllPlayers();
+	public List<Account> findAllAccounts();
 	public Player findPlayerByID(int id);
 	public List<Player> findPlayersByAccountID(int id);
 	public Account findAccountByUsername(String name);

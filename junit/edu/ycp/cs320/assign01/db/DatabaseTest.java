@@ -20,6 +20,20 @@ public class DatabaseTest {
 	}
 	
 	@Test
+	public void findAllPlayersTest() {
+		List<Player> players = db.findAllPlayers();
+		
+		assertTrue(players.size() == 3);
+	}
+
+	@Test
+	public void findAllAccountsTest() {
+		List<Account> accounts = db.findAllAccounts();
+		
+		assertTrue(accounts.size() == 2);
+	}
+	
+	@Test
 	public void findPlayerByIDTest() {
 		Player player = db.findPlayerByID(1);
 		assertTrue(player.getName().equals("Bob"));
