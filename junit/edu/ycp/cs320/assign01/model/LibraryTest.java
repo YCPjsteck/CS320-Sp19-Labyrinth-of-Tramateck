@@ -29,9 +29,7 @@ public class LibraryTest {
 		}
 		
 		ArrayList<Item> itemList = lib.getItems();
-		lib = null;
-		System.gc();
-		
+
 		assertTrue(itemList.size() == 3);
 		
 		assertTrue(itemList.get(0).getName().equals("Monkey Paw"));
