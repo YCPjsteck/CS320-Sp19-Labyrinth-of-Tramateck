@@ -28,7 +28,6 @@ public class Game {
 		room.populate(monsters);
 		monsters.clear();
 		
-		monsters.add("ghoul");
 		monsters.add("witch");
 		room = dungeon.getRoom(4);
 		room.populate(monsters);
