@@ -255,7 +255,7 @@ public class DerbyDatabase implements IDatabase {
 						insertInventory.setInt(3, inventory.getRight());
 						insertInventory.addBatch();
 					}
-					insertPlayerAccounts.executeBatch();
+					insertInventory.executeBatch();
 					
 					System.out.println("Inventory table populated");	
 					
