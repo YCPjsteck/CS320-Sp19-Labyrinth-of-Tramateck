@@ -422,7 +422,7 @@ public class DerbyDatabase implements IDatabase {
 						"select players.* " +
 						"	from players, playerAccounts" +
 						"	where playerAccounts.account_id = ? " + 
-						"		and players.player_id = playerAccounts.account_id "
+						"		and players.player_id = playerAccounts.player_id "
 					);
 					stmt.setInt(1, id);
 					
