@@ -23,6 +23,7 @@ public class GameControllerTest {
 	
 	@Test
 	public void testOutput() {
+		assertTrue(false);
 		controller.actionSet("move north");
 		ArrayList<String> log = controller.getGameLog();
 		assertTrue(log.get(log.size()-1).equals("Can not travel in that direction."));
