@@ -6,9 +6,10 @@ import edu.ycp.cs320.assign01.enums.ItemType;
 import edu.ycp.cs320.assign01.model.utility.Pair;
 
 public class Player extends Character{
-	private int experience, score, currency, intellect, strength, dexterity;
+	private int id, locationID, experience, score, currency, intellect, strength, dexterity;
 	private ArrayList<Pair<Item,Integer>> inventory;
 	private Equipment weapon, armor, accessory;
+	private String name;
 	
 	public Player() {
 		inventory = new ArrayList<Pair<Item,Integer>>();
@@ -28,6 +29,28 @@ public class Player extends Character{
 		intellect = 1;
 		strength = 1;
 		dexterity = 1;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getLocationID() {
+		return locationID;
+	}
+	public void setLocationID(int locationID) {
+		this.locationID = locationID;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/*********************
@@ -128,6 +151,9 @@ public class Player extends Character{
 	public int getExperience() {
 		return experience;
 	}
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
 	/**
 	 * Increment this player's level by 1
 	 */
@@ -154,6 +180,12 @@ public class Player extends Character{
 		this.score += score;
 	}
 	/**
+	 * Set this player's score
+	 */
+	public void setScore(int score) {
+		this.score = score;
+	}
+	/**
 	 * Get this player's current funds
 	 */
 	public int getCurrency() {
@@ -164,6 +196,12 @@ public class Player extends Character{
 	 */
 	public void changeCurrency(int currency) {
 		this.currency += currency;
+	}
+	/**
+	 * Set this player's current funds
+	 */
+	public void setCurrency(int currency) {
+		this.currency = currency;
 	}
 	
 	/*****************
@@ -346,5 +384,31 @@ public class Player extends Character{
 	 */
 	public Item getAccessory() {
 		return accessory;
+	}
+	
+	private int armorID, weaponID, accessoryID;
+
+	public int getArmorID() {
+		return armorID;
+	}
+
+	public void setArmorID(int armorID) {
+		this.armorID = armorID;
+	}
+
+	public int getWeaponID() {
+		return weaponID;
+	}
+
+	public void setWeaponID(int weaponID) {
+		this.weaponID = weaponID;
+	}
+
+	public int getAccessoryID() {
+		return accessoryID;
+	}
+
+	public void setAccessoryID(int accessoryID) {
+		this.accessoryID = accessoryID;
 	}
 }
