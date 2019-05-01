@@ -18,6 +18,14 @@ public class NPCTest {
 		npc = new NPC();
 	}
 	
+	
+	/**
+	 * Tests setHealth method of character:
+	 * 		- Sets base health to 10
+	 * 		- Checks if value was set
+	 * 		- Changes base health value to 35
+	 * 		- Checks if value was changed
+	 */
 	@Test
 	public void testSetHealth() {
 		npc.setLevel(1);
@@ -28,6 +36,15 @@ public class NPCTest {
 		assertTrue(npc.getBaseHealth() == 35);
 	}
 	
+	
+	/**
+	 * Tests Calculate health method of character:
+	 * 		- Sets base health to 55 
+	 * 		- current health should still be initial value (10)
+	 * 		- checks to see that current health is not max
+	 * 		- calHealth sets current health to max
+	 * 		- checks to see that current health s max
+	 */
 	@Test
 	public void testCalHealth() {
 		npc.setLevel(1);
@@ -37,12 +54,25 @@ public class NPCTest {
 		assertTrue(npc.getHealth() == npc.getMaxHealth());
 	}
 	
+	
+	/**
+	 * Tests changeHealth method of character:
+	 * 		- Sets base health to 23
+	 * 		- Adds 10 to NPC's current health
+	 * 		- Checks to see if current health is 10 more than previous health
+	 * 		- Adds 100 to current health (NPC is level 1 so max health would be 23)
+	 * 		- Checks to see if current health is 23
+	 * 			* Current health should not be higher than max health
+	 * 		- Adds -999 to current health (NPC's health should be less than 0)
+	 * 		- Checks to see if NPC is dead 
+	 */
 	@Test
 	public void testChangeHealth() {
 		npc.setLevel(1);
 		npc.setHealth(23);
+		int tempHealth = npc.getHealth();
 		npc.changeHealth(10);
-		assertTrue(npc.getHealth() == 10);
+		assertTrue(npc.getHealth() == tempHealth + 10);
 		npc.changeHealth(100);
 		assertTrue(npc.getHealth() == npc.getMaxHealth());
 		npc.changeHealth(-999);
