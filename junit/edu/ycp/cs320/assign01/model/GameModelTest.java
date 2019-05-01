@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.assign01.model.game.Game;
+import edu.ycp.cs320.assign01.model.movement.Location;
+import edu.ycp.cs320.assign01.model.movement.Room;
+
 public class GameModelTest {
 	private Game game;
 	
@@ -35,7 +39,12 @@ public class GameModelTest {
 	
 	@Test
 	public void testPopulate() {
-		
+		// TODO: 
+		// 		use actual NPC objects instead of strings
+		//		generate from the library class instead of creating a new location to test
+
+		assertTrue(false);
+		/*
 		int[][] map = {	{1, 2, 0},
 						{0, 3, 0},
 						{0, 4, 0}};
@@ -45,7 +54,7 @@ public class GameModelTest {
 		game.getDungeon().setPlayer(1, 0);
 		
 		ArrayList<String> monsters = new ArrayList<String>();
-		
+
 		monsters.add("skeleton");
 		Room room = game.getDungeon().getRoom(1);
 		room.populate(monsters);
@@ -62,9 +71,10 @@ public class GameModelTest {
 		room.populate(monsters);
 		monsters.clear();
 		
-		assertTrue(game.getDungeon().getRoom(1).getMonsters().contains("skeleton"));
-		assertTrue(game.getDungeon().getRoom(2).getMonsters().contains("ghoul"));
-		assertTrue(game.getDungeon().getRoom(2).getMonsters().contains("zombie"));
-		assertTrue(game.getDungeon().getRoom(4).getMonsters().contains("witch"));
+		assertTrue(game.getDungeon().getRoom(1).getNPCs().contains("skeleton"));
+		assertTrue(game.getDungeon().getRoom(2).getNPCs().contains("ghoul"));
+		assertTrue(game.getDungeon().getRoom(2).getNPCs().contains("zombie"));
+		assertTrue(game.getDungeon().getRoom(4).getNPCs().contains("witch"));
+		*/
 	}
 }

@@ -1,0 +1,26 @@
+event 001
+prompt You enter a dark smelly room, the floor is flooded and brooding%a. Search through water.%b. Scan the walls for information.
+apasslog You stumble across a plug to a drain.% You pull the plug and the water drains revealing precious stones!
+afaillog Your search appears to be empty handed.% You pull your hand from the water revealing leeches.
+bpasslog Dusting the walls reveals an alien text.% You recognize the dialect and a discover a powerful mantra.% Strength increased by 2!
+bfaillog You scan the walls uncovering unintelligible runes.
+	areadpair 3 10
+	apasspair 4 0
+	afailpair 0 -10
+	breadpair 2 10
+	bpasspair 1 2
+	bfailpair 0 0
+
+event 002
+prompt this is a prompt
+apasslog this is an aPassLog
+afaillog this is an aFailLog
+bpasslog this is a bPassLog
+bfaillog this is a bFailLog
+	areadpair 1 2
+	apasspair 3 4
+	afailpair 5 6
+	breadpair 7 8
+	bpasspair 9 10
+	bfailpair 11 12
+	repeat

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.ycp.cs320.assign01.controller.GameController;
-import edu.ycp.cs320.assign01.model.Game;
+import edu.ycp.cs320.assign01.model.game.Game;
 
 public class TextBasedServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

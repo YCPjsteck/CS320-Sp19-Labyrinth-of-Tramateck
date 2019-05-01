@@ -1,8 +1,14 @@
 package edu.ycp.cs320.assign01.model;
 
+import edu.ycp.cs320.assign01.enums.ItemRarity;
+import edu.ycp.cs320.assign01.enums.ItemType;
+import edu.ycp.cs320.assign01.model.interfaces.Named;
+
 public class Item implements Named {
-	private String name, longDesc, shortDesc, rarity;
+	private String name, longDesc, shortDesc;
 	private int id, worth, weight, level;
+	private ItemRarity rarity;
+	private ItemType type;
 	
 	public Item() {	
 	}
@@ -44,16 +50,20 @@ public class Item implements Named {
 		return worth;
 	}
 	public void setRarity(String rarity) {
-		this.rarity = rarity;
+		this.rarity = ItemRarity.toType(rarity);
 	}
-	public String getRarity() {
+	public ItemRarity getRarity() {
 		return rarity;
 	}
-
+	public void setType(String type) {
+		this.type = ItemType.toType(type);
+	}
+	public ItemType getType() {
+		return type;
+	}
 	public int getLevel() {
 		return level;
 	}
-
 	public void setLevel(int level) {
 		this.level = level;
 	}

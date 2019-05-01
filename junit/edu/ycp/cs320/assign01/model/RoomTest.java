@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.ycp.cs320.assign01.model.movement.Room;
+
 public class RoomTest {
 	
 	private Room room;
@@ -16,28 +18,32 @@ public class RoomTest {
 	public void setup() {
 		room = new Room();
 	}
-	
+
+	/**
+	 * checks to see if each monster is properly added and has a unique id
+	 */
 	@Test
 	public void testPopulate() {
-		/**
-		 * checks to see if each monster is properly added and has a unique id
-		 */
-		
+		assertTrue(false);
+		// TODO: use actual NPC objects instead of strings
+		/*
 		ArrayList<String> monsters = new ArrayList<String>();
 		monsters.add("rat");
 		monsters.add("squid");
 		monsters.add("rat");
 		
 		room.populate(monsters);
-		assertTrue(room.getMonster(1).getName() == "rat");
-		assertTrue(room.getMonster(2).getName() == "squid");
-		assertTrue(room.getMonster(3).getName() == "rat");
-		
+		assertTrue(room.getNPC(1).getName() == "rat");
+		assertTrue(room.getNPC(2).getName() == "squid");
+		assertTrue(room.getNPC(3).getName() == "rat");
+		*/
 	}
 	
 	@Test
 	public void testRoomComplete() {
-		
+		assertTrue(false);
+		// TODO: use actual NPC objects instead of strings
+		/*
 		ArrayList<String> monsters = new ArrayList<String>();
 		monsters.add("ghost");
 		monsters.add("skeleton");
@@ -50,6 +56,7 @@ public class RoomTest {
 		
 		room.monsterKilled("ghost");
 		assertTrue(room.roomComplete());
+		*/
 	}
 
 }
