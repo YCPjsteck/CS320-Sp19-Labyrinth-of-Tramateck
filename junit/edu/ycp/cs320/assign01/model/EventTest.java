@@ -11,15 +11,13 @@ import org.junit.Test;
 import edu.ycp.cs320.assign01.model.utility.Pair;
 
 public class EventTest {
-	private NPC npc;
+	private Event event;
 	
 	@Before
 	public void setUp() {
 		event = new Event();
 	}
 	//TODO: Test Event Methods
-	@Test
-	
 	/*EVENT TEST*/
 
 }
