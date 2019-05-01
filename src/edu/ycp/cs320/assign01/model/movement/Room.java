@@ -78,7 +78,7 @@ public class Room implements Named {
 	// TODO: check for events and make distinctions between hostile and friendly NPCs
 	public boolean roomComplete() {
 		for(Event e : eventList)
-			if(!e.isDone()) {
+			if(!e.isDone() || !e.isRepeatable()) {
 				return false;
 			}
 		for(NPC n : npcList)

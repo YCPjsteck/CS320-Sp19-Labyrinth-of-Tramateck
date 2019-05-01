@@ -314,6 +314,7 @@ public class Library {
 	public void generateEvents(String file) throws FileNotFoundException {
 		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
+		Event event;
 		
 		while(reader.hasNext()) {
 			String str = reader.nextLine();
@@ -321,7 +322,7 @@ public class Library {
 			str = reader.nextLine();
 			
 			if(words.get(0).equals("event")) {
-				Event event = new Event();
+				event = new Event();
 				event.setId(Integer.parseInt(words.get(1)));	//Sets event ID to organize events
 				
 				while(!str.equalsIgnoreCase("")) {
@@ -348,6 +349,8 @@ public class Library {
 						event.setBPassPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Pass Pair
 					} else if (words.get(0).equals("bfailpair")) {
 						event.setBFailPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Fail Pair
+					} else if (words.get(0).equals("repeat")) {
+						event.setRepeatable(true);
 					}
 					
 					if(reader.hasNext())

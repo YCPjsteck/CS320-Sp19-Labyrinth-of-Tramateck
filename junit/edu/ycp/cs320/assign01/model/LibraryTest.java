@@ -154,6 +154,7 @@ public class LibraryTest {
 		
 		assertTrue(eventList.get(0).getBFailPair().getLeft() == 0);
 		assertTrue(eventList.get(0).getBFailPair().getRight() == 0);
+		assertTrue(!eventList.get(0).isRepeatable());
 		
 		//TEST 2
 		assertTrue(eventList.get(1).getId() == 2);
@@ -180,5 +181,6 @@ public class LibraryTest {
 		
 		assertTrue(eventList.get(1).getBFailPair().getLeft() == 11);
 		assertTrue(eventList.get(1).getBFailPair().getRight() == 12);
+		assertTrue(eventList.get(1).isRepeatable());
 	}
 }

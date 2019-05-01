@@ -7,8 +7,11 @@ public class Event {
 	private String prompt, aPassLog, aFailLog, bPassLog, bFailLog;	 //0 = hp, 1 = str, 2 = int, 3 = dex, 4 = inventory
 	private Pair<Integer, Integer> aReadPair, bReadPair, aPassPair, aFailPair, bPassPair, bFailPair; //LEFT = ID, RIGHT = MAGNITUDE
 	private int key, id; //KEY USED TO FIND DIALOGUE, ID USED TO IDENTIFY EVENT
+	private boolean repeatable;
 	
 	public Event() {		//Get prompt -> Get Dialogue after roll -> Modify Player -> Done
+		key = 0;
+		repeatable = false;
 	}
 	
 	
@@ -226,5 +229,15 @@ public class Event {
 
 	public Pair<Integer, Integer> getBFailPair() {
 		return bFailPair;
+	}
+
+
+	public boolean isRepeatable() {
+		return repeatable;
+	}
+
+
+	public void setRepeatable(boolean repeatable) {
+		this.repeatable = repeatable;
 	}
 }
