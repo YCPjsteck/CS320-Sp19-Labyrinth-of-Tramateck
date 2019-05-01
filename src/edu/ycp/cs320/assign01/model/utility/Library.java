@@ -210,14 +210,6 @@ public class Library {
 				room.isStart();
 			} else if(words.get(0).equalsIgnoreCase("exit")) { // If the first word is "exit"
 				room.isExit();
-<<<<<<< HEAD
-			} else if(words.get(0).equalsIgnoreCase("npc")) {
-				room.addNPC(findNPC(words.get(1)));
-			} else if(words.get(0).equalsIgnoreCase("event")) {
-				
-			} else if(words.get(0).equalsIgnoreCase("item")) {
-			} else if(words.get(0).equalsIgnoreCase("travel")) {
-=======
 			} else if(words.get(0).equalsIgnoreCase("npc")) { // if the first word is "npc"
 				NPC npc = new NPC(findNPC(words.get(1))); // Copy the requested NPC into a new NPC object
 				
@@ -232,7 +224,6 @@ public class Library {
 				room.addNPC(npc);
 			} else if(words.get(0).equalsIgnoreCase("event")) { // If the first word is "event"
 				// TODO: read events
->>>>>>> 935ee734ac26853cd0ae31bfce17ce8acb0269ec
 			}
 			// Get the next line
 			if(reader.hasNext())
@@ -251,10 +242,6 @@ public class Library {
 		WordFinder finder = new WordFinder();
 		
 		while(reader.hasNext()) {
-<<<<<<< HEAD
-			NPC npc = new NPC(0);
-=======
->>>>>>> 935ee734ac26853cd0ae31bfce17ce8acb0269ec
 			String str = reader.nextLine();
 			ArrayList<String> words = finder.findWords(str);
 			if(words.get(0).equalsIgnoreCase("npc")) { // If the first word is NPC
