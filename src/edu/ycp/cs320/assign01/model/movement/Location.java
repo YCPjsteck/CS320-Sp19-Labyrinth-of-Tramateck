@@ -4,9 +4,8 @@ import java.util.ArrayList;
 
 import edu.ycp.cs320.assign01.enums.LocationType;
 import edu.ycp.cs320.assign01.model.interfaces.Named;
-import edu.ycp.cs320.assign01.model.interfaces.Navigable;
 
-public class Location implements Navigable, Named {
+public class Location implements Named {
 	private ArrayList<Room> roomList;
 	private int[][] roomMap;
 	private int playerX, playerY, id;
@@ -165,7 +164,6 @@ public class Location implements Navigable, Named {
 	 * Print the room map to the console
 	 */
 	public void printMap() {
-
 		for(int j = 0; j < roomMap[0].length; j++) {
 			for(int i = 0; i < roomMap.length; i++) {
 				if(roomMap[i][j] != 0) {
