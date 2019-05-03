@@ -10,7 +10,7 @@ public class Room implements Named {
 	private ArrayList<NPC> npcList;
 	private ArrayList<Event> eventList;
 	private String shortDesc, longDesc, name;
-	private int id;
+	private int id, curEvent;
 	private boolean entered;
 	private boolean start, exit;
 	
@@ -21,9 +21,11 @@ public class Room implements Named {
 	
 	public Room() {
 		npcList = new ArrayList<NPC>();
+		eventList = new ArrayList<Event>();
 		entered = false;
 		start = false;
 		exit = false;
+		curEvent = 0;
 	}
 	
 	/***************
@@ -92,10 +94,28 @@ public class Room implements Named {
 	 * Event methods *
 	 *****************/
 	/**
-	 * 
+	 * @param event an event to be added to this room
 	 */
-	public void runEvents() {
-		
+	public void addEvent(Event event) {
+		eventList.add(event);
+	}
+	/**
+	 * @return all the events in this room
+	 */
+	public ArrayList<Event> getEvents() {
+		return eventList;
+	}
+	/**
+	 * @return the currently active event
+	 */
+	public Event curEvent() {
+		return eventList.get(curEvent);
+	}
+	/**
+	 * Increments the current event int so that curEvent calls the next event
+	 */
+	public void nextEvent() {
+		curEvent++;
 	}
 
 	/*******************

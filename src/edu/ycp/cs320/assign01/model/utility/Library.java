@@ -223,7 +223,7 @@ public class Library {
 				// Add the NPC to the room
 				room.addNPC(npc);
 			} else if(words.get(0).equalsIgnoreCase("event")) { // If the first word is "event"
-				// TODO: read events
+				room.addEvent(findEvent(Integer.parseInt(words.get(1))));
 			}
 			// Get the next line
 			if(reader.hasNext())
