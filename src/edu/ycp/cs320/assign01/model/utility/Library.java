@@ -95,21 +95,17 @@ public class Library {
 	 */
 	public WorldMap generateWorld() {
 		WorldMap map = new WorldMap();
-		int[][] locMap = new int[1][1];
-		locMap[0][0] = 1;
-		map.setMap(locMap);
-		
-		map.setPlayer(0, 0);
 		
 		try {
-			generateItems("items.txt");
-			generateNPCs("npcs.txt");
+			generateItems("test items.txt");
+			generateNPCs("test npcs.txt");
 			generateEvents("events.txt");
-			generateLocations("locations.txt");
+			generateLocations("test locations.txt");
 		} 
 		catch (FileNotFoundException e) { 
 			e.printStackTrace();
 		}
+		map.addLocations(locationList);
 		
 		return map;
 	}

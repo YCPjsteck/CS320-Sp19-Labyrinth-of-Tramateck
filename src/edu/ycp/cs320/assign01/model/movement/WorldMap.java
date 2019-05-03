@@ -27,10 +27,16 @@ public class WorldMap {
 	}
 
 	/**
-	 * @param l a location to add to the list of locations
+	 * @param location a location to add to the WorldMap
 	 */
-	public void addLocation(Location l) {
-		locationList.add(l);
+	public void addLocation(Location location) {
+		locationList.add(location);
+	}
+	/**
+	 * @param locations a list of locations to add to the WorldMap
+	 */
+	public void addLocations(ArrayList<Location> locations) {
+		this.locationList.addAll(locations);
 	}
 	
 	/**
