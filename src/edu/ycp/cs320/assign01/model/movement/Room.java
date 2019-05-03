@@ -2,6 +2,7 @@ package edu.ycp.cs320.assign01.model.movement;
 
 import java.util.ArrayList;
 
+import edu.ycp.cs320.assign01.enums.NPCType;
 import edu.ycp.cs320.assign01.model.Event;
 import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.interfaces.Named;
@@ -13,11 +14,6 @@ public class Room implements Named {
 	private int id, curEvent;
 	private boolean entered;
 	private boolean start, exit;
-	
-	// TODO: 
-	//		Implement events
-	//		Rooms override travel
-	//		Rooms connected to non-adjacent rooms
 	
 	public Room() {
 		npcList = new ArrayList<NPC>();
@@ -77,14 +73,13 @@ public class Room implements Named {
 	/**
 	 * The room is complete if there are no more hostile NPCs left alive and all events are complete.
 	 */
-	// TODO: check for events and make distinctions between hostile and friendly NPCs
 	public boolean roomComplete() {
 		for(Event e : eventList)
 			if(!e.isDone() || !e.isRepeatable()) {
 				return false;
 			}
 		for(NPC n : npcList)
-			if(!n.isDead()) {
+			if(!n.isDead() && n.getType() == NPCType.HOSTILE) {
 				return false;
 			}
 		return true;

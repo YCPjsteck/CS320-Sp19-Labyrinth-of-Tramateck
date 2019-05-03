@@ -13,9 +13,6 @@ public class Location implements Named {
 	
 	private int minLevel, maxLevel;
 	private LocationType type;
-	
-	// TODO: 
-	// 		rooms connected to nonadjacent rooms
 
 	public Location() {
 		roomList = new ArrayList<Room>();
@@ -168,15 +165,15 @@ public class Location implements Named {
 			for(int i = 0; i < roomMap.length; i++) {
 				if(roomMap[i][j] != 0) {
 					if(i == playerX && j == playerY)
-						System.out.print("X");
+						System.out.print("-X-");
 					else if(getRoom(roomMap[i][j]).getEntered())
-						System.out.print("O");
+						System.out.print("-O-");
 					else if(isConnected(i,j))
-						System.out.print("?");
+						System.out.print("-?-");
 					else
-						System.out.print("-");
+						System.out.print("---");
 				} else {
-					System.out.print("-");
+					System.out.print("---");
 				}
 			}
 			System.out.println();
@@ -186,7 +183,7 @@ public class Location implements Named {
 	/**
 	 * @return an arrayList of strings representing the room map
 	 */
-	public ArrayList<String> getMapString() {
+	public ArrayList<String> getMapArray() {
 		ArrayList<String> temp = new ArrayList<String>();
 		String str = "";
 		
@@ -209,6 +206,29 @@ public class Location implements Named {
 			str = "";
 		}
 		return temp;
+	}
+	
+	public String getMapString() {
+		String str = "";
+		
+		for(int j = 0; j < roomMap[0].length; j++) {
+			for(int i = 0; i < roomMap.length; i++) {
+				if(roomMap[i][j] != 0) {
+					if(i == playerX && j == playerY)
+						str += "-X-";
+					else if(getRoom(roomMap[i][j]).getEntered())
+						str += "-O-";
+					else if(isConnected(i,j))
+						str += "-?-";
+					else
+						str += "---";
+				} else {
+					str += "---";
+				}
+			}
+			str += "\n";
+		}
+		return str;
 	}
 	
 	public boolean isConnected(int x, int y) {
