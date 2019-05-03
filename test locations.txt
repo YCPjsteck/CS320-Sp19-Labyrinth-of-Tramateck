@@ -43,7 +43,6 @@ location Dungeon
 		..oo.
 	room
 		coord 0 0
-		start
 		
 	room
 		coord 1 0
@@ -68,6 +67,7 @@ location Dungeon
 		
 	room
 		coord 1 2
+		start
 		
 	room
 		coord 3 2

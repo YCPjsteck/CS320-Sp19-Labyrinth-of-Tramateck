@@ -100,6 +100,12 @@ public class LibraryTest {
 		assertTrue(loc.getMap().length == 3);
 		assertTrue(loc.getMap()[0].length == 3);
 		assertTrue(loc.getRooms().size() == 7);
+		loc.findStart();
+		loc.printMap();
+		assertTrue(loc.canTravel("west"));
+		loc.travel("west");
+		loc.curRoom().isEntered();
+		System.out.println();
 		loc.printMap();
 		
 		System.out.println();
@@ -112,6 +118,17 @@ public class LibraryTest {
 		assertTrue(loc.getMap().length == 5);
 		assertTrue(loc.getMap()[0].length == 5);
 		assertTrue(loc.getRooms().size() == 14);
+		loc.findStart();
+		loc.printMap();
+		assertTrue(loc.canTravel("north"));
+		loc.travel("north");
+		loc.curRoom().isEntered();
+		System.out.println();
+		loc.printMap();
+		assertTrue(loc.canTravel("north"));
+		loc.travel("north");
+		loc.curRoom().isEntered();
+		System.out.println();
 		loc.printMap();
 	}
 	

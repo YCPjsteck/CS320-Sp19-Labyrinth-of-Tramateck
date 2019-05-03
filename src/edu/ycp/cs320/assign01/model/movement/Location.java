@@ -17,7 +17,6 @@ public class Location implements Navigable, Named {
 	
 	// TODO: 
 	// 		rooms connected to nonadjacent rooms
-	//		determine the start location by finding the room labeled start
 
 	public Location() {
 		roomList = new ArrayList<Room>();
@@ -58,6 +57,35 @@ public class Location implements Navigable, Named {
 	public void setPlayer(int x, int y) {
 		playerX = x;
 		playerY = y;
+	}
+
+	/**
+	 * @return the player's x position
+	 */
+	public int getX() {
+		return playerX;
+	}
+	
+	/**
+	 * @return the player's y position
+	 */
+	public int getY() {
+		return playerY;
+	}
+	
+	/**
+	 * Finds the room that has the start boolean set to true and 
+	 * sets the player's coordinates to the coordinates of that room
+	 */
+	public void findStart() {
+		for(int j = 0; j < roomMap[0].length; j++) {
+			for(int i = 0; i < roomMap.length; i++) {
+				if(roomMap[i][j] != 0 && getRoom(roomMap[i][j]).getStart()) {
+					getRoom(roomMap[i][j]).isEntered();
+					setPlayer(i,j);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -137,15 +165,20 @@ public class Location implements Navigable, Named {
 	 * Print the room map to the console
 	 */
 	public void printMap() {
+
 		for(int j = 0; j < roomMap[0].length; j++) {
 			for(int i = 0; i < roomMap.length; i++) {
 				if(roomMap[i][j] != 0) {
 					if(i == playerX && j == playerY)
-						System.out.print("x ");
+						System.out.print("X");
+					else if(getRoom(roomMap[i][j]).getEntered())
+						System.out.print("O");
+					else if(isConnected(i,j))
+						System.out.print("?");
 					else
-						System.out.print("o ");
+						System.out.print("-");
 				} else {
-					System.out.print("  ");
+					System.out.print("-");
 				}
 			}
 			System.out.println();
@@ -163,9 +196,13 @@ public class Location implements Navigable, Named {
 			for(int i = 0; i < roomMap.length; i++) {
 				if(roomMap[i][j] != 0) {
 					if(i == playerX && j == playerY)
-						str += "-x-";
+						str += "-X-";
+					else if(getRoom(roomMap[i][j]).getEntered())
+						str += "-O-";
+					else if(isConnected(i,j))
+						str += "-?-";
 					else
-						str += "-o-";
+						str += "---";
 				} else {
 					str += "---";
 				}
@@ -174,6 +211,15 @@ public class Location implements Navigable, Named {
 			str = "";
 		}
 		return temp;
+	}
+	
+	public boolean isConnected(int x, int y) {
+		if(		(x+1 <= roomMap[0].length-1 && roomMap[x+1][y] != 0 && getRoom(roomMap[x+1][y]).getEntered()) ||
+				(x-1 >= 0 && roomMap[x-1][y] != 0 && getRoom(roomMap[x-1][y]).getEntered()) ||
+				(y+1 <= roomMap[0].length-1 && roomMap[x][y+1] != 0 && getRoom(roomMap[x][y+1]).getEntered()) ||
+				(y-1 >= 0 && roomMap[x][y-1] != 0 && getRoom(roomMap[x][y-1]).getEntered()) )
+			return true;
+		return false;
 	}
 
 	/**
