@@ -39,6 +39,7 @@ public class MovementController {
 	 * @param input The player's input
 	 * @return output The game's output
 	 */
+	// [move/run] [north/south/east/west]
 	public String move(String input) {
 		String output = "";
 		WordFinder finder = new WordFinder();
