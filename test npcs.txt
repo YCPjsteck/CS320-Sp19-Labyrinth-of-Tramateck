@@ -12,6 +12,11 @@ npc Jaguar
 	health 10
 	attack 2 4
 	part head
+	part tail
+	loot 100 4 | Monkey Paw
+	loot 100 2 | Monkey Tail
+	loot 100 1 | Monkey Head
+	weakness head
 
 npc Rat
 	type Friendly

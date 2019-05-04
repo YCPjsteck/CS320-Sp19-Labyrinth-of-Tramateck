@@ -1,6 +1,7 @@
 package edu.ycp.cs320.assign01.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.ycp.cs320.assign01.enums.ItemType;
 import edu.ycp.cs320.assign01.model.utility.Pair;
@@ -272,7 +273,13 @@ public class Player extends Character{
 	 */
 	// TODO check the player's level, stats, and equipment to determine their attack damage.
 	public int attack() {
-		return 0;
+		Random rand = new Random();
+		minAttack = level * strength;
+		if(weapon != null)
+			maxAttack = minAttack + weapon.getQuality();
+		else
+			maxAttack = minAttack + 1;
+		return (rand.nextInt(getMaxAttack()-getMinAttack()) + getMinAttack());
 	}
 	
 	/**

@@ -3,6 +3,7 @@ package edu.ycp.cs320.assign01.controller;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.ycp.cs320.assign01.enums.NPCType;
 import edu.ycp.cs320.assign01.model.Item;
 import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.Player;
@@ -63,7 +64,7 @@ public class CombatController {
 				}
 				
 				for(NPC npc : npcs) {
-					if(input.contains(npc.getName())) {
+					if(input.contains(npc.getName().toLowerCase())) {
 						name = npc.getName();
 						target = npc;
 						break;
@@ -81,13 +82,16 @@ public class CombatController {
 					if(!target.getParts().contains(part)) { // TODO: Handle if no part given
 						output += "This is not a targetable part for the " + target.getName() + ". \n";
 						test = false;
-					} else if(	!(input.trim()).equals("attack " + target.getName() + " " + part) ||
-								!(input.trim()).equals("attack " + target.getName())) {
+					} // TODO: Handle if the player inputs too much (the below doesn't work)
+					/*else if(	!(input.trim()).equalsIgnoreCase("attack " + target.getName() + " " + part) ||
+								!(input.trim()).equalsIgnoreCase("attack " + target.getName())) {
 						output += "Looks like you typed a bit too much. \n";
 						test = false;
-					} else if(target.getParts().contains(part)) {
+					} */else if(target.getParts().contains(part)) {
 						if(target.getWeaknesses().contains(part)) {
-							critical = true;
+							if(rand.nextInt(100) < 50) {
+								critical = true;
+							}
 						} else {
 							if(rand.nextInt(100) < 10) {
 								critical = true;
@@ -103,8 +107,8 @@ public class CombatController {
 				if(critical) {
 					attack *= 2;
 				}
-				target.changeHealth(attack);
-				output += "You attacked the " + target.getName() + " for " + attack + " damage. \n";
+				target.changeHealth(-attack);
+				output += "You attacked the " + target.getName() + " for " + attack + " damage. It has " + target.getHealth() + " health left. \n";
 				if(critical) {
 					output += "Critical hit! \n";
 				}
@@ -141,9 +145,11 @@ public class CombatController {
 	public String npcAttack(String output) {
 		ArrayList<NPC> npcs = room.getNPCs();
 		for(NPC npc : npcs) {
-			int attack = npc.attack();
-			player.changeHealth(attack);
-			output += "The " + npc.getName() + " attacked you for " + attack + " damage. \n";
+			if(!npc.isDead() && npc.getType() == NPCType.HOSTILE) {
+				int attack = npc.attack();
+				player.changeHealth(-attack);
+				output += "The " + npc.getName() + " attacked you for " + attack + " damage. You have " + player.getHealth() + " health left. \n";
+			}
 		}
 		return output;
 	}
