@@ -82,12 +82,7 @@ public class CombatController {
 					if(!target.getParts().contains(part)) { // TODO: Handle if no part given
 						output += "This is not a targetable part for the " + target.getName() + ". \n";
 						test = false;
-					} // TODO: Handle if the player inputs too much (the below doesn't work)
-					/*else if(	!(input.trim()).equalsIgnoreCase("attack " + target.getName() + " " + part) ||
-								!(input.trim()).equalsIgnoreCase("attack " + target.getName())) {
-						output += "Looks like you typed a bit too much. \n";
-						test = false;
-					} */else if(target.getParts().contains(part)) {
+					} else if(target.getParts().contains(part)) {
 						if(target.getWeaknesses().contains(part)) {
 							if(rand.nextInt(100) < 50) {
 								critical = true;
