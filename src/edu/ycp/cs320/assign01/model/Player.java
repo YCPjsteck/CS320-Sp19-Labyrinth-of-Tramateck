@@ -271,14 +271,14 @@ public class Player extends Character{
 	/**
 	 * Get an attack value from this player, based off of their level, stats, and equipment
 	 */
-	// TODO check the player's level, stats, and equipment to determine their attack damage.
 	public int attack() {
 		Random rand = new Random();
 		minAttack = level * strength;
+		int quality = 0;
 		if(weapon != null)
-			maxAttack = minAttack + weapon.getQuality();
-		else
-			maxAttack = minAttack + 1;
+			quality = weapon.getQuality();
+		
+		maxAttack = (int)Math.ceil(((double)minAttack)*1.5) + quality;
 		return (rand.nextInt(getMaxAttack()-getMinAttack()) + getMinAttack());
 	}
 	

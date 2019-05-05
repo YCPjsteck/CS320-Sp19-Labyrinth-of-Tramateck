@@ -109,7 +109,7 @@ public class CombatController {
 				if(target.isDead()) {
 					output += "The " + target.getName() + " is dead. \n";
 					ArrayList<Pair<Item,Integer>> loot = target.getLoot();
-					output += "Found ";
+					output += "You looted ";
 					if(loot.isEmpty()) {
 						output += "nothing. \n";
 					} else {
