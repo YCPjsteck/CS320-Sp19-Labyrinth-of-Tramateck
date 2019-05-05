@@ -46,6 +46,11 @@ public class MovementController {
 		ArrayList<String> words = finder.findWords(input);
 		if(words.get(0).equals("move") || words.get(0).equals("run")) {
 			// Test if the input is valid
+			// Test 1: Did the player type too much?
+			// Test 2: Did the player type too little?
+			// Test 3: Did the player enter a possible direction?
+			// Test 4: Is the player able to move from this room?
+			// Test 5: Did the player enter a valid direction?
 			boolean test = true;
 			if(words.size() > 2) {
 				output += "Looks like you typed a bit too much.\n";

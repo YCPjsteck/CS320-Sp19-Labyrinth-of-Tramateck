@@ -49,9 +49,7 @@ public class CombatController {
 			// Test 1: Are there any NPCs in this room?
 			// Test 2: Did the player only say "attack"?
 			// Test 3: Did the player name an NPC to attack?
-			// Test 4: Did the player name a valid part to attack?
-			// Test 5: Did the player type more than they should have?
-			// TODO: Handle the situation where the player names no part
+			// Test 4: Did the player attack a living NPC?
 			boolean test = true;
 			boolean critical = false;
 			if(npcs.size() == 0) {
@@ -77,35 +75,34 @@ public class CombatController {
 				} else if(target.isDead()) {
 						output += "This NPC is already dead. \n";
 						test = false;
-				} else {
-					String part = words.get(words.size()-1);
-					if(!target.getParts().contains(part)) { // TODO: Handle if no part given
-						output += "This is not a targetable part for the " + target.getName() + ". \n";
-						test = false;
-					} else if(target.getParts().contains(part)) {
-						if(target.getWeaknesses().contains(part)) {
-							if(rand.nextInt(100) < 50) {
-								critical = true;
-							}
-						} else {
-							if(rand.nextInt(100) < 10) {
-								critical = true;
-							}
-						}
-					}
 				}
 			}
 			
 			// If all the tests passed, attack the target NPC
 			if(test) {
 				int attack = player.attack();
+				target.changeHealth(-attack);
+				String part = words.get(words.size()-1);
+				boolean partTest = target.getParts().contains(part);
+				if(partTest) {
+					if(target.getWeaknesses().contains(part)) {
+						if(rand.nextInt(100) < 50) {
+							critical = true;
+						}
+					} else {
+						if(rand.nextInt(100) < 10) {
+							critical = true;
+						}
+					}
+				}
 				if(critical) {
 					attack *= 2;
-				}
-				target.changeHealth(-attack);
-				output += "You attacked the " + target.getName() + " for " + attack + " damage. It has " + target.getHealth() + " health left. \n";
-				if(critical) {
 					output += "Critical hit! \n";
+				}
+				if(partTest) {
+					output += "You attacked the " + target.getName() + "'s " + part + " for " + attack + " damage. It has " + target.getHealth() + " health left. \n";	
+				} else {
+					output += "You attacked the " + target.getName() + " for " + attack + " damage. It has " + target.getHealth() + " health left. \n";
 				}
 				if(target.isDead()) {
 					output += "The " + target.getName() + " is dead. \n";
@@ -144,6 +141,10 @@ public class CombatController {
 				int attack = npc.attack();
 				player.changeHealth(-attack);
 				output += "The " + npc.getName() + " attacked you for " + attack + " damage. You have " + player.getHealth() + " health left. \n";
+				if(player.isDead()) {
+					output += "You died a painful death at the hands of the "+ npc.getName() + ". \n";
+					break;
+				}
 			}
 		}
 		return output;

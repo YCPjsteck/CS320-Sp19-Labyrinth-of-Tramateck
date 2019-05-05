@@ -29,7 +29,6 @@ public class CombatControllerTest {
 	public void attackTest() {
 		game.setPlayer(1);
 		game.curLocation().findStart();
-		WordFinder finder = new WordFinder();
 		game.curLocation().travel("west");
 		controller.updateRoom();
 		NPC npc = game.curLocation().curRoom().getNPCs().get(0);
@@ -37,10 +36,13 @@ public class CombatControllerTest {
 		assertTrue(game.curLocation().curRoom().getNPCs().size() > 0);
 		assertTrue(npc.getName().equals("Jaguar"));
 		
-		String output = controller.attack("attack jaguar tail");
+		String output = controller.attack("attack the jaguar");
+		System.out.println(output);
+		
+		output = controller.attack("attack jaguar tail");
 		System.out.println(output);
 
-		while(!npc.isDead()) {
+		while(!npc.isDead() && !player.isDead()) {
 			output = controller.attack("attack jaguar head");
 			System.out.println(output);
 		}
