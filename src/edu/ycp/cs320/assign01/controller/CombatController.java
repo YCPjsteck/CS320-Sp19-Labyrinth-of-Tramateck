@@ -19,6 +19,8 @@ public class CombatController {
 	private Room room;
 	private Player player;
 	
+	// TODO: Handle experience, score, and currency earned from a kill
+	
 	public CombatController(WorldMap game, Player player) {
 		this.player = player;
 		this.game = game;
