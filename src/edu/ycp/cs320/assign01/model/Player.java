@@ -313,12 +313,15 @@ public class Player extends Character{
 		if(item.getType() == ItemType.WEAPON) {
 			unequipWeapon();
 			weapon = item;
+			weaponID = item.getId();
 		} else if(item.getType() == ItemType.ARMOR) {
 			unequipArmor();
 			armor = item;
+			armorID = item.getId();
 		} else if(item.getType() == ItemType.ACCESSORY) {
 			unequipAccessory();
 			accessory = item;
+			accessoryID = item.getId();
 		}
 		
 		// Add to the player's stats based off of this equipment
@@ -335,6 +338,7 @@ public class Player extends Character{
 	public void unequipWeapon() {
 		if(weapon != null) { // If something is equipped here
 			unequipItem(weapon); // Revert the player's stats
+			weaponID = 0;
 			// Set this equipment to null to indicate that the
 			// player has nothing equipped
 			weapon = null;
@@ -346,6 +350,7 @@ public class Player extends Character{
 	public void unequipArmor() {
 		if(armor != null) {
 			unequipItem(armor);
+			armorID = 0;
 			armor = null;
 		}
 	}
@@ -355,6 +360,7 @@ public class Player extends Character{
 	public void unequipAccessory() {
 		if(accessory != null) {
 			unequipItem(accessory);
+			accessoryID = 0;
 			accessory = null;
 		}
 	}
