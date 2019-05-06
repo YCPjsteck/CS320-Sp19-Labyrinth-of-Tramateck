@@ -53,7 +53,7 @@ public class PlayerController {
 							test = false;
 						}
 					} else if(words.get(0).equals("equip")) {
-						if(type != ItemType.ARMOR || type != ItemType.WEAPON || type != ItemType.ACCESSORY) {
+						if(type != ItemType.ARMOR && type != ItemType.WEAPON && type != ItemType.ACCESSORY) {
 							output += "\"" + name + "\" can not be equipped. \n";
 							test = false;
 						}
@@ -73,21 +73,23 @@ public class PlayerController {
 			}
 		} else if(words.get(0).equals("unequip")) {
 			String name = input.substring(words.get(0).length()).trim();
-			if(words.get(1).equals("armor") || player.getArmor().getName().equalsIgnoreCase(name)) {
+			if(words.size() == 1) {
+				output += "\"\" is not an item. \n";
+			} else if(words.get(1).equals("armor") || (player.getArmorID() != 0 && player.getArmor().getName().equalsIgnoreCase(name))) {
 				if(player.getArmorID() != 0) {
 					output += "You unequipped your armor, the \"" + player.getArmor().getName() + ".\" \n";
 					player.unequipArmor();
 				} else {
 					output += "You do not have any armor equipped. \n";
 				}
-			} else if(words.get(1).equals("weapon") || player.getWeapon().getName().equalsIgnoreCase(name)) {
+			} else if(words.get(1).equals("weapon") || (player.getWeaponID() != 0 && player.getWeapon().getName().equalsIgnoreCase(name))) {
 				if(player.getWeaponID() != 0) {
 					output += "You unequipped your weapon, the \"" + player.getWeapon().getName() + ".\" \n";
 					player.unequipWeapon();
 				} else {
 					output += "You do not have any weapon equipped. \n";
 				}
-			} else if(words.get(1).equals("accessory") || player.getAccessory().getName().equalsIgnoreCase(name)) {
+			} else if(words.get(1).equals("accessory") || (player.getAccessoryID() != 0 && player.getAccessory().getName().equalsIgnoreCase(name))) {
 				if(player.getAccessoryID() != 0) {
 					output += "You unequipped your accessory, the \"" + player.getAccessory().getName() + ".\" \n";
 					player.unequipAccessory();
@@ -105,8 +107,10 @@ public class PlayerController {
 		} else if(words.size() == 1) {
 			if(words.get(0).equals("inventory")) {
 				ArrayList<Pair<Item,Integer>> inv = player.getInventory();
+				if(inv.isEmpty()) {
+				}
 				for(Pair<Item,Integer> pair : inv) {
-					output += pair.getRight() + " " + pair.getLeft().getName() + "\n";
+					output += pair.getRight() + " " + pair.getLeft().getName() + ": " + pair.getLeft().getShortDesc() + " \n";
 				}
 			} else if(words.get(0).equals("equipped") || words.get(0).equals("equipment")) {
 				if(player.getArmorID() == 0)
@@ -145,6 +149,8 @@ public class PlayerController {
 				output += "Strength: " + player.getStrength() + "\n";
 			}
 		}
+		if(output.equals(""))
+			output += "This is not a command. \n";
 		return output;
 	}
 	
