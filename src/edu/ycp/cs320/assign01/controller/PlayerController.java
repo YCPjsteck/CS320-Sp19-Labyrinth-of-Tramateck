@@ -108,6 +108,7 @@ public class PlayerController {
 			if(words.get(0).equals("inventory")) {
 				ArrayList<Pair<Item,Integer>> inv = player.getInventory();
 				if(inv.isEmpty()) {
+					output += "You have nothing in your inventory. \n";
 				}
 				for(Pair<Item,Integer> pair : inv) {
 					output += pair.getRight() + " " + pair.getLeft().getName() + ": " + pair.getLeft().getShortDesc() + " \n";
