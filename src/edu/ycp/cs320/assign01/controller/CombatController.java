@@ -20,7 +20,7 @@ public class CombatController {
 	private Player player;
 	
 	// TODO: Handle experience, score, and currency earned from a kill
-	// TODO: Handle player deathsn
+	// TODO: Handle player deaths
 	
 	public CombatController(WorldMap game, Player player) {
 		this.player = player;
@@ -38,6 +38,10 @@ public class CombatController {
 	}
 	
 	// attack [<npc>] <part>
+	/**
+	 * Handles the following commands
+	 *		* attack [npc] [part] 
+	 */
 	public String control(String input) {
 		String output = "";
 		WordFinder finder = new WordFinder();
@@ -148,6 +152,11 @@ public class CombatController {
 		for(NPC npc : npcs) {
 			if(!npc.isDead() && npc.getType() == NPCType.HOSTILE) {
 				int attack = npc.attack();
+				attack -= player.getDexterity();
+				if(player.getArmorID() != 0)
+					attack -= player.getArmor().getQuality();
+				if(attack < 0)
+					attack = 0;
 				player.changeHealth(-attack);
 				output += "The " + npc.getName() + " attacked you for " + attack + " damage. You have " + player.getHealth() + " health left. \n";
 				if(player.isDead()) {

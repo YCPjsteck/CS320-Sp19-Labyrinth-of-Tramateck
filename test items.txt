@@ -1,14 +1,64 @@
 item Monkey Paw
 	rarity Common
+	type commodity
 	weight 1
 	worth 10
+	short The severed paw of a monkey.
+	long The severed paw of a monkey. Fairly common.
 
 item Monkey Tail
 	rarity Rare
+	type commodity
 	weight 2
 	worth 50
+	short The severed tail of a monkey.
+	long The severed tail of a monkey. Slightly rare.
 
 item Monkey Head
 	rarity Legendary
+	type commodity
 	weight 5
 	worth 1000
+	short The shrunken head of a monkey.
+	long The shrunken head of a monkey. Hard to come by.
+
+equipment Laser Pistol
+	rarity common
+	type weapon
+	weight 1
+	worth 0
+	short A broken laser pistol.
+	long The last pistol that you had with you when you crashed. It took quite the beating, but still barely works.
+	strength 1
+	quality 1
+
+equipment Battery Pack
+	rarity common
+	type accessory
+	weight 1
+	worth 0
+	short A barely working battery pack.
+	long A battery pack used to power weapons and shields. Still partially working from the crash.
+	intellect 1
+	strength 1
+	quality 1
+
+equipment Personal Shield
+	rarity common
+	type armor
+	weight 1
+	worth 0
+	short A weak personal shield.
+	long A personal shield used for deflecting light attacks. Sometimes works.
+	dexterity 2
+	health 10
+	quality 1
+
+consumable Medkit
+	rarity uncommon
+	type consumable
+	weight 1
+	worth 10
+	short A medkit used for healing.
+	long A medkit used for healing. Is able to heal a substaintial amount of health.
+	health 50

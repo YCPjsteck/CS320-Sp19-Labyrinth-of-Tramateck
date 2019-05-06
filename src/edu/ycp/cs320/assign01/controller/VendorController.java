@@ -35,6 +35,12 @@ public class VendorController {
 		room = location.curRoom();
 	}
 	
+	/**
+	 * Handles the following commands
+	 * 		* Talk to [npc]
+	 * 		* Buy [number] [item]
+	 * 		* Sell [number] [item]
+	 */
 	public String control(String input) {
 		String output = "";
 		WordFinder finder = new WordFinder();
@@ -73,8 +79,6 @@ public class VendorController {
 				if(target.getType() == NPCType.HOSTILE) {
 					output += "The " + target.getName() + " doesn't seem interesting in talking. \n";
 				} else {
-					// TODO: The inventory should be generated the first time the NPC is encountered, not here.
-					target.generateInventory();
 					if(target.getInventory().isEmpty()) {
 						output += "The " + target.getName() + " doesn't have anything to sell. \n";
 					} else {
@@ -86,7 +90,7 @@ public class VendorController {
 					}
 				}
 			}
-		} else if(words.get(0).equals("buy")) {
+		} else if(words.get(0).equals("buy") && words.size() > 2) {
 			// Test 1: Is this an item?
 			// Test 2: Is there an NPC here?
 			// Test 3: Is there a friendly NPC here?
@@ -94,7 +98,7 @@ public class VendorController {
 			// Test 5: Does this NPC have enough of the item?
 			// Test 6: Does the player have enough currency for this item?
 			int quantity = Integer.parseInt(words.get(1));
-			String name = input.substring(words.get(0).length() + words.get(0).length() + 1).trim();
+			String name = input.substring(words.get(0).length() + words.get(1).length() + 1).trim();
 			NPC target = null;
 			Pair<Item,Integer> item = null;
 			boolean test = itemCheck(name);
@@ -126,7 +130,7 @@ public class VendorController {
 					} else if(!target.containsItem(item.getLeft(), quantity)) {
 						output += "The " + target.getName() + " only has " + item.getRight() + " of this item. \n";
 						test = false;
-					} else if(item.getLeft().getWorth() * quantity < player.getCurrency()) {
+					} else if(item.getLeft().getWorth() * quantity > player.getCurrency()) {
 						output += "You do not have enough currency to buy that much. \n";
 						test = false;
 					}
@@ -140,14 +144,14 @@ public class VendorController {
 				player.changeCurrency(-quantity * item.getLeft().getWorth());
 				output += "You bought " + quantity + " " + item.getLeft().getName() + " from the " + target.getName() + " for $" + item.getLeft().getWorth() * quantity + ". \n"; 
 			}
-		} else if(words.get(0).equals("sell")) {
+		} else if(words.get(0).equals("sell") && words.size() > 2) {
 			// Test 1: Is this an item?
 			// Test 2: Is there an NPC here?
 			// Test 3: Is there a friendly NPC here?
 			// Test 4: Does the player have this item?
 			// Test 5: Does the player have enough of the item?
 			int quantity = Integer.parseInt(words.get(1));
-			String name = input.substring(words.get(0).length() + words.get(0).length() + 1).trim();
+			String name = input.substring(words.get(0).length() + words.get(1).length() + 1).trim();
 			NPC target = null;
 			Pair<Item,Integer> item = null;
 			boolean test = itemCheck(name);
@@ -173,7 +177,7 @@ public class VendorController {
 				} else {
 					item = player.getItem(name);
 					
-					if(!player.containsItem(item.getLeft())) {
+					if(item == null) {
 						output += "You don't have this item. \n";
 						test = false;
 					} else if(!player.containsItem(item.getLeft(), quantity)) {

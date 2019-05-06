@@ -17,6 +17,8 @@ public class CombatControllerTest {
 	Library library;
 	Player player;
 	
+	// TODO: Test combat vs friendly NPC
+	
 	@Before
 	public void setup() {
 		library = new Library();
@@ -31,6 +33,7 @@ public class CombatControllerTest {
 		game.setPlayer(1);
 		game.curLocation().findStart();
 		game.curLocation().travel("west");
+		controller.updateLocation();
 		controller.updateRoom();
 		NPC npc = game.curLocation().curRoom().getNPCs().get(0);
 		

@@ -35,9 +35,9 @@ public class MovementController {
 	}
 	
 	/**
-	 * Changes the game state according to the player's movement input
-	 * @param input The player's input
-	 * @return output The game's output
+	 * Handles the following commands
+	 * 		* move [direction]
+	 * 		* run [direction]
 	 */
 	// [move/run] [north/south/east/west]
 	public String control(String input) {

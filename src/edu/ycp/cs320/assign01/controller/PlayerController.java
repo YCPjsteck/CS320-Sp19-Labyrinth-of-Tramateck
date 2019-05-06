@@ -19,6 +19,22 @@ public class PlayerController {
 		this.itemList = itemList;
 	}
 	
+	/**
+	 * Handles the following commands
+	 * 		* equip [item]
+	 * 		* consume [item]
+	 * 		* unequip [item/"armor"/"weapon"/"accessory"]
+	 * 		* inventory
+	 * 		* equipped/equipment
+	 * 		* stats
+	 * 		* level/experience
+	 * 		* currency
+	 * 		* score
+	 * 		* health
+	 * 		* dexterity
+	 * 		* intellect
+	 * 		* strength
+	 */
 	public String control(String input) {
 		String output = "";
 		WordFinder finder = new WordFinder();
@@ -139,7 +155,7 @@ public class PlayerController {
 			} else if(words.get(0).equals("score")) {
 				output += "Score: " + player.getScore() + "\n";
 			} else if(words.get(0).equals("currency")) {
-				output += "Currency: " + player.getCurrency() + "\n";
+				output += "Currency: $" + player.getCurrency() + "\n";
 			} else if(words.get(0).equals("health")) {
 				output += "Health: " + player.getHealth() + "/" + player.getMaxHealth() + "\n";
 			} else if(words.get(0).equals("intellect")) {

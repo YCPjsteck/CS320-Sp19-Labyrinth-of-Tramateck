@@ -144,7 +144,7 @@ public abstract class Character {
 	 * Add a given quantity of a given item to the character's inventory
 	 */
 	public void addItem(Item item, int quantity) {
-		boolean has = containsItem(item, quantity);
+		boolean has = containsItem(item);
 		
 		if(has) {
 			for(Pair<Item,Integer> pair : inventory)

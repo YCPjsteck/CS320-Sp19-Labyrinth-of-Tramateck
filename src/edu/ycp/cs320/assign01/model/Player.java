@@ -298,19 +298,19 @@ public class Player extends Character{
 	/**
 	 * Get the player's current weapon
 	 */
-	public Item getWeapon() {
+	public Equipment getWeapon() {
 		return weapon;
 	}
 	/**
 	 * Get the player's current armor
 	 */
-	public Item getArmor() {
+	public Equipment getArmor() {
 		return armor;
 	}
 	/**
 	 * Get the player's current accessory
 	 */
-	public Item getAccessory() {
+	public Equipment getAccessory() {
 		return accessory;
 	}
 	

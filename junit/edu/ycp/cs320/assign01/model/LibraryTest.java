@@ -30,7 +30,7 @@ public class LibraryTest {
 		
 		ArrayList<Item> itemList = lib.getItems();
 
-		assertTrue(itemList.size() == 3);
+		assertTrue(itemList.size() == 7);
 		
 		assertTrue(itemList.get(0).getName().equals("Monkey Paw"));
 		assertTrue(itemList.get(1).getName().equals("Monkey Tail"));
