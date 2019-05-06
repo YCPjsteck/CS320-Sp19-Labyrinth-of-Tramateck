@@ -27,6 +27,7 @@ public class CombatControllerTest {
 	
 	@Test
 	public void attackTest() {
+		System.out.println("TESTING COMBATCONTROLLER ATTACK");
 		game.setPlayer(1);
 		game.curLocation().findStart();
 		game.curLocation().travel("west");
@@ -36,14 +37,14 @@ public class CombatControllerTest {
 		assertTrue(game.curLocation().curRoom().getNPCs().size() > 0);
 		assertTrue(npc.getName().equals("Jaguar"));
 		
-		String output = controller.attack("attack the jaguar");
+		String output = controller.control("attack the jaguar");
 		System.out.println(output);
 		
-		output = controller.attack("attack jaguar tail");
+		output = controller.control("attack jaguar tail");
 		System.out.println(output);
 
 		while(!npc.isDead() && !player.isDead()) {
-			output = controller.attack("attack jaguar head");
+			output = controller.control("attack jaguar head");
 			System.out.println(output);
 		}
 	}

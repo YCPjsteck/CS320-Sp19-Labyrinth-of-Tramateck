@@ -17,7 +17,6 @@ public class NPC extends Character implements Named {
 	
 	private ArrayList<Triple<Item,Integer,Integer>> loot;
 	private ArrayList<Triple<Item,Integer,Integer>> fullInventory;
-	private ArrayList<Pair<Item,Integer>> inventory;
 	private Set<String> weakPoints, partsList;
 	
 	// TODO: Buy/Sell items from NPCs. Have this be a controller?
@@ -98,12 +97,6 @@ public class NPC extends Character implements Named {
 	 */
 	public ArrayList<Triple<Item,Integer,Integer>> getFullInventory() {
 		return fullInventory;
-	}
-	/**
-	 * Get the generated inventory of this NPC.
-	 */
-	public ArrayList<Pair<Item,Integer>> getInventory() {
-		return inventory;
 	}
 
 	/**

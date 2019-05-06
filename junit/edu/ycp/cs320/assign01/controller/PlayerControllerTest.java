@@ -35,7 +35,7 @@ public class PlayerControllerTest {
 	
 	@Test
 	public void wrongInputTest() {
-		System.out.println("TESTING WRONG INPUT\n");
+		System.out.println("TESTING PLAYERCONTROLLER WRONG INPUT\n");
 		System.out.println(controller.control("equip"));
 		System.out.println(controller.control("unequip"));
 		System.out.println(controller.control("consume"));
@@ -46,7 +46,7 @@ public class PlayerControllerTest {
 	
 	@Test
 	public void equipTest() {
-		System.out.println("TESTING EQUIP\n");
+		System.out.println("TESTING PLAYERCONTROLLER EQUIP\n");
 		Equipment armor = new Equipment();
 		armor.setLevel(1);
 		armor.setName("Test Armor");
@@ -93,7 +93,7 @@ public class PlayerControllerTest {
 
 	@Test
 	public void unequipTest() {
-		System.out.println("TESTING UNEQUIP\n");
+		System.out.println("TESTING PLAYERCONTROLLER UNEQUIP\n");
 		Equipment armor = new Equipment();
 		armor.setLevel(1);
 		armor.setName("Test Armor");
@@ -163,7 +163,7 @@ public class PlayerControllerTest {
 	
 	@Test
 	public void consumeTest() {
-		System.out.println("TESTING CONSUME\n");
+		System.out.println("TESTING PLAYERCONTROLLER CONSUME\n");
 		Consumable item = new Consumable();
 		item.setName("Test Health");
 		item.setLevel(1);
@@ -195,7 +195,7 @@ public class PlayerControllerTest {
 	
 	@Test
 	public void equippedTest() {
-		System.out.println("TESTING EQUIPMENT\n");
+		System.out.println("TESTING PLAYERCONTROLLER EQUIPMENT\n");
 		Equipment armor = new Equipment();
 		armor.setLevel(1);
 		armor.setName("Test Armor");
@@ -236,7 +236,7 @@ public class PlayerControllerTest {
 	
 	@Test
 	public void statTest() {
-		System.out.println("TESTING STATS\n");
+		System.out.println("TESTING PLAYERCONTROLLER STATS\n");
 		String output = controller.control("stats");
 		System.out.println(output);
 		output = controller.control("health");

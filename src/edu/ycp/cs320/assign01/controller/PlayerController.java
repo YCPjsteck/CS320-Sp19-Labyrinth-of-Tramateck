@@ -129,7 +129,7 @@ public class PlayerController {
 			} else if(words.get(0).equals("stats")) {
 				output += "Health: " + player.getHealth() + "/" + player.getMaxHealth() + "\n";
 				output += "Level: " + player.getLevel() + ", " + player.getExperience() + "/1000 exp\n";
-				output += "Currency: " + player.getCurrency() + "\n";
+				output += "Currency: $" + player.getCurrency() + "\n";
 				output += "Intellect: " + player.getIntellect() + "\n";
 				output += "Dexterity: " + player.getDexterity() + "\n";
 				output += "Strength: " + player.getStrength() + "\n";

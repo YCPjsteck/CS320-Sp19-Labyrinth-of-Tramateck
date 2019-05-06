@@ -20,6 +20,7 @@ public class CombatController {
 	private Player player;
 	
 	// TODO: Handle experience, score, and currency earned from a kill
+	// TODO: Handle player deathsn
 	
 	public CombatController(WorldMap game, Player player) {
 		this.player = player;
@@ -37,7 +38,7 @@ public class CombatController {
 	}
 	
 	// attack [<npc>] <part>
-	public String attack(String input) {
+	public String control(String input) {
 		String output = "";
 		WordFinder finder = new WordFinder();
 		ArrayList<String> words = finder.findWords(input);
@@ -55,11 +56,11 @@ public class CombatController {
 			boolean test = true;
 			boolean critical = false;
 			if(npcs.size() == 0) {
-				output += "There are no NPCs in this room to attack.";
+				output += "There are no NPCs in this room to attack. \n";
 				test = false;
 			} else {
 				if(words.size() < 2) {
-					output += "Missing attack target.";
+					output += "Missing attack target. \n";
 					test = false;
 				}
 				
@@ -106,6 +107,10 @@ public class CombatController {
 				} else {
 					output += "You attacked the " + target.getName() + " for " + attack + " damage. It has " + target.getHealth() + " health left. \n";
 				}
+				if(target.getType() == NPCType.FRIENDLY) {
+					output += "The " + target.getName() + " didn't look very happy about that. \n";
+					target.setType("hostile");
+				}
 				if(target.isDead()) {
 					output += "The " + target.getName() + " is dead. \n";
 					ArrayList<Pair<Item,Integer>> loot = target.getLoot();
@@ -129,6 +134,8 @@ public class CombatController {
 				output = npcAttack(output);
 			}
 		}
+		if(output.equals(""))
+			output += "This is not a command. \n";
 		return output;
 	}
 	

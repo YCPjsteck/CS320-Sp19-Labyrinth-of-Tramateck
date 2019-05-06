@@ -40,7 +40,7 @@ public class MovementController {
 	 * @return output The game's output
 	 */
 	// [move/run] [north/south/east/west]
-	public String move(String input) {
+	public String control(String input) {
 		String output = "";
 		WordFinder finder = new WordFinder();
 		ArrayList<String> words = finder.findWords(input);
@@ -92,6 +92,8 @@ public class MovementController {
 				output += location.getMapString();
 			}
 		}
+		if(output.equals(""))
+			output += "This is not a command. \n";
 		return output;
 	}
 }
