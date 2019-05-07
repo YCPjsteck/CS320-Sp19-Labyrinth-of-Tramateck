@@ -79,6 +79,17 @@ public class NPCTest {
 		assertTrue(npc.isDead());
 	}
 	
+	/**
+	 * Tests isDead method of character:
+	 * 		- Sets NPC's level to 1
+	 * 		- Sets base health to 23
+	 * 		- Calculates current health for NPC
+	 * 		- Checks NPC is not dead
+	 * 		- Sets NPC's health to 0
+	 * 		- Checks if NPC is dead
+	 * 		- Sets NPC's health below 0
+	 * 		- Checks if NPC is dead
+	 */
 	@Test
 	public void testIsDead() {
 		npc.setLevel(1);
@@ -91,6 +102,15 @@ public class NPCTest {
 		assertTrue(npc.isDead());
 	}
 	
+	/**
+	 * Tests getLoot method of character
+	 * 		- Creates two new items
+	 * 		- assigns names to each item
+	 * 		- sets both items as possible drops for NPC
+	 * 			- item 1, 100% chance, drops 4
+	 * 			- item 2, 100% chance, drops 1
+	 * 		- checks to make sure NPC drops correct amount
+	 */
 	@Test
 	public void testGetAllLoot() {
 		Item item1 = new Item();

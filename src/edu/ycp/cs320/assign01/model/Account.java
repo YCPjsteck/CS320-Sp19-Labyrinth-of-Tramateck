@@ -1,6 +1,8 @@
 package edu.ycp.cs320.assign01.model;
 
 import java.util.ArrayList;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class Account {
 	private int id;
@@ -13,10 +15,23 @@ public class Account {
 		players = new ArrayList<Player>();
 	}
 	
+	
+	/**
+	 * Creates account using MessageDigest instance "SHA-256" to encrypt the password
+	 * If Message Digest instance is not found, throws NoSuchAlgorithmException
+	 */
 	public Account(String username, String password) {
 		this.username = username;
-		this.password = password;
-		players = new ArrayList<Player>();
+		MessageDigest messageDigest;
+		try {
+			messageDigest = MessageDigest.getInstance("SHA-256");
+			messageDigest.update(password.getBytes());
+			String encryptedPassword = new String(messageDigest.digest());
+			this.password = encryptedPassword;
+			players = new ArrayList<Player>();
+		} catch (NoSuchAlgorithmException e) {
+			System.err.println("MessageDigest Instance is not valid");
+		}
 	}
 	
 	public void setUsername(String username) {
@@ -27,8 +42,20 @@ public class Account {
 		return username;
 	}
 	
+	/**
+	 * Sets account password using MessageDigest instance "SHA-256" to encrypt the password
+	 * If Message Digest instance is not found, throws NoSuchAlgorithmException
+	 */
 	public void setPassword(String password) {
-		this.password = password;
+		MessageDigest messageDigest;
+		try {
+			messageDigest = MessageDigest.getInstance("SHA-256");
+			messageDigest.update(password.getBytes());
+			String encryptedPassword = new String(messageDigest.digest());
+			this.password = encryptedPassword;
+		} catch (NoSuchAlgorithmException e) {
+			System.err.println("MessageDigest Instance is not valid");
+		}
 	}
 	
 	public String getPassword() {
