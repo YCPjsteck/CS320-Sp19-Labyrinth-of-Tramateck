@@ -19,6 +19,8 @@ location Jungle
 	room
 		coord 1 1
 		start
+		long You crash land your ship on an alien jungle planet. Most of your gear has been destroyed, save for a damaged laser pistol, personal shield, battery pack, and some medkits. Survive.
+		short Your ship continues to smolder in the crash site.
 		
 	room
 		coord 2 0

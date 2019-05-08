@@ -5,7 +5,9 @@ npc Monkey
 	part head
 	part tail
 	weakness tail
-	loot 10 4 | Monkey Paw
+	loot 50 4 | Monkey Paw
+	loot 25 2 | Monkey Tail
+	loot 10 1 | Monkey Head
 	short A lowly monkey.
 	long A lowly monkey. Common and easy to take care of.
 
@@ -16,9 +18,7 @@ npc Jaguar
 	part head
 	part tail
 	weakness head
-	loot 100 4 | Monkey Paw
-	loot 100 2 | Monkey Tail
-	loot 100 1 | Monkey Head
+	loot 75 4 | Jaguar Claw
 	short A fiersome jaguar.
 	long A fiersome jaguar. Strong and difficult to fight.
 

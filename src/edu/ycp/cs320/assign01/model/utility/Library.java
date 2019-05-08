@@ -147,6 +147,10 @@ public class Library {
 					} else if(words.get(0).equalsIgnoreCase("room")) { // If the first word is "room"
 						// Pass everything to the generateRoom method to create the room.
 						loc.addRoom(generateRoom(reader, loc, npcID, min, max));
+					} else if(words.get(0).equalsIgnoreCase("long")) {
+						loc.setLongDesc(str.substring(words.get(0).length()).trim());
+					} else if(words.get(0).equalsIgnoreCase("short")) {
+						loc.setShortDesc(str.substring(words.get(0).length()).trim());
 					}
 					// Get the next line
 					if(reader.hasNext())
@@ -217,6 +221,10 @@ public class Library {
 				room.addNPC(npc);
 			} else if(words.get(0).equalsIgnoreCase("event")) { // If the first word is "event"
 				room.addEvent(findEvent(Integer.parseInt(words.get(1))));
+			} else if(words.get(0).equalsIgnoreCase("long")) {
+				room.setLongDesc(str.substring(words.get(0).length()).trim());
+			} else if(words.get(0).equalsIgnoreCase("short")) {
+				room.setShortDesc(str.substring(words.get(0).length()).trim());
 			}
 			// Get the next line
 			if(reader.hasNext())
@@ -266,6 +274,10 @@ public class Library {
 						npc.setPart(words.get(1));
 					} else if(words.get(0).equalsIgnoreCase("weakness")) { // If the first word is "weakness"
 						npc.setWeakness(words.get(1));
+					} else if(words.get(0).equalsIgnoreCase("long")) {
+						npc.setLongDesc(str.substring(words.get(0).length()).trim());
+					} else if(words.get(0).equalsIgnoreCase("short")) {
+						npc.setShortDesc(str.substring(words.get(0).length()).trim());
 					}
 					
 					// Read the next line

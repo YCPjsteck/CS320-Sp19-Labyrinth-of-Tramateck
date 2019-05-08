@@ -64,20 +64,22 @@ public class MetaController {
 		WordFinder finder = new WordFinder();
 		ArrayList<String> words = finder.findWords(input);
 		
-		if(movementSet.contains(words.get(0))) {
-			movementCon.updateLocation();
-			movementCon.updateRoom();
-			output += movementCon.control(input);
-		} else if(playerSet.contains(words.get(0))) {
-			output += playerCon.control(input);
-		} else if(combatSet.contains(words.get(0))) {
-			combatCon.updateLocation();
-			combatCon.updateRoom();
-			output += combatCon.control(input);
-		} else if(vendorSet.contains(words.get(0))) {
-			vendorCon.updateLocation();
-			vendorCon.updateRoom();
-			output += vendorCon.control(input);
+		if(!words.isEmpty()) {
+			if(movementSet.contains(words.get(0))) {
+				movementCon.updateLocation();
+				movementCon.updateRoom();
+				output += movementCon.control(input);
+			} else if(playerSet.contains(words.get(0))) {
+				output += playerCon.control(input);
+			} else if(combatSet.contains(words.get(0))) {
+				combatCon.updateLocation();
+				combatCon.updateRoom();
+				output += combatCon.control(input);
+			} else if(vendorSet.contains(words.get(0))) {
+				vendorCon.updateLocation();
+				vendorCon.updateRoom();
+				output += vendorCon.control(input);
+			}
 		}
 		if(output.equals(""))
 			output += "This is not a command. \n";

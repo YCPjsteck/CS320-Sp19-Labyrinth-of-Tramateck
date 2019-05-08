@@ -19,8 +19,7 @@ public class CombatController {
 	private Room room;
 	private Player player;
 	
-	// TODO: Handle experience, score, and currency earned from a kill
-	// TODO: Handle player deaths
+	// TODO: Handle player deaths (losing progress)
 	
 	public CombatController(WorldMap game, Player player) {
 		this.player = player;
@@ -134,6 +133,17 @@ public class CombatController {
 						}
 						output += ". \n";
 					}
+					int playerMod = player.getIntellect();
+					if(player.getAccessoryID() != 0) {
+						playerMod += player.getAccessory().getQuality();
+					}
+					int currency = target.getLevel()*(100+rand.nextInt(10*playerMod));
+					int experience = target.getLevel()*(200+10*playerMod);
+					int score = target.getLevel()*(100+playerMod);
+					player.changeScore(score);
+					player.addExperience(experience);
+					player.changeCurrency(currency);
+					output += "You earned " + experience + " experience, $" + currency + ", and " + score + " score. \n";
 				}
 				output = npcAttack(output);
 			}

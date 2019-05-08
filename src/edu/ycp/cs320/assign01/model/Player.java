@@ -1,10 +1,8 @@
 package edu.ycp.cs320.assign01.model;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import edu.ycp.cs320.assign01.enums.ItemType;
-import edu.ycp.cs320.assign01.model.utility.Pair;
 
 public class Player extends Character{
 	private int id, locationID, experience, score, currency, intellect, strength, dexterity;

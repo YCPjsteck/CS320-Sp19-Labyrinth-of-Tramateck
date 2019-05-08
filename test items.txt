@@ -26,33 +26,32 @@ equipment Laser Pistol
 	rarity common
 	type weapon
 	weight 1
-	worth 0
+	worth 100
 	short A broken laser pistol.
 	long The last pistol that you had with you when you crashed. It took quite the beating, but still barely works.
 	strength 1
-	quality 1
+	quality 0
 
 equipment Battery Pack
 	rarity common
 	type accessory
 	weight 1
-	worth 0
+	worth 100
 	short A barely working battery pack.
 	long A battery pack used to power weapons and shields. Still partially working from the crash.
 	intellect 1
-	strength 1
-	quality 1
+	quality 0
 
 equipment Personal Shield
 	rarity common
 	type armor
 	weight 1
-	worth 0
+	worth 100
 	short A weak personal shield.
 	long A personal shield used for deflecting light attacks. Sometimes works.
-	dexterity 2
+	dexterity 1
 	health 10
-	quality 1
+	quality 0
 
 consumable Medkit
 	rarity uncommon
@@ -62,3 +61,11 @@ consumable Medkit
 	short A medkit used for healing.
 	long A medkit used for healing. Is able to heal a substaintial amount of health.
 	health 50
+
+item Jaguar Claw
+	rarity common
+	type commodity
+	weight 1
+	worth 20
+	short The severed claw of a jaguar.
+	long The severed claw of a jaguar. Fairly common.

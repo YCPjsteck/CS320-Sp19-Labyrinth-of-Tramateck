@@ -118,7 +118,7 @@ public class VendorController {
 					}
 				}
 				
-				if(target == null) {
+				if(test && target == null) {
 					output += "There are no friendly NPCs in this room to trade with. \n"; 
 					test = false;
 				} else {
@@ -171,7 +171,7 @@ public class VendorController {
 					}
 				}
 				
-				if(target == null) {
+				if(test && target == null) {
 					output += "There are no friendly NPCs in this room to trade with. \n"; 
 					test = false;
 				} else {

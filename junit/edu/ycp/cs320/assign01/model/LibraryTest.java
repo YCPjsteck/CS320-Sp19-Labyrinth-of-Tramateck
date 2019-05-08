@@ -30,7 +30,7 @@ public class LibraryTest {
 		
 		ArrayList<Item> itemList = lib.getItems();
 
-		assertTrue(itemList.size() == 7);
+		assertTrue(itemList.size() == 8);
 		
 		assertTrue(itemList.get(0).getName().equals("Monkey Paw"));
 		assertTrue(itemList.get(1).getName().equals("Monkey Tail"));
@@ -54,7 +54,7 @@ public class LibraryTest {
 		assertTrue(itemList.get(6).getName().equalsIgnoreCase("Medkit"));
 		
 		assertTrue(((Equipment)itemList.get(3)).getStrength() == 1);
-		assertTrue(((Equipment)itemList.get(3)).getQuality() == 1);
+		assertTrue(((Equipment)itemList.get(3)).getQuality() == 0);
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ public class LibraryTest {
 		assertTrue(npcList.get(0).getMaxAttack() == 2);
 		
 		assertTrue(npcList.get(0).getAllLoot().get(0).getLeft().getName().equalsIgnoreCase("Monkey Paw"));
-		assertTrue(npcList.get(0).getAllLoot().get(0).getMiddle() == 10);
+		assertTrue(npcList.get(0).getAllLoot().get(0).getMiddle() == 50);
 		assertTrue(npcList.get(0).getAllLoot().get(0).getRight() == 4);
 		
 		assertTrue(npcList.get(2).getType().getString().equalsIgnoreCase("friendly"));

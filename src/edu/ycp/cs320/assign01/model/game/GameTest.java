@@ -22,10 +22,16 @@ public class GameTest {
 	private static MetaController controller;
 	private static ArrayList<Item> items;
 
-	// TODO: Items have a copy constructor so that various items of the same type can have different level
-	// TODO: NPCs set the item levels that they have
+	// TODO: Item levels are based off of player level 
+	// 		 (as to avoid needing to implement the inventory making distinctions 
+	//		 betweeen two items of the same type with differnet levels)
 	// TODO: Vendor loot is their inventory, and vendors are tough enemies
 	// TODO: Upon reaching an exit, be asked if you want to leave, being sent to the "overworld" to see other locations
+	// TODO: Travel between locations in "overworld"
+	// TODO: Vendors generate their inventories when the location is created
+	// TODO: Handle player level ups
+	// TODO: Tell the player if the location is complete
+	// TODO: Player death
 	public static void main(String[] args) {
 		player = new Player();
 		library = new Library();
@@ -44,10 +50,12 @@ public class GameTest {
 		game.setPlayer(1);
 		game.curLocation().findStart();
 		
-		System.out.println("You crash land your ship on an alien jungle planet. \n" +
+		/*System.out.println("You crash land your ship on an alien jungle planet. \n" +
 							"Most of your gear has been destroyed, save for a damaged laser pistol, personal shield, battery pack, and some medkits. \n" +
-							"Survive.\n");
+							"Survive.\n");*/
+		System.out.println(game.curLocation().curRoom().getLongDesc());
 		game.curLocation().printMap();
+		System.out.println();
 		
 		@SuppressWarnings("resource")
 		Scanner reader = new Scanner(System.in);

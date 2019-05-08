@@ -84,10 +84,10 @@ public class MovementController {
 					output += "Ran " + words.get(1) + ".\n";
 				updateRoom();
 				if(!room.getEntered()) {
-					output += "Room long: " + room.getLongDesc() + "\n";
+					output += room.getLongDesc() + "\n";
 					room.isEntered();
 				} else {
-					output += "Room short: " + room.getShortDesc() + "\n";
+					output += room.getShortDesc() + "\n";
 				}
 				output += location.getMapString();
 			}
