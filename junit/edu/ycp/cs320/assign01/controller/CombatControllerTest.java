@@ -45,7 +45,7 @@ public class CombatControllerTest {
 		
 		output = controller.control("attack jaguar tail");
 		System.out.println(output);
-
+		
 		while(!npc.isDead() && !player.isDead()) {
 			output = controller.control("attack jaguar head");
 			System.out.println(output);
