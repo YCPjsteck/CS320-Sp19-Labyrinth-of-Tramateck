@@ -88,7 +88,6 @@ public class CombatController {
 			// If all the tests passed, attack the target NPC
 			if(test) {
 				int attack = player.attack();
-				target.changeHealth(-attack);
 				String part = words.get(words.size()-1);
 				boolean partTest = target.getParts().contains(part);
 				if(partTest) {
@@ -106,6 +105,7 @@ public class CombatController {
 					attack *= 2;
 					output += "Critical hit! \n";
 				}
+				target.changeHealth(-attack);
 				if(partTest) {
 					output += "You attacked the " + target.getName() + "'s " + part + " for " + attack + " damage. It has " + target.getHealth() + " health left. \n";	
 				} else {

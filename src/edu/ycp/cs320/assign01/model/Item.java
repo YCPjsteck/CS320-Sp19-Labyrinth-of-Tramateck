@@ -10,7 +10,8 @@ public class Item implements Named {
 	private ItemRarity rarity;
 	private ItemType type;
 	
-	public Item() {	
+	public Item() {
+		level = 1;
 	}
 
 	public void setName(String name) {

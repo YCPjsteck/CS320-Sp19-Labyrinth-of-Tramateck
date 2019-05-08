@@ -158,7 +158,6 @@ public class PlayerControllerTest {
 		assertTrue(player.getArmorID() == 0);
 		assertTrue(player.getWeaponID() == 0);
 		assertTrue(player.getAccessoryID() == 0);
-		
 	}
 	
 	@Test

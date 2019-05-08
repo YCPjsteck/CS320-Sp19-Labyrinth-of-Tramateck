@@ -47,6 +47,14 @@ public class LibraryTest {
 		assertTrue(itemList.get(0).getWorth() == 10);
 		assertTrue(itemList.get(1).getWorth() == 50);
 		assertTrue(itemList.get(2).getWorth() == 1000);
+		
+		assertTrue(itemList.get(3).getName().equalsIgnoreCase("Laser Pistol"));
+		assertTrue(itemList.get(4).getName().equalsIgnoreCase("Battery Pack"));
+		assertTrue(itemList.get(5).getName().equalsIgnoreCase("Personal Shield"));
+		assertTrue(itemList.get(6).getName().equalsIgnoreCase("Medkit"));
+		
+		assertTrue(((Equipment)itemList.get(3)).getStrength() == 1);
+		assertTrue(((Equipment)itemList.get(3)).getQuality() == 1);
 	}
 	
 	@Test
