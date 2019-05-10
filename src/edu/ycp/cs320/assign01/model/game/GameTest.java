@@ -18,8 +18,7 @@ public class GameTest {
 
 	// TODO: Upon reaching an exit, be asked if you want to leave, being sent to the "overworld" to see other locations
 	// TODO: Travel between locations in "overworld"
-	// TODO: Tell the player if the location is complete
-	// 		TODO: Have locations make a distinction between all hostile NPCs dead and all events complete
+	// TODO: Tell the player if the location is totally complete (hostile NPCs and all events done)
 	public static void main(String[] args) {
 		player = new Player();
 		library = new Library();

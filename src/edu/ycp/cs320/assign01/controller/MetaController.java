@@ -125,22 +125,22 @@ public class MetaController {
 					output += "Heals " + consumable.getHealth() * player.getLevel() + " health. \n";
 				}
 				if(consumable.getScore() != 0) {
-					output += "Grant you " + consumable.getScore() * player.getScore() + " score. \n";
+					output += "Grants you " + consumable.getScore() * player.getScore() + " score. \n";
 				}
 				if(consumable.getExperience() != 0) {
-					output += "Grant you " + consumable.getScore() * player.getExperience() + " experience. \n";
+					output += "Grants you " + consumable.getScore() * player.getExperience() + " experience. \n";
 				}
 				if(consumable.getCurrency() != 0) {
-					output += "Grant you " + consumable.getScore() * player.getCurrency() + " currency. \n";
+					output += "Grants you $" + consumable.getScore() * player.getCurrency() + ". \n";
 				}
 				if(consumable.getDexterity() != 0) {
-					output += "Grant you " + consumable.getScore() * player.getDexterity() + " dexterity. \n";
+					output += "Grants you " + consumable.getScore() * player.getDexterity() + " dexterity. \n";
 				}
 				if(consumable.getIntellect() != 0) {
-					output += "Grant you " + consumable.getScore() * player.getIntellect() + " intellect. \n";
+					output += "Grants you " + consumable.getScore() * player.getIntellect() + " intellect. \n";
 				}
 				if(consumable.getStrength() != 0) {
-					output += "Grant you " + consumable.getScore() * player.getStrength() + " strength. \n";
+					output += "Grants you " + consumable.getScore() * player.getStrength() + " strength. \n";
 				}
 			} else if(target.getType() == ItemType.ARMOR || target.getType() == ItemType.ACCESSORY || target.getType() == ItemType.WEAPON) {
 				Equipment equipment = (Equipment)target;
@@ -190,6 +190,7 @@ public class MetaController {
 		help.add("The amount of score, experience, and currency that you gain can be increased by having a higher intellect stat and accessory quality.");
 		help.add("You get nothing! You lose! Good day, sir!");
 		help.add("Say that again?");
+		help.add("You called for help.");
 		Random rand = new Random();
 		return help.get(rand.nextInt(help.size())) + "\n";
 	}

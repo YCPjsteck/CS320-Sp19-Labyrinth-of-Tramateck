@@ -142,7 +142,7 @@ public class CombatController {
 					player.addExperience(experience);
 					player.changeCurrency(currency);
 					output += "You earned " + experience + " experience, $" + currency + ", and " + score + " score. \n";
-					if(location.locationComplete()) {
+					if(location.locationClear()) {
 						output += "You have defeated all the hostile monsters in this location. \n";
 					}
 					if(player.levelCheck()) {

@@ -173,6 +173,26 @@ public class Location implements Named {
 	}
 
 	/**
+	 * Checks if the location is clear of hostile NPCs
+	 * by checking if each room is clear
+	 */
+	public boolean locationClear() {
+		for(Room r: roomList)
+			if(!r.roomClear())
+				return false;
+		return true;
+	}
+	/**
+	 * Checks if the location's events are done
+	 * by checking if each room is done
+	 */
+	public boolean eventsClear() {
+		for(Room r: roomList)
+			if(!r.eventsClear())
+				return false;
+		return true;
+	}
+	/**
 	 * Check if the location is complete by checking
 	 * if each room is complete
 	 */

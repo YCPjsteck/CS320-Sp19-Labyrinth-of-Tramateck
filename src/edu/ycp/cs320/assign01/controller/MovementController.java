@@ -67,8 +67,12 @@ public class MovementController {
 				output +=  "This is not a movement target.\n";
 				test = false;
 			}
-			if(!room.roomComplete() && words.get(0).equals("move")) {
-				output += "This room is not clear.\n";
+			if(!room.eventsClear()) {
+				output += "There is an event that still needs finished. \n";
+				test = false;
+			}
+			if(!room.roomClear() && words.get(0).equals("move")) {
+				output += "This room is not clear of hostile NPCs.\n";
 				test = false;
 			}
 			if(test && words.size() > 1 && !location.canTravel(words.get(1))) {
@@ -80,7 +84,7 @@ public class MovementController {
 			if(test) {
 				if(words.get(0).equals("move"))
 					output += "Traveled " + words.get(1) + ".\n";
-				else if(!room.roomComplete()) { // TODO make distinction between NPCs and events
+				else if(!room.roomClear()) {
 					output += "Ran from combat " + words.get(1) + ".\n";
 					CombatController combat = new CombatController(game,player);
 					output = combat.npcAttack(output);

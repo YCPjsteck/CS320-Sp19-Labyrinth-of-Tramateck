@@ -71,19 +71,30 @@ public class Room implements Named {
 	}
 	
 	/**
-	 * The room is complete if there are no more hostile NPCs left alive and all events are complete.
+	 * Checks if the hostile NPCs in this room have been killed
 	 */
-	public boolean roomComplete() {
-		for(Event e : eventList)
-			if(!e.isDone() || !e.isRepeatable()) {
-				return false;
-			}
+	public boolean roomClear() {
 		for(NPC n : npcList)
 			if(!n.isDead() && n.getType() == NPCType.HOSTILE) {
 				return false;
 			}
 		return true;
-		
+	}
+	/**
+	 * Checks if the events in this room have been cleared
+	 */
+	public boolean eventsClear() {
+		for(Event e : eventList)
+			if(!e.isDone() || !e.isRepeatable()) {
+				return false;
+			}
+		return true;
+	}
+	/**
+	 * The room is complete if there are no more hostile NPCs left alive and all events are complete.
+	 */
+	public boolean roomComplete() {
+		return roomClear() && eventsClear();
 	}
 	/*****************
 	 * Event methods *
