@@ -3,6 +3,7 @@ package edu.ycp.cs320.assign01.model;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import org.junit.Before;
@@ -11,20 +12,39 @@ import org.junit.Test;
 import edu.ycp.cs320.assign01.model.game.Game;
 import edu.ycp.cs320.assign01.model.movement.Location;
 import edu.ycp.cs320.assign01.model.movement.Room;
+import edu.ycp.cs320.assign01.model.utility.Library;
 
 public class GameModelTest {
 	private Game game;
+	private Library library;
+	private NPC npc1, npc2, npc3;
 	
 	@Before
 	public void setUp() {
-		game = new Game();
+		library = new Library();
+		try {
+			library.generateItems("test items.txt");
+			library.generateNPCs("test npcs.txt");
+			library.generateLocations("test locations.txt");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		ArrayList<Location> locations = library.getLocations();
+		ArrayList<NPC> npcs = library.getNPCs();
+		
+		Location loc = locations.get(0);
+		
+		npc1 = npcs.get(0);
+		npc2 = npcs.get(1);
+		npc3 = npcs.get(2);
+		
+		game = new Game(new Player(), loc);
 	}
 	
 	@Test
 	public void testConstructor() {
-		assertTrue(false);
-		// Test that a dungeon was created and the player
-		// can only travel south.
+
 		Location loc = game.getDungeon();
 		
 		assertTrue(loc.canTravel("south"));
@@ -40,42 +60,13 @@ public class GameModelTest {
 	
 	@Test
 	public void testPopulate() {
-		// TODO: 
-		// 		use actual NPC objects instead of strings
-		//		generate from the library class instead of creating a new location to test
-
-		assertTrue(false);
-		/*
-		int[][] map = {	{1, 2, 0},
-						{0, 3, 0},
-						{0, 4, 0}};
-		
-		game.getDungeon().setMap(map);
-		game.getDungeon().generateRooms();
-		game.getDungeon().setPlayer(1, 0);
-		
-		ArrayList<String> monsters = new ArrayList<String>();
-
-		monsters.add("skeleton");
 		Room room = game.getDungeon().getRoom(1);
-		room.populate(monsters);
-		monsters.clear();
+		room.addNPC(npc1);
+
+		assertTrue(room.getNPCs().get(0).getName().equals("Monkey"));
 		
-		monsters.add("ghoul");
-		monsters.add("zombie");
-		room = game.getDungeon().getRoom(2);
-		room.populate(monsters);
-		monsters.clear();
+		room = game.getDungeon().getRoom(3);
+		assertTrue(room.getNPCs().get(0).getName().equals("Jaguar"));
 		
-		monsters.add("witch");
-		room = game.getDungeon().getRoom(4);
-		room.populate(monsters);
-		monsters.clear();
-		
-		assertTrue(game.getDungeon().getRoom(1).getNPCs().contains("skeleton"));
-		assertTrue(game.getDungeon().getRoom(2).getNPCs().contains("ghoul"));
-		assertTrue(game.getDungeon().getRoom(2).getNPCs().contains("zombie"));
-		assertTrue(game.getDungeon().getRoom(4).getNPCs().contains("witch"));
-		*/
 	}
 }

@@ -21,6 +21,7 @@ public class Room implements Named {
 	
 	public Room() {
 		npcList = new ArrayList<NPC>();
+		eventList = new ArrayList<Event>();
 		entered = false;
 		start = false;
 		exit = false;
