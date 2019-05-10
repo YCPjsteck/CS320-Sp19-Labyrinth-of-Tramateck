@@ -22,12 +22,10 @@ public class GameTest {
 	private static MetaController controller;
 	private static ArrayList<Item> items;
 
-	// TODO: Vendor loot is their inventory, and vendors are tough enemies
 	// TODO: Upon reaching an exit, be asked if you want to leave, being sent to the "overworld" to see other locations
 	// TODO: Travel between locations in "overworld"
 	// TODO: Tell the player if the location is complete
 	// 		TODO: Have locations make a distinction between all hostile NPCs dead and all events complete
-	// TODO: Player death puts the player back at the location start
 	public static void main(String[] args) {
 		player = new Player();
 		library = new Library();
@@ -63,6 +61,11 @@ public class GameTest {
 			if(input.equals("quit"))
 				return;
 			System.out.println(controller.control(input));
+			if(player.isDead()) {
+				player.calHealth();
+				game.curLocation().printMap();
+				System.out.println();
+			}
 		}
 	}
 }

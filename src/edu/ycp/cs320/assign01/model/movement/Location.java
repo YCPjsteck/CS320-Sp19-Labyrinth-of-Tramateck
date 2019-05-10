@@ -88,9 +88,24 @@ public class Location implements Named {
 		for(int j = 0; j < roomMap[0].length; j++) {
 			for(int i = 0; i < roomMap.length; i++) {
 				if(roomMap[i][j] != 0 && getRoom(roomMap[i][j]).getStart()) {
-					getRoom(roomMap[i][j]).isEntered();
+					if(!getRoom(roomMap[i][j]).getEntered())
+						getRoom(roomMap[i][j]).isEntered();
 					setPlayer(i,j);
 				}
+			}
+		}
+	}
+	
+	/**
+	 * Reset the health of all NPCs and regenerate inventories
+	 */
+	// TODO: reset events
+	public void reset() {
+		findStart();
+		for(Room room : roomList) {
+			for(NPC npc : room.getNPCs()) {
+				npc.calHealth();
+				npc.generateInventory();
 			}
 		}
 	}
@@ -337,18 +352,5 @@ public class Location implements Named {
 	 */
 	public LocationType getType() {
 		return type;
-	}
-	
-	/**
-	 * Reset the health of all NPCs and regenerate inventories
-	 */
-	// TODO: reset events
-	public void reset() {
-		for(Room room : roomList) {
-			for(NPC npc : room.getNPCs()) {
-				npc.calHealth();
-				npc.generateInventory();
-			}
-		}
 	}
 }
