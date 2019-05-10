@@ -69,16 +69,48 @@ public class Player extends Character{
 		this.experience = experience;
 	}
 	/**
+	 * Checks if the player's experience is high enough to level up
+	 */
+	public boolean levelCheck() {
+		boolean levelUp = false;
+		while(experience >= 1000) {
+			if(experience >= 1000) {
+				experience -= 1000;
+				incrementLevel();
+				levelUp = true;
+			}
+		}
+		return levelUp;
+	}
+	/**
 	 * Increment this player's level by 1
 	 */
 	public void incrementLevel() {
 		level++;
-	}
-	/**
-	 * Increment this player's level by a given value
-	 */
-	public void incrementLevel(int level) {
-		this.level += level;
+		score += 1000 * level;
+		// Increase the player's stats according to their
+		// equipped items
+		if(armorID != 0) {
+			baseHealth += armor.getHealth();
+			changeHealth(0);
+			intellect += armor.getIntellect();
+			strength += armor.getStrength();
+			dexterity += armor.getDexterity();
+		}
+		if(accessoryID != 0) {
+			baseHealth += accessory.getHealth();
+			changeHealth(0);
+			intellect += accessory.getIntellect();
+			strength += accessory.getStrength();
+			dexterity += accessory.getDexterity();
+		}
+		if(weaponID != 0) {
+			baseHealth += weapon.getHealth();
+			changeHealth(0);
+			intellect += weapon.getIntellect();
+			strength += weapon.getStrength();
+			dexterity += weapon.getDexterity();
+		}
 	}
 
 	/**
@@ -189,7 +221,7 @@ public class Player extends Character{
 		minAttack = level * strength;
 		int quality = 0;
 		if(weapon != null)
-			quality = weapon.getQuality();
+			quality = weapon.getQuality() * level;
 		
 		maxAttack = (int)Math.ceil(((double)minAttack)*1.5) + quality;
 		return (rand.nextInt(getMaxAttack()-getMinAttack()+1) + getMinAttack());
@@ -203,13 +235,13 @@ public class Player extends Character{
 		removeItem(item); // Remove this item from the player's inventory to consume it
 		
 		// Change the player's stats according to this consumable
-		changeHealth(item.getHealth());
-		addExperience(item.getExperience());
-		changeScore(item.getScore());
-		changeCurrency(item.getCurrency());
-		changeIntellect(item.getIntellect());
-		changeStrength(item.getStrength());
-		changeDexterity(item.getDexterity());
+		changeHealth(item.getHealth() * level);
+		addExperience(item.getExperience() * level);
+		changeScore(item.getScore() * level);
+		changeCurrency(item.getCurrency() * level);
+		changeIntellect(item.getIntellect() * level);
+		changeStrength(item.getStrength() * level);
+		changeDexterity(item.getDexterity() * level);
 	}
 	
 	/**
@@ -237,11 +269,11 @@ public class Player extends Character{
 		}
 		
 		// Add to the player's stats based off of this equipment
-		baseHealth += item.getHealth();
+		baseHealth += item.getHealth() * level;
 		changeHealth(0); // Change health by 0 to ensure that the player's health isn't overcharged
-		intellect += item.getIntellect();
-		strength += item.getStrength();
-		dexterity += item.getDexterity();
+		intellect += item.getIntellect() * level;
+		strength += item.getStrength() * level;
+		dexterity += item.getDexterity() * level;
 	}
 	
 	/**
@@ -282,11 +314,11 @@ public class Player extends Character{
 	 */
 	private void unequipItem(Equipment item) {
 		// Upon unqeuipping this item, remove the stat bonuses
-		baseHealth -= item.getHealth();
+		baseHealth -= item.getHealth() * level;
 		changeHealth(0); // Change health by 0 to ensure that the player's health isn't overcharged
-		intellect -= item.getIntellect();
-		strength -= item.getStrength();
-		dexterity -= item.getDexterity();
+		intellect -= item.getIntellect() * level;
+		strength -= item.getStrength() * level;
+		dexterity -= item.getDexterity() * level;
 
 		// Readd the item to the player's inventory
 		addItem(item);

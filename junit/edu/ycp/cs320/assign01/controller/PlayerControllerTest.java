@@ -48,21 +48,18 @@ public class PlayerControllerTest {
 	public void equipTest() {
 		System.out.println("TESTING PLAYERCONTROLLER EQUIP\n");
 		Equipment armor = new Equipment();
-		armor.setLevel(1);
 		armor.setName("Test Armor");
 		armor.setType("armor");
 		armor.setQuality(1);
 		armor.setDexterity(1);
 		armor.setId(4);
 		Equipment weapon = new Equipment();
-		weapon.setLevel(1);
 		weapon.setName("Test Weapon");
 		weapon.setType("weapon");
 		weapon.setQuality(1);
 		weapon.setStrength(1);
 		weapon.setId(5);
 		Equipment accessory = new Equipment();
-		accessory.setLevel(1);
 		accessory.setName("Test Accessory");
 		accessory.setType("accessory");
 		accessory.setQuality(1);
@@ -95,21 +92,18 @@ public class PlayerControllerTest {
 	public void unequipTest() {
 		System.out.println("TESTING PLAYERCONTROLLER UNEQUIP\n");
 		Equipment armor = new Equipment();
-		armor.setLevel(1);
 		armor.setName("Test Armor");
 		armor.setType("armor");
 		armor.setQuality(1);
 		armor.setDexterity(1);
 		armor.setId(4);
 		Equipment weapon = new Equipment();
-		weapon.setLevel(1);
 		weapon.setName("Test Weapon");
 		weapon.setType("weapon");
 		weapon.setQuality(1);
 		weapon.setStrength(1);
 		weapon.setId(5);
 		Equipment accessory = new Equipment();
-		accessory.setLevel(1);
 		accessory.setName("Test Accessory");
 		accessory.setType("accessory");
 		accessory.setQuality(1);
@@ -165,7 +159,6 @@ public class PlayerControllerTest {
 		System.out.println("TESTING PLAYERCONTROLLER CONSUME\n");
 		Consumable item = new Consumable();
 		item.setName("Test Health");
-		item.setLevel(1);
 		item.setHealth(10);
 		player.changeHealth(-10);
 		System.out.println(controller.control("health"));
@@ -196,21 +189,18 @@ public class PlayerControllerTest {
 	public void equippedTest() {
 		System.out.println("TESTING PLAYERCONTROLLER EQUIPMENT\n");
 		Equipment armor = new Equipment();
-		armor.setLevel(1);
 		armor.setName("Test Armor");
 		armor.setType("armor");
 		armor.setQuality(1);
 		armor.setDexterity(1);
 		armor.setId(4);
 		Equipment weapon = new Equipment();
-		weapon.setLevel(1);
 		weapon.setName("Test Weapon");
 		weapon.setType("weapon");
 		weapon.setQuality(1);
 		weapon.setStrength(1);
 		weapon.setId(5);
 		Equipment accessory = new Equipment();
-		accessory.setLevel(1);
 		accessory.setName("Test Accessory");
 		accessory.setType("accessory");
 		accessory.setQuality(1);

@@ -82,6 +82,9 @@ public class PlayerController {
 				if(words.get(0).equals("consume")) {
 					player.consume((Consumable)item);
 					output += "You consumed the \"" + item.getName() + ".\" \n";
+					if(player.levelCheck()) {
+						output += "You leveled up!";
+					}
 				} else if(words.get(0).equals("equip")) {
 					player.equip((Equipment)item);
 					output += "You equipped the \"" + item.getName() + ".\" \n";

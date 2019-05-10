@@ -49,7 +49,6 @@ public class PlayerTest {
 	public void testConsume() {
 		Consumable item = new Consumable();
 		item.setName("Test Juice");
-		item.setLevel(1);
 		item.setLevelChange(2);
 		item.setIntellect(5);
 		item.setDexterity(5);
@@ -188,13 +187,12 @@ public class PlayerTest {
 		Equipment item = new Equipment();
 		item.setName("Test Armor");
 		item.setType("armor");
-		item.setLevel(2);
 		item.setIntellect(1);
 		item.setStrength(1);
 		item.setDexterity(2);
 		item.setHealth(10);
 
-		player.setLevel(1);
+		player.setLevel(2);
 		player.setIntellect(0);
 		player.setStrength(0);
 		player.setDexterity(0);
@@ -208,16 +206,16 @@ public class PlayerTest {
 		player.equip(item);
 		assertTrue(player.getInventory().get(0).getRight() == 1);
 		assertTrue(player.getArmor() == item);
-		assertTrue(player.getHealth() == 100);
+		assertTrue(player.getHealth() == 200);
 		assertTrue(player.getBaseHealth() == 120);
 		player.calHealth();
-		assertTrue(player.getHealth() == 120);
+		assertTrue(player.getHealth() == 240);
 		assertTrue(player.getIntellect() == 2);
 		assertTrue(player.getStrength() == 2);
 		assertTrue(player.getDexterity() == 4);
-		assertTrue(player.getMaxHealth() == 120);
-		player.incrementLevel();
 		assertTrue(player.getMaxHealth() == 240);
+		player.incrementLevel();
+		assertTrue(player.getMaxHealth() == 360);
 	}
 	
 	@Test
@@ -225,13 +223,12 @@ public class PlayerTest {
 		Equipment item = new Equipment();
 		item.setName("Test Armor");
 		item.setType("armor");
-		item.setLevel(2);
 		item.setIntellect(1);
 		item.setStrength(1);
 		item.setDexterity(2);
 		item.setHealth(10);
 
-		player.setLevel(1);
+		player.setLevel(2);
 		player.setIntellect(0);
 		player.setStrength(0);
 		player.setDexterity(0);
@@ -250,15 +247,15 @@ public class PlayerTest {
 		assertTrue(player.getInventory().get(0).getRight() == 2);
 		assertTrue(player.getArmor() == null);
 		
-		assertTrue(player.getHealth() == 100);
+		assertTrue(player.getHealth() == 200);
 		assertTrue(player.getBaseHealth() == 100);
 		player.calHealth();
-		assertTrue(player.getHealth() == 100);
+		assertTrue(player.getHealth() == 200);
 		assertTrue(player.getIntellect() == 0);
 		assertTrue(player.getStrength() == 0);
 		assertTrue(player.getDexterity() == 0);
-		assertTrue(player.getMaxHealth() == 100);
-		player.incrementLevel();
 		assertTrue(player.getMaxHealth() == 200);
+		player.incrementLevel();
+		assertTrue(player.getMaxHealth() == 300);
 	}
 }

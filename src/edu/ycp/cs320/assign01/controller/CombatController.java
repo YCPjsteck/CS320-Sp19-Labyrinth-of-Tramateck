@@ -135,7 +135,7 @@ public class CombatController {
 					}
 					int playerMod = player.getIntellect();
 					if(player.getAccessoryID() != 0) {
-						playerMod += player.getAccessory().getQuality();
+						playerMod += player.getAccessory().getQuality() * player.getLevel();
 					}
 					int currency = target.getLevel()*(100+rand.nextInt(10*playerMod));
 					int experience = target.getLevel()*(200+10*playerMod);
@@ -144,6 +144,9 @@ public class CombatController {
 					player.addExperience(experience);
 					player.changeCurrency(currency);
 					output += "You earned " + experience + " experience, $" + currency + ", and " + score + " score. \n";
+					if(player.levelCheck()) {
+						output += "You leveled up!. \n";
+					}
 				}
 				output = npcAttack(output);
 			}
@@ -164,7 +167,7 @@ public class CombatController {
 				int attack = npc.attack();
 				attack -= player.getDexterity();
 				if(player.getArmorID() != 0)
-					attack -= player.getArmor().getQuality();
+					attack -= player.getArmor().getQuality() * player.getLevel();
 				if(attack < 0)
 					attack = 0;
 				player.changeHealth(-attack);
