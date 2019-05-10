@@ -214,7 +214,7 @@ public class Library {
 				npc.setId(id);
 				id++;
 				Random rand = new Random();
-				npc.setLevel(rand.nextInt(max-min) + min);
+				npc.setLevel(rand.nextInt(max-min+1) + min);
 				npc.calHealth();
 				
 				// Add the NPC to the room
