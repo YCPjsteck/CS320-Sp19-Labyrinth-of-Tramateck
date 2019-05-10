@@ -1,7 +1,7 @@
 package edu.ycp.cs320.assign01.model;
 
 public class Consumable extends Item {
-	private int health, experience, levelChange, score, currency, intellect, strength, dexterity;
+	private int health, experience, score, currency, intellect, strength, dexterity;
 	
 	public Consumable() {
 		super();
@@ -18,12 +18,6 @@ public class Consumable extends Item {
 	}
 	public void setExperience(int experience) {
 		this.experience = experience;
-	}
-	public int getLevelChange() {
-		return levelChange;
-	}
-	public void setLevelChange(int level) {
-		this.levelChange = level;
 	}
 	public int getScore() {
 		return score * super.getLevel();

@@ -468,8 +468,6 @@ public class Library {
 			item.setHealth(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("score")) {
 			item.setScore(Integer.parseInt(words.get(1)));
-		} else if(words.get(0).equalsIgnoreCase("level")) {
-			item.setLevelChange(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("currency")) {
 			item.setCurrency(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("intellect")) {

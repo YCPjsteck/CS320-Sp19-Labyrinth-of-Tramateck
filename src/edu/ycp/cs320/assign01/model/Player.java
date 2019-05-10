@@ -205,7 +205,6 @@ public class Player extends Character{
 		// Change the player's stats according to this consumable
 		changeHealth(item.getHealth());
 		addExperience(item.getExperience());
-		incrementLevel(item.getLevelChange());
 		changeScore(item.getScore());
 		changeCurrency(item.getCurrency());
 		changeIntellect(item.getIntellect());
