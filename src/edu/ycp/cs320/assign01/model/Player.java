@@ -388,7 +388,7 @@ public class Player extends Character{
 		unequipWeapon();
 		// Using a normal for loop as to avoid a java.util.ConcurrentModificationException
 		// that was occuring.
-		for(int i = 0; i < inventory.size(); i ++) {
+		for(int i = 0; i < inventory.size(); i++) {
 			Pair<Item,Integer> pair = inventory.get(i);
 			int remove = 0;
 			Random rand = new Random();
@@ -398,6 +398,9 @@ public class Player extends Character{
 				}
 			}
 			removeItem(pair.getLeft(),remove);
+			if(!containsItem(pair.getLeft())) {
+				i--;
+			}
 		}
 	}
 }
