@@ -17,8 +17,6 @@ public class CombatControllerTest {
 	Library library;
 	Player player;
 	
-	// TODO: Test combat vs friendly NPC
-	
 	@Before
 	public void setup() {
 		library = new Library();

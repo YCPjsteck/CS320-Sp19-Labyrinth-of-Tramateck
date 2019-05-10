@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
+import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.movement.Location;
 import edu.ycp.cs320.assign01.model.movement.Room;
 import edu.ycp.cs320.assign01.model.movement.WorldMap;
@@ -11,16 +12,18 @@ import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
 public class MovementController {
 	private Set<String> moveTargets;
+	private Player player;
 	private WorldMap game;
 	private Location location;
 	private Room room;
 	
-	public MovementController(WorldMap game) {
+	public MovementController(WorldMap game, Player player) {
 		moveTargets = new TreeSet<String>();
 		moveTargets.add("north");
 		moveTargets.add("south");
 		moveTargets.add("east");
 		moveTargets.add("west");
+		this.player = player;
 		this.game = game;
 		location = game.curLocation();
 		room = location.curRoom();
@@ -75,13 +78,15 @@ public class MovementController {
 			
 			// If the input is valid, move the player and get the output
 			if(test) {
-				location.travel(words.get(1));
 				if(words.get(0).equals("move"))
 					output += "Traveled " + words.get(1) + ".\n";
-				else if(!room.roomComplete()) // TODO if the player runs, they recieve final damage
+				else if(!room.roomComplete()) { // TODO make distinction between NPCs and events
 					output += "Ran from combat " + words.get(1) + ".\n";
-				else
+					CombatController combat = new CombatController(game,player);
+					output = combat.npcAttack(output);
+				} else
 					output += "Ran " + words.get(1) + ".\n";
+				location.travel(words.get(1));
 				updateRoom();
 				if(!room.getEntered()) {
 					output += room.getLongDesc() + "\n";

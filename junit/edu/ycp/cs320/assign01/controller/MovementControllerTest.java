@@ -1,5 +1,6 @@
 package edu.ycp.cs320.assign01.controller;
 
+import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.Library;
 import edu.ycp.cs320.assign01.model.utility.WordFinder;
@@ -16,12 +17,14 @@ public class MovementControllerTest {
 	MovementController controller;
 	WorldMap game;
 	Library library;
+	Player player;
 	
 	@Before
 	public void setup() {
 		library = new Library();
 		game = library.generateWorld();
-		controller = new MovementController(game);
+		player = new Player();
+		controller = new MovementController(game,player);
 	}
 	
 	@Test

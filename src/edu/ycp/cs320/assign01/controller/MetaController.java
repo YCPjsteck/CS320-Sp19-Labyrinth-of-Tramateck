@@ -25,7 +25,7 @@ public class MetaController {
 		this.itemList = itemList;
 		
 		playerCon = new PlayerController(player, itemList);
-		movementCon = new MovementController(game);
+		movementCon = new MovementController(game, player);
 		combatCon = new CombatController(game, player);
 		vendorCon = new VendorController(game, player, itemList);
 		
