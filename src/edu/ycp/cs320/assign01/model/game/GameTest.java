@@ -2,18 +2,12 @@ package edu.ycp.cs320.assign01.model.game;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
 
 import edu.ycp.cs320.assign01.controller.MetaController;
-import edu.ycp.cs320.assign01.model.Equipment;
 import edu.ycp.cs320.assign01.model.Item;
 import edu.ycp.cs320.assign01.model.Player;
-import edu.ycp.cs320.assign01.model.movement.Location;
-import edu.ycp.cs320.assign01.model.movement.Room;
 import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.Library;
-import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
 public class GameTest {
 	private static Player player;
@@ -44,9 +38,9 @@ public class GameTest {
 		game.setPlayer(1);
 		game.curLocation().start();
 		
-		/*System.out.println("You crash land your ship on an alien jungle planet. \n" +
-							"Most of your gear has been destroyed, save for a damaged laser pistol, personal shield, battery pack, and some medkits. \n" +
-							"Survive.\n");*/
+		// Give the player access to the second location, but not the first
+		game.grantAccess(2);
+		
 		System.out.println(game.curLocation().curRoom().getLongDesc());
 		game.curLocation().printMap();
 		System.out.println();

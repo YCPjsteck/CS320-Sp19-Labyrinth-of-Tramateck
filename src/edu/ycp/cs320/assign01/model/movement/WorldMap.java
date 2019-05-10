@@ -9,6 +9,7 @@ public class WorldMap {
 	
 	public WorldMap() {
 		locationList = new ArrayList<Location>();
+		locationAccess = new ArrayList<Integer>();
 		player = 1;
 	}
 	

@@ -8,6 +8,7 @@ import edu.ycp.cs320.assign01.model.utility.Pair;
 public class Player extends Character{
 	private int id, locationID, experience, score, currency, intellect, strength, dexterity;
 	private Equipment weapon, armor, accessory;
+	private int armorID, weaponID, accessoryID;
 	private String name;
 	
 	public Player() {
@@ -349,8 +350,6 @@ public class Player extends Character{
 	public Equipment getAccessory() {
 		return accessory;
 	}
-	
-	private int armorID, weaponID, accessoryID;
 
 	public int getArmorID() {
 		return armorID;

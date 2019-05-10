@@ -1,10 +1,15 @@
 package edu.ycp.cs320.assign01.controller;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import edu.ycp.cs320.assign01.enums.ItemType;
+import edu.ycp.cs320.assign01.model.Consumable;
+import edu.ycp.cs320.assign01.model.Equipment;
 import edu.ycp.cs320.assign01.model.Item;
+import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.WordFinder;
@@ -79,6 +84,20 @@ public class MetaController {
 				vendorCon.updateLocation();
 				vendorCon.updateRoom();
 				output += vendorCon.control(input);
+			} else {
+				if(words.get(0).equals("help")) {
+					output += help();
+				} else if(words.get(0).equals("inspect")) {
+					if(words.get(1).equals("room")) {
+						output += game.curLocation().curRoom().getLongDesc();
+					} else {
+						String name = input.substring(words.get(0).length()).trim();
+						output += npcCheck(name);
+						output += itemCheck(name);
+					}
+				} else if(bonusSet.contains(words.get(0))) {
+					output += bonus(words);
+				}
 			}
 		}
 		if(output.equals(""))
@@ -87,13 +106,91 @@ public class MetaController {
 		return output;
 	}
 
+	private String itemCheck(String name) {
+		String output = "";
+		Item target = null;
+		for(Item item : itemList) {
+			if(item.getName().equalsIgnoreCase(name)) {
+				target = item;
+				break;
+			}
+		}
+		if(target != null) {
+			output += target.getRarity() + " " + target.getType() + "\n";
+			output += target.getLongDesc() + "\n";
+			output += "Worth $" + target.getWorth() + " per item. \n";
+			if(target.getType() == ItemType.CONSUMABLE) {
+				Consumable consumable = (Consumable)target;
+				if(consumable.getHealth() != 0) {
+					output += "Heals " + consumable.getHealth() * player.getLevel() + " health. \n";
+				}
+				if(consumable.getScore() != 0) {
+					output += "Grant you " + consumable.getScore() * player.getScore() + " score. \n";
+				}
+				if(consumable.getExperience() != 0) {
+					output += "Grant you " + consumable.getScore() * player.getExperience() + " experience. \n";
+				}
+				if(consumable.getCurrency() != 0) {
+					output += "Grant you " + consumable.getScore() * player.getCurrency() + " currency. \n";
+				}
+				if(consumable.getDexterity() != 0) {
+					output += "Grant you " + consumable.getScore() * player.getDexterity() + " dexterity. \n";
+				}
+				if(consumable.getIntellect() != 0) {
+					output += "Grant you " + consumable.getScore() * player.getIntellect() + " intellect. \n";
+				}
+				if(consumable.getStrength() != 0) {
+					output += "Grant you " + consumable.getScore() * player.getStrength() + " strength. \n";
+				}
+			} else if(target.getType() == ItemType.ARMOR || target.getType() == ItemType.ACCESSORY || target.getType() == ItemType.WEAPON) {
+				Equipment equipment = (Equipment)target;
+				output += "Has a quality of " + equipment.getQuality() + ". \n";
+				if(equipment.getHealth() != 0) {
+					output += "Changes your base health by " + equipment.getHealth() * player.getLevel() + ". \n";
+				}
+				if(equipment.getDexterity() != 0) {
+					output += "Changes your dexterity by " + equipment.getDexterity() * player.getLevel() + ". \n";
+				}
+				if(equipment.getIntellect() != 0) {
+					output += "Changes your intellect by " + equipment.getIntellect() * player.getLevel() + ". \n";
+				}
+				if(equipment.getStrength() != 0)  {
+					output += "Changes your strength by " + equipment.getStrength() * player.getLevel() + ". \n";
+				}
+			}
+		}
+		return output;
+	}
+
+	private String npcCheck(String name) {
+		String output = "";
+		NPC target = game.curLocation().curRoom().getNPC(name);
+		if(target != null) {
+			output += "This is a level " + target.getLevel() + " " + target.getName() + ". It has " + target.getHealth() + " health remaining. \n";
+			output += target.getLongDesc() + "\n";
+		}
+		return output;
+	}
+
 	private String bonus(ArrayList<String> words) {
-		// TODO Auto-generated method stub
-		return null;
+		String output = "";
+		if(words.get(0).equalsIgnoreCase("barrel") && words.get(1).equalsIgnoreCase("roll")) {
+			output += "Do a barrel roll! \n";
+		} else if(words.get(0).equalsIgnoreCase("jump")) {
+			output += "You jump up into the air and hit the ground with a thud. \n";
+		}
+		return output;
 	}
 
 	private String help() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> help = new ArrayList<String>();
+		help.add("Sorry, I don't have any help for you at the moment.");
+		help.add("Typing \"help\" will return some helpful tips!");
+		help.add("You can inspect the room that you're in to recieve its long description again.");
+		help.add("The amount of score, experience, and currency that you gain can be increased by having a higher intellect stat and accessory quality.");
+		help.add("You get nothing! You lose! Good day, sir!");
+		help.add("Say that again?");
+		Random rand = new Random();
+		return help.get(rand.nextInt(help.size())) + "\n";
 	}
 }

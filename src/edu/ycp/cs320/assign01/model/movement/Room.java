@@ -64,7 +64,7 @@ public class Room implements Named {
 	 */
 	public NPC getNPC(String name) {
 		for(NPC m : npcList)
-			if(m.getName().equals(name))
+			if(m.getName().equalsIgnoreCase(name))
 				return m;
 		
 		return null;
