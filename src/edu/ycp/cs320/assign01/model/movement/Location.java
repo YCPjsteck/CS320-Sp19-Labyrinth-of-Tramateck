@@ -3,6 +3,7 @@ package edu.ycp.cs320.assign01.model.movement;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.assign01.enums.LocationType;
+import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.interfaces.Named;
 
 public class Location implements Named {
@@ -68,7 +69,17 @@ public class Location implements Named {
 	public int getY() {
 		return playerY;
 	}
-	
+
+	public void start() {
+		findStart();
+		for(Room room : roomList) {
+			for(NPC npc : room.getNPCs()) {
+				npc.calHealth();
+				npc.generateInventory();
+			}
+		}
+	}
+
 	/**
 	 * Finds the room that has the start boolean set to true and 
 	 * sets the player's coordinates to the coordinates of that room
@@ -326,5 +337,18 @@ public class Location implements Named {
 	 */
 	public LocationType getType() {
 		return type;
+	}
+	
+	/**
+	 * Reset the health of all NPCs and regenerate inventories
+	 */
+	// TODO: reset events
+	public void reset() {
+		for(Room room : roomList) {
+			for(NPC npc : room.getNPCs()) {
+				npc.calHealth();
+				npc.generateInventory();
+			}
+		}
 	}
 }

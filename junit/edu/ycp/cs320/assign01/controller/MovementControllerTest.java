@@ -52,7 +52,6 @@ public class MovementControllerTest {
 		ArrayList<String> array = finder.findWords(output,"\n");
 		System.out.println(array.get(1));
 		assertTrue(array.get(0).equalsIgnoreCase("Traveled west."));
-		assertTrue(array.get(1).contains("room long:"));
 		assertTrue(array.size() == 5);
 
 		output = controller.control("move east");
@@ -63,7 +62,6 @@ public class MovementControllerTest {
 		System.out.println(output);
 		array = finder.findWords(output,"\n");
 		assertTrue(array.get(0).equalsIgnoreCase("Ran from combat east."));
-		assertTrue(array.get(1).toLowerCase().contains("room short:"));
 		assertTrue(array.size() == 5);
 	}
 }

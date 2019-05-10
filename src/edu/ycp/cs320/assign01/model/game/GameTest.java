@@ -22,16 +22,12 @@ public class GameTest {
 	private static MetaController controller;
 	private static ArrayList<Item> items;
 
-	// TODO: Item levels are based off of player level 
-	// 		 (as to avoid needing to implement the inventory making distinctions 
-	//		 betweeen two items of the same type with differnet levels)
 	// TODO: Vendor loot is their inventory, and vendors are tough enemies
 	// TODO: Upon reaching an exit, be asked if you want to leave, being sent to the "overworld" to see other locations
 	// TODO: Travel between locations in "overworld"
-	// TODO: Vendors generate their inventories when the location is created
-	// TODO: Handle player level ups
 	// TODO: Tell the player if the location is complete
-	// TODO: Player death
+	// 		TODO: Have locations make a distinction between all hostile NPCs dead and all events complete
+	// TODO: Player death puts the player back at the location start
 	public static void main(String[] args) {
 		player = new Player();
 		library = new Library();
@@ -48,7 +44,7 @@ public class GameTest {
 		
 		// Set the player's location for the start of the game
 		game.setPlayer(1);
-		game.curLocation().findStart();
+		game.curLocation().start();
 		
 		/*System.out.println("You crash land your ship on an alien jungle planet. \n" +
 							"Most of your gear has been destroyed, save for a damaged laser pistol, personal shield, battery pack, and some medkits. \n" +
@@ -59,7 +55,7 @@ public class GameTest {
 		
 		@SuppressWarnings("resource")
 		Scanner reader = new Scanner(System.in);
-		while(!player.isDead()) {
+		while(true) {
 			// Ask the player to enter a command. If the command is "quit",
 			// then terminate the program.
 			System.out.println("Enter a command.");
@@ -68,6 +64,5 @@ public class GameTest {
 				return;
 			System.out.println(controller.control(input));
 		}
-		System.out.println("Game over.");
 	}
 }

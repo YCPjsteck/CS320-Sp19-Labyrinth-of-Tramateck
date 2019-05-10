@@ -144,6 +144,9 @@ public class CombatController {
 					player.addExperience(experience);
 					player.changeCurrency(currency);
 					output += "You earned " + experience + " experience, $" + currency + ", and " + score + " score. \n";
+					if(location.locationComplete()) {
+						output += "You have defeated all the hostile monsters in this location. \n";
+					}
 					if(player.levelCheck()) {
 						output += "You leveled up!. \n";
 					}
@@ -174,6 +177,9 @@ public class CombatController {
 				output += "The " + npc.getName() + " attacked you for " + attack + " damage. You have " + player.getHealth() + " health left. \n";
 				if(player.isDead()) {
 					output += "You died a painful death at the hands of the "+ npc.getName() + ". \n";
+					player.died();
+					location.reset();
+					output += "You reawake where you started. \n";
 					break;
 				}
 			}

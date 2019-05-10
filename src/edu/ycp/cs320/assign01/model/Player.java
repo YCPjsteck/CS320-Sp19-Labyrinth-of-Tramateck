@@ -3,6 +3,7 @@ package edu.ycp.cs320.assign01.model;
 import java.util.Random;
 
 import edu.ycp.cs320.assign01.enums.ItemType;
+import edu.ycp.cs320.assign01.model.utility.Pair;
 
 public class Player extends Character{
 	private int id, locationID, experience, score, currency, intellect, strength, dexterity;
@@ -367,5 +368,29 @@ public class Player extends Character{
 
 	public void setAccessoryID(int accessoryID) {
 		this.accessoryID = accessoryID;
+	}
+	
+	/**
+	 * If a player dies, their score is reset, 
+	 * they lose 50% of their currency, and they have a
+	 * 50% chance to lose each item in their inventory.
+	 */
+	public void died() {
+		score = 0;
+		currency /= 2;
+		unequipAccessory();
+		unequipArmor();
+		unequipWeapon();
+		for(Pair<Item, Integer> pair : inventory) {
+			int remove = 0;
+			Random rand = new Random();
+			for(int i = 0; i < pair.getRight(); i++) {
+				if(rand.nextInt(100) < 50) {
+					remove++;
+				}
+			}
+			removeItem(pair.getLeft(),remove);
+		}
+		calHealth();
 	}
 }
