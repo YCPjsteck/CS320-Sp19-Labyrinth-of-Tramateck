@@ -19,8 +19,6 @@ public class CombatController {
 	private Room room;
 	private Player player;
 	
-	// TODO: Handle player deaths (losing progress)
-	
 	public CombatController(WorldMap game, Player player) {
 		this.player = player;
 		this.game = game;

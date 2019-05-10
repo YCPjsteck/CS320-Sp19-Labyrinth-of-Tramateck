@@ -11,6 +11,7 @@ public class Player extends Character{
 	private String name;
 	
 	public Player() {
+		super();
 		weapon = null;
 		armor = null;
 		accessory = null;
@@ -20,7 +21,7 @@ public class Player extends Character{
 		// Level
 		experience = 0;
 		level = 1;
-		baseHealth = 100;
+		baseHealth = 50;
 		calHealth();
 		
 		// Stats
@@ -74,9 +75,9 @@ public class Player extends Character{
 	 */
 	public boolean levelCheck() {
 		boolean levelUp = false;
-		while(experience >= 1000) {
-			if(experience >= 1000) {
-				experience -= 1000;
+		while(experience >= 1000*level) {
+			if(experience >= 1000*level) {
+				experience -= 1000*level;
 				incrementLevel();
 				levelUp = true;
 			}
@@ -88,7 +89,11 @@ public class Player extends Character{
 	 */
 	public void incrementLevel() {
 		level++;
-		score += 1000 * level;
+		int playerMod = intellect;
+		if(accessoryID != 0) {
+			playerMod += accessory.getQuality() * level;
+		}
+		score += (100 + playerMod) * level;
 		// Increase the player's stats according to their
 		// equipped items
 		if(armorID != 0) {
@@ -112,6 +117,7 @@ public class Player extends Character{
 			strength += weapon.getStrength();
 			dexterity += weapon.getDexterity();
 		}
+		calHealth();
 	}
 
 	/**

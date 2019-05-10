@@ -147,14 +147,14 @@ public class PlayerController {
 					output += "Accessory: " + player.getAccessory().getName() + "\n";
 			} else if(words.get(0).equals("stats")) {
 				output += "Health: " + player.getHealth() + "/" + player.getMaxHealth() + "\n";
-				output += "Level: " + player.getLevel() + ", " + player.getExperience() + "/1000 exp\n";
+				output += "Level: " + player.getLevel() + ", " + player.getExperience() + "/" + player.getLevel() * 1000 + " exp\n";
 				output += "Currency: $" + player.getCurrency() + "\n";
 				output += "Intellect: " + player.getIntellect() + "\n";
 				output += "Dexterity: " + player.getDexterity() + "\n";
 				output += "Strength: " + player.getStrength() + "\n";
 				output += "Score: " + player.getScore() + "\n";
 			} else if(words.get(0).equals("level") || words.get(0).equals("experience")) {
-				output += "Level: " + player.getLevel() + ", " + player.getExperience() + "/1000 exp\n";
+				output += "Level: " + player.getLevel() + ", " + player.getExperience() + "/" + player.getLevel() * 1000 + " exp\n";
 			} else if(words.get(0).equals("score")) {
 				output += "Score: " + player.getScore() + "\n";
 			} else if(words.get(0).equals("currency")) {

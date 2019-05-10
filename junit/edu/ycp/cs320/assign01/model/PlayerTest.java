@@ -49,7 +49,7 @@ public class PlayerTest {
 	public void testConsume() {
 		Consumable item = new Consumable();
 		item.setName("Test Juice");
-		item.setLevelChange(2);
+		item.setExperience(2000);
 		item.setIntellect(5);
 		item.setDexterity(5);
 		item.setStrength(5);
@@ -64,6 +64,7 @@ public class PlayerTest {
 		
 		player.consume(item);
 		assertTrue(player.getInventory().size() == 0);
+		player.levelCheck();
 		assertTrue(player.getLevel() == 3);
 	}
 	
