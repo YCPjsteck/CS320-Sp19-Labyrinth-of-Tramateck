@@ -192,7 +192,7 @@ public class Player extends Character{
 			quality = weapon.getQuality();
 		
 		maxAttack = (int)Math.ceil(((double)minAttack)*1.5) + quality;
-		return (rand.nextInt(getMaxAttack()-getMinAttack()) + getMinAttack());
+		return (rand.nextInt(getMaxAttack()-getMinAttack()+1) + getMinAttack());
 	}
 	
 	/**

@@ -199,7 +199,7 @@ public class NPC extends Character implements Named {
 	 */
 	public int attack() {
 		Random rand = new Random();
-		return (rand.nextInt(getMaxAttack()-getMinAttack()) + getMinAttack()) * getLevel();
+		return (rand.nextInt(getMaxAttack()-getMinAttack()+1) + getMinAttack()) * getLevel();
 	}
 	 /**
 	 * Give this NPC a weakness
