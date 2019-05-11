@@ -36,13 +36,13 @@ public class GameTest {
 		// Set the player's location for the start of the game
 		game.setPlayer(1);
 		game.curLocation().start();
-		
-		// Give the player access to the second location, but not the first
+		game.curLocation().curRoom().isEntered();
+
+		game.grantAccess(1);
 		game.grantAccess(2);
 		
 		System.out.println(game.curLocation().curRoom().getLongDesc());
-		game.curLocation().printMap();
-		System.out.println();
+		System.out.println(game.curLocation().getMapString());
 		
 		@SuppressWarnings("resource")
 		Scanner reader = new Scanner(System.in);
@@ -56,8 +56,7 @@ public class GameTest {
 			System.out.println(controller.control(input));
 			if(player.isDead()) {
 				player.calHealth();
-				game.curLocation().printMap();
-				System.out.println();
+				System.out.println(game.curLocation().getMapString());
 			}
 		}
 	}

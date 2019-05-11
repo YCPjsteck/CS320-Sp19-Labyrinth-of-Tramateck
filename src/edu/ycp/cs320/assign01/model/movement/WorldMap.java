@@ -80,4 +80,8 @@ public class WorldMap {
 	public void grantAccess(int l) {
 		locationAccess.add(l);
 	}
+
+	public ArrayList<Integer> getAccess() {
+		return locationAccess;
+	}
 }

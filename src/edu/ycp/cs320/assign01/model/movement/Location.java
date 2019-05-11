@@ -85,15 +85,10 @@ public class Location implements Named {
 	 * sets the player's coordinates to the coordinates of that room
 	 */
 	public void findStart() {
-		for(int j = 0; j < roomMap[0].length; j++) {
-			for(int i = 0; i < roomMap.length; i++) {
-				if(roomMap[i][j] != 0 && getRoom(roomMap[i][j]).getStart()) {
-					if(!getRoom(roomMap[i][j]).getEntered())
-						getRoom(roomMap[i][j]).isEntered();
+		for(int j = 0; j < roomMap[0].length; j++)
+			for(int i = 0; i < roomMap.length; i++)
+				if(roomMap[i][j] != 0 && getRoom(roomMap[i][j]).getStart())
 					setPlayer(i,j);
-				}
-			}
-		}
 	}
 	
 	/**
