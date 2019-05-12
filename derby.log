@@ -4,8 +4,8 @@ Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 
 on database directory C:\CS320-Sp19-Labyrinth-of-Tramateck-DB\library.db with class loader sun.misc.Launcher$AppClassLoader@5acf9800 
 Loaded from file:/C:/Users/ctraina/Documents/GitHub/CS320_Derby/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_201-b09
-user.dir=C:\Users\ctraina\Documents\GitHub\CS320-Sp19-Labyrinth-of-Tramateck
+java.runtime.version=1.8.0_181-b13
+user.dir=C:\Users\jstec\Desktop\Eclipse\CS320-Sp19-Labyrinth-of-Tramateck
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0

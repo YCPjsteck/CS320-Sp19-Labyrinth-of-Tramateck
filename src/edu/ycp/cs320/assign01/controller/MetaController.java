@@ -78,8 +78,7 @@ public class MetaController {
 				eventCon.updateLocation();
 				eventCon.updateRoom();
 				output += eventCon.control(input);
-			}
-			if(movementSet.contains(words.get(0))) {
+			} else if(movementSet.contains(words.get(0))) {
 				movementCon.updateLocation();
 				movementCon.updateRoom();
 				output += movementCon.control(input);

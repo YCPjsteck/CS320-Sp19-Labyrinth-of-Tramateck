@@ -65,7 +65,8 @@ public class PlayerTest {
 		player.consume(item);
 		assertTrue(player.getInventory().size() == 0);
 		player.levelCheck();
-		assertTrue(player.getLevel() == 3);
+		assertTrue(player.getLevel() == 2);
+		assertTrue(player.getExperience() == 1000);
 	}
 	
 	@Test
