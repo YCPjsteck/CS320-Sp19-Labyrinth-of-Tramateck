@@ -5,6 +5,7 @@ public enum ItemType {
 	COMMODITY("commodity"),
 	ARTIFACT("artifact"),
 	QUEST("quest"),
+	CONSUMABLE("consumable"),
 	ARMOR("armor"),
 	WEAPON("weapon"),
 	ACCESSORY("accessory");
@@ -27,6 +28,8 @@ public enum ItemType {
 			return ARTIFACT;
 		else if(type.equalsIgnoreCase("quest"))
 			return QUEST;
+		else if(type.equalsIgnoreCase("consumable"))
+			return CONSUMABLE;
 		else if(type.equalsIgnoreCase("armor"))
 			return ARMOR;
 		else if(type.equalsIgnoreCase("weapon"))

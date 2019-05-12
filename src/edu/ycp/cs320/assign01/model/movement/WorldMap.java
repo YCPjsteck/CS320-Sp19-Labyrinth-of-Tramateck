@@ -2,91 +2,42 @@ package edu.ycp.cs320.assign01.model.movement;
 
 import java.util.ArrayList;
 
-import edu.ycp.cs320.assign01.model.interfaces.Navigable;
-
-public class WorldMap implements Navigable {
+public class WorldMap {
 	private ArrayList<Integer> locationAccess;
 	private ArrayList<Location> locationList;
-	private int[][] locationMap;
-	private int playerX, playerY;
+	private int player;
 	
 	public WorldMap() {
 		locationList = new ArrayList<Location>();
+		locationAccess = new ArrayList<Integer>();
+		player = 1;
+	}
+	
+	/**
+	 * @param player the player's location ID
+	 */
+	public void setPlayer(int player) {
+		this.player = player;
+	}
+	
+	/**
+	 * @return the player's current location ID
+	 */
+	public int getPlayer() {
+		return player;
 	}
 
 	/**
-	 * @param map the 2D array of integers representing the location IDs of this WorldMap
+	 * @param location a location to add to the WorldMap
 	 */
-	public void setMap(int[][] map) {
-		locationMap = map;
+	public void addLocation(Location location) {
+		locationList.add(location);
 	}
-	
 	/**
-	 * @return the 2D array of integers representing to location IDs of this WorldMap
+	 * @param locations a list of locations to add to the WorldMap
 	 */
-	public int[][] getMap() {
-		return locationMap;
-	}
-	
-	/**
-	 * Set the player's x,y coordinates on the location map
-	 */
-	public void setPlayer(int x, int y) {
-		playerX = x;
-		playerY = y;
-	}
-	
-	// TODO: these two methods are duplicated in WorldMap and Location,
-	// 		 make a MapMaker utility class?
-	/**
-	 * Print the room map to the console
-	 */
-	public void printMap() {
-		for(int j = 0; j < locationMap[0].length; j++) {
-			for(int i = 0; i < locationMap.length; i++) {
-				if(locationMap[i][j] != 0) {
-					if(i == playerX && j == playerY)
-						System.out.print("x ");
-					else
-						System.out.print("o ");
-				} else {
-					System.out.print("  ");
-				}
-			}
-			System.out.println();
-		}
-	}
-	
-	/**
-	 * @return an arrayList of strings representing the room map
-	 */
-	public ArrayList<String> getMapString() {
-		ArrayList<String> temp = new ArrayList<String>();
-		String str = "";
-		
-		for(int j = 0; j < locationMap[0].length; j++) {
-			for(int i = 0; i < locationMap.length; i++) {
-				if(locationMap[i][j] != 0) {
-					if(i == playerX && j == playerY)
-						str += "-x-";
-					else
-						str += "-o-";
-				} else {
-					str += "---";
-				}
-			}
-			temp.add(str);
-			str = "";
-		}
-		return temp;
-	}
-
-
-	/**
-	 * @param l a location to add to the list of locations
-	 */
-	public void addLocation(Location l) {
-		locationList.add(l);
+	public void addLocations(ArrayList<Location> locations) {
+		this.locationList.addAll(locations);
 	}
 	
 	/**
@@ -99,12 +50,8 @@ public class WorldMap implements Navigable {
 	/**
 	 * @return the current location that the player is in
 	 */
-	public Location curLocation() {
-		int x = playerX;
-		int y = playerY;
-		int id = locationMap[x][y];
-		
-		return getLocation(id);
+	public Location curLocation() {		
+		return getLocation(player);
 	}
 	
 	/**
@@ -126,10 +73,15 @@ public class WorldMap implements Navigable {
 	public boolean hasAccess(int l) {
 		return (locationAccess.contains(l));
 	}
+	
 	/**
 	 * @param l the ID number of the location the player is being given access to
 	 */
 	public void grantAccess(int l) {
 		locationAccess.add(l);
+	}
+
+	public ArrayList<Integer> getAccess() {
+		return locationAccess;
 	}
 }
