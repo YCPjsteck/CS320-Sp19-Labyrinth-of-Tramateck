@@ -15,11 +15,12 @@ import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
 public class MetaController {
-	Set<String> combatSet, movementSet, playerSet, vendorSet, bonusSet;
+	Set<String> combatSet, movementSet, playerSet, vendorSet, eventSet, bonusSet;
 	CombatController combatCon;
 	PlayerController playerCon;
 	MovementController movementCon;
 	VendorController vendorCon;
+	EventController eventCon;
 	Player player;
 	WorldMap game;
 	ArrayList<Item> itemList;
@@ -33,6 +34,7 @@ public class MetaController {
 		movementCon = new MovementController(game, player);
 		combatCon = new CombatController(game, player);
 		vendorCon = new VendorController(game, player, itemList);
+		eventCon = new EventController(game, player);
 		
 		combatSet = new TreeSet<String>();
 		combatSet.add("attack");
@@ -59,6 +61,8 @@ public class MetaController {
 		vendorSet.add("talk");
 		vendorSet.add("buy");
 		vendorSet.add("sell");
+		eventSet = new TreeSet<String>();
+		eventSet.add("action");
 		bonusSet = new TreeSet<String>();
 		bonusSet.add("jump");
 		bonusSet.add("barrel");
@@ -70,6 +74,11 @@ public class MetaController {
 		ArrayList<String> words = finder.findWords(input);
 		
 		if(!words.isEmpty()) {
+			if(eventSet.contains(words.get(0))) {
+				eventCon.updateLocation();
+				eventCon.updateRoom();
+				output += eventCon.control(input);
+			}
 			if(movementSet.contains(words.get(0))) {
 				movementCon.updateLocation();
 				movementCon.updateRoom();

@@ -85,7 +85,7 @@ public class Room implements Named {
 	 */
 	public boolean eventsClear() {
 		for(Event e : eventList)
-			if(!e.isDone() || !e.isRepeatable()) {
+			if(!e.isDone()) {
 				return false;
 			}
 		return true;
@@ -115,6 +115,8 @@ public class Room implements Named {
 	 * @return the currently active event
 	 */
 	public Event curEvent() {
+		if(eventList.size() < curEvent)
+			return null;
 		return eventList.get(curEvent);
 	}
 	/**

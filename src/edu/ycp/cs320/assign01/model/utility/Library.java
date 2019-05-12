@@ -322,9 +322,9 @@ public class Library {
 		Event event;
 		
 		while(reader.hasNext()) {
-			String str = reader.nextLine();
+			String str = reader.nextLine().trim();
 			ArrayList<String> words = finder.findWords(str);
-			str = reader.nextLine();
+			str = reader.nextLine().trim();
 			
 			if(words.get(0).equals("event")) {
 				event = new Event();
@@ -354,8 +354,6 @@ public class Library {
 						event.setBPassPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Pass Pair
 					} else if (words.get(0).equals("bfailpair")) {
 						event.setBFailPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Fail Pair
-					} else if (words.get(0).equals("repeat")) {
-						event.setRepeatable(true);
 					}
 					
 					if(reader.hasNext())

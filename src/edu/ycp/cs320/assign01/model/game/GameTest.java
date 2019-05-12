@@ -16,8 +16,6 @@ public class GameTest {
 	private static MetaController controller;
 	private static ArrayList<Item> items;
 
-	// TODO: Upon reaching an exit, be asked if you want to leave, being sent to the "overworld" to see other locations
-	// TODO: Travel between locations in "overworld"
 	// TODO: Tell the player if the location is totally complete (hostile NPCs and all events done)
 	public static void main(String[] args) {
 		player = new Player();

@@ -123,6 +123,10 @@ public class MovementController {
 				} else {
 					output += room.getShortDesc() + "\n";
 				}
+				if(!room.eventsClear()) {
+					output += room.curEvent().getPrompt() + "\n";
+					output += "Type \"action\" and then A or B for the first or second action. \n";
+				}
 				if(room.getExit()) {
 					output += "You can leave this location from here. \n";
 					

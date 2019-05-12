@@ -24,6 +24,7 @@ location Jungle
 		
 	room
 		coord 2 0
+		event 003
 		
 	room
 		coord 2 1

@@ -149,7 +149,7 @@ public class LibraryTest {
 		}
 		
 		ArrayList<Event> eventList = lib.getEvents();
-		assertTrue(eventList.size() == 2);
+		assertTrue(eventList.size() == 3);
 		
 		//TEST 1
 		assertTrue(eventList.get(0).getId() == 1);
@@ -177,7 +177,6 @@ public class LibraryTest {
 		
 		assertTrue(eventList.get(0).getBFailPair().getLeft() == 0);
 		assertTrue(eventList.get(0).getBFailPair().getRight() == 0);
-		assertTrue(!eventList.get(0).isRepeatable());
 		
 		//TEST 2
 		assertTrue(eventList.get(1).getId() == 2);
@@ -203,7 +202,5 @@ public class LibraryTest {
 		assertTrue(eventList.get(1).getBPassPair().getRight() == 10);
 		
 		assertTrue(eventList.get(1).getBFailPair().getLeft() == 11);
-		assertTrue(eventList.get(1).getBFailPair().getRight() == 12);
-		assertTrue(eventList.get(1).isRepeatable());
 	}
 }
