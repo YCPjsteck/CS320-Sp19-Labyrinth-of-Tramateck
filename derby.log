@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Fri May 10 11:31:48 EDT 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-016a-a25f-3064-0000062ec6f8 
-on database directory C:\CS320-Sp19-Labyrinth-of-Tramateck-DB\library.db with class loader sun.misc.Launcher$AppClassLoader@5acf9800 
-Loaded from file:/C:/Users/jstec/Desktop/Eclipse/CS320_Derby/lib/derby.jar
+Tue May 07 13:34:15 EDT 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-016a-935c-35b3-00000e769880 
+on database directory C:\CS320-Sp19-Labyrinth-of-Tramateck-DB\library.db with class loader sun.misc.Launcher$AppClassLoader@73d16e93 
+Loaded from file:/C:/Users/ctraina/Documents/GitHub/CS320_Derby/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_181-b13
-user.dir=C:\Users\jstec\Desktop\Eclipse\CS320-Sp19-Labyrinth-of-Tramateck
+java.runtime.version=1.8.0_201-b09
+user.dir=C:\Users\ctraina\Documents\GitHub\CS320-Sp19-Labyrinth-of-Tramateck
 os.name=Windows 10
 os.arch=amd64
 os.version=10.0
