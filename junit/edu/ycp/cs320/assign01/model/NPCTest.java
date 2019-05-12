@@ -70,8 +70,9 @@ public class NPCTest {
 	public void testChangeHealth() {
 		npc.setLevel(1);
 		npc.setHealth(23);
+		int tempHealth = npc.getHealth();
 		npc.changeHealth(10);
-		assertTrue(npc.getHealth() == 10);
+		assertTrue(npc.getHealth() == tempHealth + 10);
 		npc.changeHealth(100);
 		assertTrue(npc.getHealth() == npc.getMaxHealth());
 		npc.changeHealth(-999);
@@ -101,7 +102,6 @@ public class NPCTest {
 		assertTrue(npc.isDead());
 	}
 	
-	
 	/**
 	 * Tests getLoot method of character
 	 * 		- Creates two new items
@@ -112,7 +112,7 @@ public class NPCTest {
 	 * 		- checks to make sure NPC drops correct amount
 	 */
 	@Test
-	public void testGetLoot() {
+	public void testGetAllLoot() {
 		Item item1 = new Item();
 		Item item2 = new Item();
 		item1.setName("Monkey Paw");
@@ -131,5 +131,33 @@ public class NPCTest {
 		assertTrue(pairs.get(1).getLeft().getName().equals("Monkey Head"));
 		assertTrue(pairs.get(1).getRight() == 1);
 	}
-
+	
+	@Test
+	public void testNPCCopyConstructor() {
+		npc.setHealth(10);
+		npc.setType("Hostile");
+		Item item1 = new Item();
+		item1.setName("Test Item 1");
+		Item item2 = new Item();
+		item2.setName("Test Item 2");
+		npc.addLoot(item1, 100, 1);
+		npc.addInventory(item2, 100, 1);
+		npc.setMinAttack(1);
+		npc.setMaxAttack(2);
+		npc.setShortDesc("A test NPC.");
+		npc.setLongDesc("A test NPC used for finding out if the copy constructor is properly working for NPCs.");
+		npc.setName("Test NPC");
+		
+		NPC copy = new NPC(npc);
+		
+		assertTrue(npc.getType() == copy.getType());
+		assertTrue(npc.getFullInventory().get(0).getLeft().getName().equals(copy.getFullInventory().get(0).getLeft().getName()));
+		assertTrue(npc.getAllLoot().get(0).getLeft().getName().equals(copy.getAllLoot().get(0).getLeft().getName()));
+		assertTrue(npc.getName().equals(copy.getName()));
+		assertTrue(npc.getMinAttack() == copy.getMinAttack());
+		assertTrue(npc.getMaxAttack() == copy.getMaxAttack());
+		assertTrue(npc.getBaseHealth() == copy.getBaseHealth());
+		assertTrue(npc.getShortDesc().equals(copy.getShortDesc()));
+		assertTrue(npc.getLongDesc().equals(copy.getLongDesc()));
+	}
 }

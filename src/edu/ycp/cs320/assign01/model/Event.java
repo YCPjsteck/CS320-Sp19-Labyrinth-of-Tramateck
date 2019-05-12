@@ -1,5 +1,7 @@
 package edu.ycp.cs320.assign01.model;
 
+import java.util.ArrayList;
+
 import edu.ycp.cs320.assign01.model.utility.Pair;
 
 public class Event {
@@ -9,8 +11,10 @@ public class Event {
 	private int key, id; //KEY USED TO FIND DIALOGUE, ID USED TO IDENTIFY EVENT
 	
 	public Event() {		//Get prompt -> Get Dialogue after roll -> Modify Player -> Done
+		key = 0;
 	}
 	
+	private Pair<Integer,Integer> coords;
 	
 	public String getDialogue() {
 		switch (key) {
@@ -31,6 +35,15 @@ public class Event {
 		return (key > 0);
 	}
 	
+	/**
+	 * True = choice A
+	 * False = choice B
+	 * key 0 = prompt
+	 * key 1 = A pass
+	 * key 2 = A fail
+	 * key 3 = B pass
+	 * key 4 = B fail
+	 */
 	public Pair<Integer, Integer> roll(boolean choice) {
 		boolean pass = false; //IS SET TO TRUE IF PLAYER STATS ARE GREATER THAN NEEDED THRESHOLD
 		if (choice) { //CHOICE A
@@ -38,25 +51,25 @@ public class Event {
 			key = 2;
 			switch (aReadPair.getLeft()) { //SWITCH TO COMPARE CORRESPONDING STAT TO ID
 			case 0:
-				if (player.getHealth() > aReadScale) {
+				if (player.getHealth() >= aReadScale) {
 					pass = true;
 					key = 1;
 				}
 				break;
 			case 1:
-				if (player.getStrength() > aReadScale) {
+				if (player.getStrength() >= aReadScale) {
+					pass = true;
+					key = 1;
+				}
+				break;
+			case 2:
+				if (player.getIntellect() >= aReadScale) {
 					pass = true;
 					key = 1;
 				}
 				break;
 			case 3:
-				if (player.getIntellect() > aReadScale) {
-					pass = true;
-					key = 1;
-				}
-				break;
-			case 4:
-				if (player.getHealth() > aReadScale) {
+				if (player.getDexterity() >= aReadScale) {
 					pass = true;
 					key = 1;
 				}
@@ -76,25 +89,25 @@ public class Event {
 			key = 4;
 			switch (bReadPair.getLeft()) {
 			case 0:
-				if (player.getHealth() > bReadScale) {
+				if (player.getHealth() >= bReadScale) {
 					pass = true;
 					key = 3;
 				}
 				break;
 			case 1:
-				if (player.getStrength() > bReadScale) {
+				if (player.getStrength() >= bReadScale) {
+					pass = true;
+					key = 3;
+				}
+				break;
+			case 2:
+				if (player.getIntellect() >= bReadScale) {
 					pass = true;
 					key = 3;
 				}
 				break;
 			case 3:
-				if (player.getIntellect() > bReadScale) {
-					pass = true;
-					key = 3;
-				}
-				break;
-			case 4:
-				if (player.getHealth() > bReadScale) {
+				if (player.getDexterity() >= bReadScale) {
 					pass = true;
 					key = 3;
 				}
@@ -226,5 +239,12 @@ public class Event {
 
 	public Pair<Integer, Integer> getBFailPair() {
 		return bFailPair;
+	}
+
+	/**
+	 * Resets this event back to its beginning state
+	 */
+	public void reset() {
+		key = 0;
 	}
 }

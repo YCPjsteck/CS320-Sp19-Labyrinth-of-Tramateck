@@ -22,9 +22,6 @@ public class Library {
 	private ArrayList<Item> itemList; // items.txt
 	ArrayList<Event> eventList; // events.txt
 	
-	// TODO
-	//		Read events
-	
 	public Library() {
 		locationList = new ArrayList<Location>();
 		npcList = new ArrayList<NPC>();
@@ -95,21 +92,17 @@ public class Library {
 	 */
 	public WorldMap generateWorld() {
 		WorldMap map = new WorldMap();
-		int[][] locMap = new int[1][1];
-		locMap[0][0] = 1;
-		map.setMap(locMap);
-		
-		map.setPlayer(0, 0);
 		
 		try {
-			generateItems("items.txt");
-			generateNPCs("npcs.txt");
+			generateItems("test items.txt");
+			generateNPCs("test npcs.txt");
 			generateEvents("events.txt");
-			generateLocations("locations.txt");
+			generateLocations("test locations.txt");
 		} 
 		catch (FileNotFoundException e) { 
 			e.printStackTrace();
 		}
+		map.addLocations(locationList);
 		
 		return map;
 	}
@@ -154,6 +147,10 @@ public class Library {
 					} else if(words.get(0).equalsIgnoreCase("room")) { // If the first word is "room"
 						// Pass everything to the generateRoom method to create the room.
 						loc.addRoom(generateRoom(reader, loc, npcID, min, max));
+					} else if(words.get(0).equalsIgnoreCase("long")) {
+						loc.setLongDesc(str.substring(words.get(0).length()).trim());
+					} else if(words.get(0).equalsIgnoreCase("short")) {
+						loc.setShortDesc(str.substring(words.get(0).length()).trim());
 					}
 					// Get the next line
 					if(reader.hasNext())
@@ -217,13 +214,17 @@ public class Library {
 				npc.setId(id);
 				id++;
 				Random rand = new Random();
-				npc.setLevel(rand.nextInt(max-min) + min);
+				npc.setLevel(rand.nextInt(max-min+1) + min);
 				npc.calHealth();
 				
 				// Add the NPC to the room
 				room.addNPC(npc);
 			} else if(words.get(0).equalsIgnoreCase("event")) { // If the first word is "event"
-				// TODO: read events
+				room.addEvent(findEvent(Integer.parseInt(words.get(1))));
+			} else if(words.get(0).equalsIgnoreCase("long")) {
+				room.setLongDesc(str.substring(words.get(0).length()).trim());
+			} else if(words.get(0).equalsIgnoreCase("short")) {
+				room.setShortDesc(str.substring(words.get(0).length()).trim());
 			}
 			// Get the next line
 			if(reader.hasNext())
@@ -273,6 +274,10 @@ public class Library {
 						npc.setPart(words.get(1));
 					} else if(words.get(0).equalsIgnoreCase("weakness")) { // If the first word is "weakness"
 						npc.setWeakness(words.get(1));
+					} else if(words.get(0).equalsIgnoreCase("long")) {
+						npc.setLongDesc(str.substring(words.get(0).length()).trim());
+					} else if(words.get(0).equalsIgnoreCase("short")) {
+						npc.setShortDesc(str.substring(words.get(0).length()).trim());
 					}
 					
 					// Read the next line
@@ -314,14 +319,15 @@ public class Library {
 	public void generateEvents(String file) throws FileNotFoundException {
 		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
+		Event event;
 		
 		while(reader.hasNext()) {
-			String str = reader.nextLine();
+			String str = reader.nextLine().trim();
 			ArrayList<String> words = finder.findWords(str);
-			str = reader.nextLine();
+			str = reader.nextLine().trim();
 			
 			if(words.get(0).equals("event")) {
-				Event event = new Event();
+				event = new Event();
 				event.setId(Integer.parseInt(words.get(1)));	//Sets event ID to organize events
 				
 				while(!str.equalsIgnoreCase("")) {
@@ -460,8 +466,6 @@ public class Library {
 			item.setHealth(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("score")) {
 			item.setScore(Integer.parseInt(words.get(1)));
-		} else if(words.get(0).equalsIgnoreCase("level")) {
-			item.setLevelChange(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("currency")) {
 			item.setCurrency(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("intellect")) {

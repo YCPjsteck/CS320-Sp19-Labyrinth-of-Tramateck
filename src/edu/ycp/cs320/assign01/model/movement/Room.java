@@ -2,6 +2,7 @@ package edu.ycp.cs320.assign01.model.movement;
 
 import java.util.ArrayList;
 
+import edu.ycp.cs320.assign01.enums.NPCType;
 import edu.ycp.cs320.assign01.model.Event;
 import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.interfaces.Named;
@@ -10,20 +11,17 @@ public class Room implements Named {
 	private ArrayList<NPC> npcList;
 	private ArrayList<Event> eventList;
 	private String shortDesc, longDesc, name;
-	private int id;
+	private int id, curEvent;
 	private boolean entered;
 	private boolean start, exit;
 	
-	// TODO: 
-	//		Implement events
-	//		Rooms override travel
-	//		Rooms connected to non-adjacent rooms
-	
 	public Room() {
 		npcList = new ArrayList<NPC>();
+		eventList = new ArrayList<Event>();
 		entered = false;
 		start = false;
 		exit = false;
+		curEvent = 0;
 	}
 	
 	/***************
@@ -66,36 +64,66 @@ public class Room implements Named {
 	 */
 	public NPC getNPC(String name) {
 		for(NPC m : npcList)
-			if(m.getName().equals(name))
+			if(m.getName().equalsIgnoreCase(name))
 				return m;
 		
 		return null;
 	}
 	
 	/**
-	 * The room is complete if there are no more hostile NPCs left alive and all events are complete.
+	 * Checks if the hostile NPCs in this room have been killed
 	 */
-	// TODO: check for events and make distinctions between hostile and friendly NPCs
-	public boolean roomComplete() {
+	public boolean roomClear() {
+		for(NPC n : npcList)
+			if(!n.isDead() && n.getType() == NPCType.HOSTILE) {
+				return false;
+			}
+		return true;
+	}
+	/**
+	 * Checks if the events in this room have been cleared
+	 */
+	public boolean eventsClear() {
 		for(Event e : eventList)
 			if(!e.isDone()) {
 				return false;
 			}
-		for(NPC n : npcList)
-			if(!n.isDead()) {
-				return false;
-			}
 		return true;
-		
+	}
+	/**
+	 * The room is complete if there are no more hostile NPCs left alive and all events are complete.
+	 */
+	public boolean roomComplete() {
+		return roomClear() && eventsClear();
 	}
 	/*****************
 	 * Event methods *
 	 *****************/
 	/**
-	 * 
+	 * @param event an event to be added to this room
 	 */
-	public void runEvents() {
-		
+	public void addEvent(Event event) {
+		eventList.add(event);
+	}
+	/**
+	 * @return all the events in this room
+	 */
+	public ArrayList<Event> getEvents() {
+		return eventList;
+	}
+	/**
+	 * @return the currently active event
+	 */
+	public Event curEvent() {
+		if(eventList.size() < curEvent)
+			return null;
+		return eventList.get(curEvent);
+	}
+	/**
+	 * Increments the current event int so that curEvent calls the next event
+	 */
+	public void nextEvent() {
+		curEvent++;
 	}
 
 	/*******************
@@ -184,20 +212,24 @@ public class Room implements Named {
 	/**
 	 * Creates a string that says what NPCs are in this room
 	 */
-	// TODO return infomration about events.
-	// Short contains vs long contains?
 	private String getContains() {
 		String desc = " ";
 		if(npcList.size() > 0) {
-			String cont = "This room contains: ";
-			for(NPC n : npcList) {
+			String cont = "This room contains ";
+			for(int i = 0; i < npcList.size(); i++) {
+				NPC n = npcList.get(i);
 				if(!n.isDead())
-					cont += "a " + n.getName() + ", ";
-				if(n.isDead())
-					cont += "a dead " + n.getName() + ", ";
+					cont += "a " + n.getName();
+				else if(n.isDead())
+					cont += "a dead " + n.getName();
+				
+				if(i < npcList.size()-2) {
+					desc += ", ";
+				} else if(i < npcList.size()-1 && npcList.size() > 1) {
+					desc += " and ";
+				}
 			}
-			if(!cont.equals("This room contains: "))
-				desc += cont;
+			desc += cont + ".";
 		}
 		return desc;
 	}

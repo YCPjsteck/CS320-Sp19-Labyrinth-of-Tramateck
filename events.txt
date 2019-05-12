@@ -23,3 +23,16 @@ bfaillog this is a bFailLog
 	breadpair 7 8
 	bpasspair 9 10
 	bfailpair 11 12
+
+event 003
+	prompt You enter a dead end. As you turn around to leave, you're jumped by a ravenous looking monkey. It pounces to attack you. A) Punch the monkey. B) Dodge its attack.
+	apasslog You throat punch the monkey, causing it to recoil in pain and run back off into the jungle.
+	afaillog You go to throw a punch at the monkey, but miss. It scratches at your face before running back off into the jungle.
+	bpasslog You dodge the monkey's attack. It hisses at you, revealing its large fangs, before running off into the forest.
+	bfaillog You dash to dodge the monkey's attack, but it still gets you. It scratches at your face before running back off into the jungle.
+		areadpair 1 2
+		apasspair 1 1
+		afailpair 0 -10
+		breadpair 3 3
+		bpasspair 3 1
+		bfailpair 0 -10 

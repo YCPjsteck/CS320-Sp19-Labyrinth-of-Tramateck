@@ -22,6 +22,7 @@ public class GameModelTest {
 	
 	@Test
 	public void testConstructor() {
+		assertTrue(false);
 		// Test that a dungeon was created and the player
 		// can only travel south.
 		Location loc = game.getDungeon();
