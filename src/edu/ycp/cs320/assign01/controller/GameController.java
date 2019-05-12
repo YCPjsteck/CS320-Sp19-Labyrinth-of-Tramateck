@@ -30,7 +30,7 @@ public class GameController {
 	}
 	
 	private void preAction() {
-		gameLog.addAll(model.getDungeon().getMapString());
+		gameLog.addAll(model.getDungeon().getMapArray());
 		attackLocations.addAll(model.getDungeon().curRoom().getNPCNames());
 		gameLog.add(model.getDungeon().curRoom().getLongDesc());
 	}

@@ -1,18 +1,18 @@
 package edu.ycp.cs320.assign01.model;
 
-import java.util.ArrayList;
+import java.util.Random;
 
 import edu.ycp.cs320.assign01.enums.ItemType;
 import edu.ycp.cs320.assign01.model.utility.Pair;
 
 public class Player extends Character{
 	private int id, locationID, experience, score, currency, intellect, strength, dexterity;
-	private ArrayList<Pair<Item,Integer>> inventory;
 	private Equipment weapon, armor, accessory;
+	private int armorID, weaponID, accessoryID;
 	private String name;
 	
 	public Player() {
-		inventory = new ArrayList<Pair<Item,Integer>>();
+		super();
 		weapon = null;
 		armor = null;
 		accessory = null;
@@ -22,7 +22,7 @@ public class Player extends Character{
 		// Level
 		experience = 0;
 		level = 1;
-		baseHealth = 100;
+		baseHealth = 50;
 		calHealth();
 		
 		// Stats
@@ -53,89 +53,6 @@ public class Player extends Character{
 		this.id = id;
 	}
 
-	/*********************
-	 * Inventory methods *
-	 *********************/
-	/**
-	 * Get the player's inventory
-	 */
-	public ArrayList<Pair<Item,Integer>> getInventory() {
-		return inventory;
-	}
-	/**
-	 * Returns true if the player's inventory contains at least as many
-	 * of the item given as the quantity given.
-	 */
-	public boolean containsItem(Item item, int quantity) {
-		for(Pair<Item,Integer> pair : inventory) {
-			if(pair.getLeft().getName().equals(item.getName()) 
-					&& pair.getRight() >= quantity) {
-				return true;
-			}
-		}
-		return false;
-	}
-	/**
-	 * Returns true if the player's inventory contains at least one of
-	 * the given item.
-	 */
-	public boolean containsItem(Item item) {
-		return containsItem(item,1);
-	}
-	/**
-	 * Add a given quantity of a given item to the player's inventory
-	 */
-	public void addItem(Item item, int quantity) {
-		boolean has = containsItem(item, quantity);
-		
-		if(has) {
-			for(Pair<Item,Integer> pair : inventory)
-				if(pair.getLeft().getName().equals(item.getName()))
-					pair.setRight(pair.getRight() + quantity);
-		} else
-			inventory.add(new Pair<Item,Integer>(item,quantity));
-	}
-	/**
-	 * Add one of the given item to the player's inventory
-	 */
-	public void addItem(Item item) {
-		addItem(item,1);
-	}
-	/**
-	 * Remove a given quantity of a given item from the player's inventory
-	 */
-	public Pair<Item,Integer> removeItem(Item item, int quantity) {
-		// Check if the player's inventory contains quantity+1 of this item.
-		// The +1 is to hand the situation where the is requesting for exactly
-		// as many items as they have.
-		boolean has = containsItem(item, quantity+1);
-		
-		// If the player does have item x quantity+1
-		if(has) {
-			for(int i = 0; i < inventory.size(); i++) { // Loop through the inventory
-				Pair<Item,Integer> pair = inventory.get(i);
-				if(pair.getLeft().getName().equals(item.getName())) { // Check that the items are the same
-					pair.setRight(pair.getRight() - quantity); // Decrement the quantity of this item by how much is being taken
-					return new Pair<Item,Integer>(item, quantity); // Return the item and its quantity
-				}
-			}
-		} else { // If the player has item x quantity or less
-			for(int i = 0; i < inventory.size(); i++) {
-				Pair<Item,Integer> pair = inventory.get(i);
-				if(pair.getLeft().getName().equals(item.getName())) {
-					return inventory.remove(i); // Simply return the pair, removing it from the player's inventory
-				}
-			}
-		}
-		return null;
-	}
-	/**
-	 * Remove one of the given item from the player's inventory
-	 */
-	public Pair<Item,Integer> removeItem(Item item) {
-		return removeItem(item,1);
-	}
-
 	/****************
 	 * Stat methods *
 	 ****************/
@@ -155,16 +72,53 @@ public class Player extends Character{
 		this.experience = experience;
 	}
 	/**
+	 * Checks if the player's experience is high enough to level up
+	 */
+	public boolean levelCheck() {
+		boolean levelUp = false;
+		while(experience >= 1000*level) {
+			if(experience >= 1000*level) {
+				experience -= 1000*level;
+				incrementLevel();
+				levelUp = true;
+			}
+		}
+		return levelUp;
+	}
+	/**
 	 * Increment this player's level by 1
 	 */
 	public void incrementLevel() {
 		level++;
-	}
-	/**
-	 * Increment this player's level by a given value
-	 */
-	public void incrementLevel(int level) {
-		this.level += level;
+		int playerMod = intellect;
+		if(accessoryID != 0) {
+			playerMod += accessory.getQuality() * level;
+		}
+		score += (100 + playerMod) * level;
+		// Increase the player's stats according to their
+		// equipped items
+		if(armorID != 0) {
+			baseHealth += armor.getHealth();
+			changeHealth(0);
+			intellect += armor.getIntellect();
+			strength += armor.getStrength();
+			dexterity += armor.getDexterity();
+		}
+		if(accessoryID != 0) {
+			baseHealth += accessory.getHealth();
+			changeHealth(0);
+			intellect += accessory.getIntellect();
+			strength += accessory.getStrength();
+			dexterity += accessory.getDexterity();
+		}
+		if(weaponID != 0) {
+			baseHealth += weapon.getHealth();
+			changeHealth(0);
+			intellect += weapon.getIntellect();
+			strength += weapon.getStrength();
+			dexterity += weapon.getDexterity();
+		}
+		calHealth();
 	}
 
 	/**
@@ -270,9 +224,15 @@ public class Player extends Character{
 	/**
 	 * Get an attack value from this player, based off of their level, stats, and equipment
 	 */
-	// TODO check the player's level, stats, and equipment to determine their attack damage.
 	public int attack() {
-		return 0;
+		Random rand = new Random();
+		minAttack = level * strength;
+		int quality = 0;
+		if(weapon != null)
+			quality = weapon.getQuality() * level;
+		
+		maxAttack = (int)Math.ceil(((double)minAttack)*1.5) + quality;
+		return (rand.nextInt(getMaxAttack()-getMinAttack()+1) + getMinAttack());
 	}
 	
 	/**
@@ -283,14 +243,13 @@ public class Player extends Character{
 		removeItem(item); // Remove this item from the player's inventory to consume it
 		
 		// Change the player's stats according to this consumable
-		changeHealth(item.getHealth());
-		addExperience(item.getExperience());
-		incrementLevel(item.getLevelChange());
-		changeScore(item.getScore());
-		changeCurrency(item.getCurrency());
-		changeIntellect(item.getIntellect());
-		changeStrength(item.getStrength());
-		changeDexterity(item.getDexterity());
+		changeHealth(item.getHealth() * level);
+		addExperience(item.getExperience() * level);
+		changeScore(item.getScore() * level);
+		changeCurrency(item.getCurrency() * level);
+		changeIntellect(item.getIntellect() * level);
+		changeStrength(item.getStrength() * level);
+		changeDexterity(item.getDexterity() * level);
 	}
 	
 	/**
@@ -306,20 +265,23 @@ public class Player extends Character{
 		if(item.getType() == ItemType.WEAPON) {
 			unequipWeapon();
 			weapon = item;
+			weaponID = item.getId();
 		} else if(item.getType() == ItemType.ARMOR) {
 			unequipArmor();
 			armor = item;
+			armorID = item.getId();
 		} else if(item.getType() == ItemType.ACCESSORY) {
 			unequipAccessory();
 			accessory = item;
+			accessoryID = item.getId();
 		}
 		
 		// Add to the player's stats based off of this equipment
-		baseHealth += item.getHealth();
+		baseHealth += item.getHealth() * level;
 		changeHealth(0); // Change health by 0 to ensure that the player's health isn't overcharged
-		intellect += item.getIntellect();
-		strength += item.getStrength();
-		dexterity += item.getDexterity();
+		intellect += item.getIntellect() * level;
+		strength += item.getStrength() * level;
+		dexterity += item.getDexterity() * level;
 	}
 	
 	/**
@@ -328,6 +290,7 @@ public class Player extends Character{
 	public void unequipWeapon() {
 		if(weapon != null) { // If something is equipped here
 			unequipItem(weapon); // Revert the player's stats
+			weaponID = 0;
 			// Set this equipment to null to indicate that the
 			// player has nothing equipped
 			weapon = null;
@@ -339,6 +302,7 @@ public class Player extends Character{
 	public void unequipArmor() {
 		if(armor != null) {
 			unequipItem(armor);
+			armorID = 0;
 			armor = null;
 		}
 	}
@@ -348,6 +312,7 @@ public class Player extends Character{
 	public void unequipAccessory() {
 		if(accessory != null) {
 			unequipItem(accessory);
+			accessoryID = 0;
 			accessory = null;
 		}
 	}
@@ -357,11 +322,11 @@ public class Player extends Character{
 	 */
 	private void unequipItem(Equipment item) {
 		// Upon unqeuipping this item, remove the stat bonuses
-		baseHealth -= item.getHealth();
+		baseHealth -= item.getHealth() * level;
 		changeHealth(0); // Change health by 0 to ensure that the player's health isn't overcharged
-		intellect -= item.getIntellect();
-		strength -= item.getStrength();
-		dexterity -= item.getDexterity();
+		intellect -= item.getIntellect() * level;
+		strength -= item.getStrength() * level;
+		dexterity -= item.getDexterity() * level;
 
 		// Readd the item to the player's inventory
 		addItem(item);
@@ -370,23 +335,21 @@ public class Player extends Character{
 	/**
 	 * Get the player's current weapon
 	 */
-	public Item getWeapon() {
+	public Equipment getWeapon() {
 		return weapon;
 	}
 	/**
 	 * Get the player's current armor
 	 */
-	public Item getArmor() {
+	public Equipment getArmor() {
 		return armor;
 	}
 	/**
 	 * Get the player's current accessory
 	 */
-	public Item getAccessory() {
+	public Equipment getAccessory() {
 		return accessory;
 	}
-	
-	private int armorID, weaponID, accessoryID;
 
 	public int getArmorID() {
 		return armorID;
@@ -410,5 +373,34 @@ public class Player extends Character{
 
 	public void setAccessoryID(int accessoryID) {
 		this.accessoryID = accessoryID;
+	}
+	
+	/**
+	 * If a player dies, their score is reset, 
+	 * they lose 50% of their currency, and they have a
+	 * 50% chance to lose each item in their inventory.
+	 */
+	public void died() {
+		score = 0;
+		currency /= 2;
+		unequipAccessory();
+		unequipArmor();
+		unequipWeapon();
+		// Using a normal for loop as to avoid a java.util.ConcurrentModificationException
+		// that was occuring.
+		for(int i = 0; i < inventory.size(); i++) {
+			Pair<Item,Integer> pair = inventory.get(i);
+			int remove = 0;
+			Random rand = new Random();
+			for(int j = 0; j < pair.getRight(); j++) {
+				if(rand.nextInt(100) < 50) {
+					remove++;
+				}
+			}
+			removeItem(pair.getLeft(),remove);
+			if(!containsItem(pair.getLeft())) {
+				i--;
+			}
+		}
 	}
 }
