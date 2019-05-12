@@ -97,7 +97,9 @@ public class MetaController {
 				if(words.get(0).equals("help")) {
 					output += help();
 				} else if(words.get(0).equals("inspect")) {
-					if(words.get(1).equals("room")) {
+					if(words.size() < 2) {
+						output += "Inspect what? \n";
+					} else if(words.get(1).equals("room")) {
 						output += game.curLocation().curRoom().getLongDesc();
 					} else {
 						String name = input.substring(words.get(0).length()).trim();
@@ -183,8 +185,10 @@ public class MetaController {
 
 	private String bonus(ArrayList<String> words) {
 		String output = "";
-		if(words.get(0).equalsIgnoreCase("barrel") && words.get(1).equalsIgnoreCase("roll")) {
-			output += "Do a barrel roll! \n";
+		if(words.size() > 1) {
+			if(words.get(0).equalsIgnoreCase("barrel") && words.get(1).equalsIgnoreCase("roll")) {
+				output += "Do a barrel roll! \n";
+			}
 		} else if(words.get(0).equalsIgnoreCase("jump")) {
 			output += "You jump up into the air and hit the ground with a thud. \n";
 		}

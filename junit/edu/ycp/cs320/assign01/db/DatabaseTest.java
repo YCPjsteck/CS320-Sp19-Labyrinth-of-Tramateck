@@ -2,6 +2,8 @@ package edu.ycp.cs320.assign01.db;
 
 import static org.junit.Assert.assertTrue;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.junit.Before;
@@ -87,17 +89,50 @@ public class DatabaseTest {
 		assertTrue(player.getAccessoryID() == 3);
 	}
 	
+	
+	/**
+	 * Test finds account based on Username and Password
+	 * 			-Confirms that the stored account ID and username are correct
+	 * 			-Confirms that password is correct by encrypting entered password
+	 * 			and checking it with the stored encrypted password
+	 */
 	@Test
 	public void findAccountByUsernameTest() {
+		
+		// Test account 1
+		
 		Account account = db.findAccountByUsername("user");
 		assertTrue(account.getId() == 1);
 		assertTrue(account.getUsername().equals("user"));
-		assertTrue(account.getPassword().equals("Hunter2"));
+		
+		String password = "Hunter2";
+		
+		MessageDigest messageDigest;
+		try {
+			messageDigest = MessageDigest.getInstance("SHA-256");
+			messageDigest.update(password.getBytes());
+			String encryptedPassword = new String(messageDigest.digest());
+			assertTrue(account.getPassword().equals(encryptedPassword));
+		} catch (NoSuchAlgorithmException e) {
+			System.err.println("MessageDigest Instance is not valid");
+		}
+		
+		// Test account 2
 		
 		account = db.findAccountByUsername("admin");
 		assertTrue(account.getId() == 2);
 		assertTrue(account.getUsername().equals("admin"));
-		assertTrue(account.getPassword().equals("admin"));
+		
+		password = "admin";
+		
+		try {
+			messageDigest = MessageDigest.getInstance("SHA-256");
+			messageDigest.update(password.getBytes());
+			String encryptedPassword = new String(messageDigest.digest());
+			assertTrue(account.getPassword().equals(encryptedPassword));
+		} catch (NoSuchAlgorithmException e) {
+			System.err.println("MessageDigest Instance is not valid");
+		}
 	}
 	
 	@Test
