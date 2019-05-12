@@ -60,6 +60,7 @@ public class RoomTest {
 			room.getNPC(i).setLevel(1);
 			room.getNPC(i).setHealth(10);
 			room.getNPC(i).calHealth();
+			room.getNPC(i).setType("hostile");
 		}
 		
 		assertFalse(room.roomComplete());

@@ -224,9 +224,9 @@ public class Room implements Named {
 					cont += "a dead " + n.getName();
 				
 				if(i < npcList.size()-2) {
-					desc += ", ";
+					cont += ", ";
 				} else if(i < npcList.size()-1 && npcList.size() > 1) {
-					desc += " and ";
+					cont += " and ";
 				}
 			}
 			desc += cont + ".";
