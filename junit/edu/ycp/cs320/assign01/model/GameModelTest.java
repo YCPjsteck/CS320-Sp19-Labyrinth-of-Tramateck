@@ -58,6 +58,7 @@ public class GameModelTest {
 		assertFalse(play.isDead());
 	}
 	
+	
 	@Test
 	public void testPopulate() {
 		Room room = game.getDungeon().getRoom(1);
