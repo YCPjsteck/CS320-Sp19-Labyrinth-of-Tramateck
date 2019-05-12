@@ -142,8 +142,10 @@ public class CombatController {
 					player.addExperience(experience);
 					player.changeCurrency(currency);
 					output += "You earned " + experience + " experience, $" + currency + ", and " + score + " score. \n";
-					if(location.locationClear()) {
-						output += "You have defeated all the hostile monsters in this location. \n";
+					if(location.locationComplete()) {
+						output += "You have defeated all the hostile NPCs and completed all events in this location. \n";
+					} else if(location.locationClear()) {
+						output += "You have defeated all the hostile NPCs in this location. \n";
 					}
 					if(player.levelCheck()) {
 						output += "You leveled up!. \n";

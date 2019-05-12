@@ -3,6 +3,7 @@ package edu.ycp.cs320.assign01.model.movement;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.assign01.enums.LocationType;
+import edu.ycp.cs320.assign01.model.Event;
 import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.interfaces.Named;
 
@@ -94,13 +95,15 @@ public class Location implements Named {
 	/**
 	 * Reset the health of all NPCs and regenerate inventories
 	 */
-	// TODO: reset events
 	public void reset() {
 		findStart();
 		for(Room room : roomList) {
 			for(NPC npc : room.getNPCs()) {
 				npc.calHealth();
 				npc.generateInventory();
+			}
+			for(Event event : room.getEvents()) {
+				event.reset();
 			}
 		}
 	}

@@ -112,6 +112,11 @@ public class EventController {
 					default:
 						break;
 				}
+				if(location.locationComplete()) {
+					output += "You have completed all events and defeated all hostile NPCs in this location.\n";
+				} else if(location.eventsClear()) {
+					output += "You have completed all events in this location.\n";
+				}
 			}
 		}
 		return output;

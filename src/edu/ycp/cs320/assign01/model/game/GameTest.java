@@ -16,7 +16,6 @@ public class GameTest {
 	private static MetaController controller;
 	private static ArrayList<Item> items;
 
-	// TODO: Tell the player if the location is totally complete (hostile NPCs and all events done)
 	public static void main(String[] args) {
 		player = new Player();
 		library = new Library();
