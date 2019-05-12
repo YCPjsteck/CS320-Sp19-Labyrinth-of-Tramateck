@@ -212,20 +212,24 @@ public class Room implements Named {
 	/**
 	 * Creates a string that says what NPCs are in this room
 	 */
-	// TODO return infomration about events.
-	// Short contains vs long contains?
 	private String getContains() {
 		String desc = " ";
 		if(npcList.size() > 0) {
-			String cont = "This room contains: ";
-			for(NPC n : npcList) {
+			String cont = "This room contains ";
+			for(int i = 0; i < npcList.size(); i++) {
+				NPC n = npcList.get(i);
 				if(!n.isDead())
-					cont += "a " + n.getName() + ", ";
-				if(n.isDead())
-					cont += "a dead " + n.getName() + ", ";
+					cont += "a " + n.getName();
+				else if(n.isDead())
+					cont += "a dead " + n.getName();
+				
+				if(i < npcList.size()-2) {
+					desc += ", ";
+				} else if(i < npcList.size()-1 && npcList.size() > 1) {
+					desc += " and ";
+				}
 			}
-			if(!cont.equals("This room contains: "))
-				desc += cont;
+			desc += cont + ".";
 		}
 		return desc;
 	}
