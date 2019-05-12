@@ -92,15 +92,16 @@ public class DatabaseTest {
 		Account account = db.findAccountByUsername("user");
 		assertTrue(account.getId() == 1);
 		assertTrue(account.getUsername().equals("user"));
-		System.out.println(account.getPassword());
-		assertTrue(account.correctPassword("Hunter2"));
+		Account test = new Account();
+		test.setPassword("Hunter2");
+		assertTrue(account.correctPassword(test.getPassword()));
 		//assertTrue(account.getPassword().equals("Hunter2"));
 		
 		account = db.findAccountByUsername("admin");
 		assertTrue(account.getId() == 2);
 		assertTrue(account.getUsername().equals("admin"));
-		System.out.println(account.getPassword());
-		assertTrue(account.correctPassword("admin"));
+		test.setPassword("admin");
+		assertTrue(account.correctPassword(test.getPassword()));
 		//assertTrue(account.getPassword().equals("admin"));
 	}
 	
