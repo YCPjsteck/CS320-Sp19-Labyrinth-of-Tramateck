@@ -8,31 +8,31 @@ public class Equipment extends Item {
 	}
 	
 	public int getQuality() {
-		return quality * super.getLevel();
+		return quality;
 	}
 	public void setQuality(int quality) {
 		this.quality = quality;
 	}
 	public int getHealth() {
-		return health * super.getLevel();
+		return health;
 	}
 	public void setHealth(int health) {
 		this.health = health;
 	}
 	public int getIntellect() {
-		return intellect * super.getLevel();
+		return intellect;
 	}
 	public void setIntellect(int intellect) {
 		this.intellect = intellect;
 	}
 	public int getStrength() {
-		return strength * super.getLevel();
+		return strength;
 	}
 	public void setStrength(int strength) {
 		this.strength = strength;
 	}
 	public int getDexterity() {
-		return dexterity * super.getLevel();
+		return dexterity;
 	}
 	public void setDexterity(int dexterity) {
 		this.dexterity = dexterity;

@@ -87,7 +87,11 @@
                             <input type="Submit" name="submit" value="Submit" >
                         </div>
                     </div>
-
+                    
+                    <input name ="playerStr" type="hidden" value="${playerStr}">
+                    <input name ="roomStr" type="hidden" value="${roomStr}">
+                    <input name ="npcStr" type="hidden" value="${npcStr}">
+                    <input name ="eventStr" type="hidden" value="${eventStr}">
                 </form>
             </body>
         </html>

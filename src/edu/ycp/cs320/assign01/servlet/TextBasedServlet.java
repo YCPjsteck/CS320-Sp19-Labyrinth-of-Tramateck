@@ -8,8 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.assign01.controller.GameController;
+import edu.ycp.cs320.assign01.controller.MetaController;
+import edu.ycp.cs320.assign01.model.Item;
+import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.game.Game;
+import edu.ycp.cs320.assign01.model.movement.WorldMap;
+import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
 public class TextBasedServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -32,18 +36,49 @@ public class TextBasedServlet extends HttpServlet {
 		
 		String errorMessage = null;
 		ArrayList<String> output = new ArrayList<String>();
+		String outputParam = req.getParameter("output");
+		output.add(outputParam);
 		String input = req.getParameter("input");
 		
-		// TODO: Sustain the model/model information between actions
-		Game model;
-		System.out.println(req.getAttribute("game") != null);
-		if(req.getAttribute("game") != null)
-		 	model = new Game(((Game) req.getAttribute("game")).getPlayer(), ((Game) req.getAttribute("game")).getDungeon());
-		else
-			model = new Game();
+		Game model = new Game();
+		String playerStr = req.getParameter("playerStr");
+		String roomStr = req.getParameter("roomStr");
+		String npcStr = req.getParameter("npcStr");
+		String eventStr = req.getParameter("eventStr");
+		System.out.println(playerStr);
+		System.out.println(roomStr);
+		System.out.println(npcStr);
+		System.out.println(eventStr);
+		ArrayList<String> stringified = new ArrayList<String>();
+		stringified.add(playerStr);
+		stringified.add(roomStr);
+		stringified.add(npcStr);
+		stringified.add(eventStr);
+		// TODO check the player's stats to determine if they're a new player,
+		// 		then execute the below statement if true.
+		if(playerStr.equals("")) {
+			Player player = model.getPlayer();
+			ArrayList<Item> items = model.getItems();
+			player.addItem(items.get(3));
+			player.addItem(items.get(4));
+			player.addItem(items.get(5));
+			player.addItem(items.get(6),3);
+			
+			WorldMap world = model.getWorld();
+			world.setPlayer(1);
+			world.curLocation().start();
+			world.curLocation().curRoom().isEntered();
+
+			world.grantAccess(1);
+			world.grantAccess(2);
+			
+			output.add(world.curLocation().curRoom().getLongDesc());
+			output.addAll(world.curLocation().getMapArray());
+		} else {
+			model.reconstruct(stringified);
+		}
 		
-		GameController controller = new GameController();
-		controller.setModel(model);
+		MetaController controller = new MetaController(model.getWorld(), model.getPlayer(), model.getItems());
 
 		// check for errors in the form data before using is in a calculation
 		if (input == null || input.equals("")) {
@@ -54,8 +89,9 @@ public class TextBasedServlet extends HttpServlet {
 		// the view does not alter data, only controller methods should be used for that
 		// thus, always call a controller method to operate on the data
 		else {
-			controller.actionSet(input);
-			output = controller.getGameLog();
+			WordFinder finder = new WordFinder();
+			String temp = controller.control(input);
+			output.addAll(finder.findWords(temp, "\n"));
 		}
 		
 		// Add parameters as request attributes
@@ -64,7 +100,12 @@ public class TextBasedServlet extends HttpServlet {
 		// they don't have to be named the same, but in this case, since we are passing them back
 		// and forth, it's a good idea
 		
-		req.setAttribute("game", model);
+		//req.setAttribute("game", model);
+		stringified = model.stringify();
+		req.setAttribute("playerStr", stringified.get(0));
+		req.setAttribute("roomStr", stringified.get(1));
+		req.setAttribute("npcStr", stringified.get(2));
+		req.setAttribute("eventStr", stringified.get(3));
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
