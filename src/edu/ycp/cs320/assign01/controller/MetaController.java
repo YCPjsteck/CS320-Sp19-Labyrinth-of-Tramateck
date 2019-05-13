@@ -15,12 +15,13 @@ import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
 public class MetaController {
-	Set<String> combatSet, movementSet, playerSet, vendorSet, eventSet, bonusSet;
+	Set<String> combatSet, movementSet, playerSet, vendorSet, eventSet, loginSet, bonusSet;
 	CombatController combatCon;
 	PlayerController playerCon;
 	MovementController movementCon;
 	VendorController vendorCon;
 	EventController eventCon;
+	LoginController loginCon;
 	Player player;
 	WorldMap game;
 	ArrayList<Item> itemList;
@@ -35,6 +36,7 @@ public class MetaController {
 		combatCon = new CombatController(game, player);
 		vendorCon = new VendorController(game, player, itemList);
 		eventCon = new EventController(game, player);
+		//loginCon = new LoginController(player);
 		
 		combatSet = new TreeSet<String>();
 		combatSet.add("attack");
@@ -63,6 +65,8 @@ public class MetaController {
 		vendorSet.add("sell");
 		eventSet = new TreeSet<String>();
 		eventSet.add("action");
+		loginSet = new TreeSet<String>();
+		loginSet.add("login");
 		bonusSet = new TreeSet<String>();
 		bonusSet.add("jump");
 		bonusSet.add("barrel");
@@ -74,7 +78,16 @@ public class MetaController {
 		ArrayList<String> words = finder.findWords(input);
 		
 		if(!words.isEmpty()) {
-			if(eventSet.contains(words.get(0))) {
+			/*if(loginSet.contains(words.get(0))) {
+				if(words.size() < 3) {
+					output += "You must specify a Username and Password. \n";
+				}
+				else {
+					String username = words.get(1).trim();
+					String password = words.get(2).trim();
+					output += loginCon.login(username, password);
+				}
+			} else*/ if(eventSet.contains(words.get(0))) {
 				eventCon.updateLocation();
 				eventCon.updateRoom();
 				output += eventCon.control(input);
@@ -93,16 +106,7 @@ public class MetaController {
 				vendorCon.updateRoom();
 				output += vendorCon.control(input);
 			} else {
-				if(words.get(0).equals("login")) {
-					if(words.size() < 3) {
-						output += "You must specify a Username and Password. \n";
-					}
-					else {
-						String username = words.get(1).trim();
-						String password = words.get(2).trim();
-						output += login(username, password);
-					}
-				} else if(words.get(0).equals("help")) {
+				if(words.get(0).equals("help")) {
 					output += help();
 				} else if(words.get(0).equals("inspect")) {
 					if(words.size() < 2) {
@@ -125,21 +129,6 @@ public class MetaController {
 		return output;
 	}
 	
-
-	private String login(String username, String password) {
-		String output = "";
-		/**
-		 * -encrypt password
-		 * -Check username and password with database
-		 * -if username and password exist in database
-		 * 		-switch account to account with that username
-		 * 		-return that the login was successful
-		 * -if not
-		 * 		-return login credentials were not valid
-		 */
-		return output;
-	}
-
 	private String itemCheck(String name) {
 		String output = "";
 		Item target = null;

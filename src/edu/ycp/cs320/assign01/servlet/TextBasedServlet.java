@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.assign01.controller.LoginController;
 import edu.ycp.cs320.assign01.controller.MetaController;
 import edu.ycp.cs320.assign01.model.Item;
 import edu.ycp.cs320.assign01.model.Player;
@@ -79,10 +80,36 @@ public class TextBasedServlet extends HttpServlet {
 		}
 		
 		MetaController controller = new MetaController(model.getWorld(), model.getPlayer(), model.getItems());
+		LoginController loginCon = new LoginController(model.getPlayer());
 
 		// check for errors in the form data before using is in a calculation
 		if (input == null || input.equals("")) {
 			errorMessage = "Please specify input";
+		}
+		else if (input.contains("login")) {
+			WordFinder finder = new WordFinder();
+			ArrayList <String> words = finder.findWords(input);
+			if(words.size() >= 3 && words.get(0).equals("login")) {
+				String username = words.get(1);
+				String password = words.get(2);
+				
+				boolean validLogin = loginCon.validateCredentials(username, password);
+				
+				if (!validLogin) {
+					errorMessage = "Username and/or password invalid";
+				}
+				// if login is valid, start a session
+				if (validLogin) {
+					System.out.println("   Valid login - starting session");
+
+					// store user object in session
+					req.getSession().setAttribute("user", username);
+
+					return;
+				}
+				System.out.println("   Invalid login");
+			}
+			else System.out.print("You must specify username and password.");
 		}
 		// otherwise, data is good, do the calculation
 		// must create the controller each time, since it doesn't persist between POSTs
