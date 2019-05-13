@@ -115,7 +115,7 @@ public class Room implements Named {
 	 * @return the currently active event
 	 */
 	public Event curEvent() {
-		if(eventList.size() < curEvent)
+		if(eventList.size() <= curEvent)
 			return null;
 		return eventList.get(curEvent);
 	}
@@ -134,6 +134,12 @@ public class Room implements Named {
 	 */
 	public void isEntered() {
 		entered = !entered;
+	}
+	/**
+	 * Sets the entered state of this room.
+	 */
+	public void isEntered(boolean b) {
+		entered = b;
 	}
 	/**
 	 * @return the entered boolean of this room

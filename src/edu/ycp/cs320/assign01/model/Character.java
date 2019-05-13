@@ -38,6 +38,12 @@ public abstract class Character {
 		baseHealth = health;
 	}
 	/**
+	 * @param health the current health of this Character
+	 */
+	public void setCurrHealth(int health) {
+		currHealth = health;
+	}
+	/**
 	 * @return this Character's base health
 	 */
 	public int getBaseHealth() {

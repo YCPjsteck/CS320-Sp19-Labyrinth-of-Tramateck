@@ -180,6 +180,8 @@ public class CombatController {
 					player.died();
 					location.reset();
 					output += "You reawake where you started. \n";
+					player.calHealth();
+					output += game.curLocation().getMapString();
 					break;
 				}
 			}

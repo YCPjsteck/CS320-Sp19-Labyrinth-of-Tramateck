@@ -10,21 +10,20 @@ import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.Library;
 
 public class GameTest {
+	private static Game model;
 	private static Player player;
 	private static WorldMap game;
-	private static Library library;
 	private static MetaController controller;
 	private static ArrayList<Item> items;
 
 	public static void main(String[] args) {
-		player = new Player();
-		library = new Library();
-		game = library.generateWorld();
-		items = library.getItems();
+		model = new Game();
+		player = model.getPlayer();
+		game = model.getWorld();
+		items = model.getItems();
 		controller = new MetaController(game, player, items);
 
 		// Initialize the player's gear
-		player.setLevel(1);
 		player.addItem(items.get(3));
 		player.addItem(items.get(4));
 		player.addItem(items.get(5));
@@ -41,6 +40,8 @@ public class GameTest {
 		System.out.println(game.curLocation().curRoom().getLongDesc());
 		System.out.println(game.curLocation().getMapString());
 		
+		ArrayList<String> stringified = null;
+		
 		@SuppressWarnings("resource")
 		Scanner reader = new Scanner(System.in);
 		while(true) {
@@ -50,10 +51,20 @@ public class GameTest {
 			String input = reader.nextLine();
 			if(input.equals("quit"))
 				return;
-			System.out.println(controller.control(input));
-			if(player.isDead()) {
-				player.calHealth();
+			if(input.equals("stringify")) {
+				stringified = model.stringify();
+				System.out.println(stringified.get(0));
+				System.out.println(stringified.get(1));
+				System.out.println(stringified.get(2));
+				System.out.println(stringified.get(3));
+				System.out.println();
+			} else if(input.equals("reconstruct")) {
+				model.reconstruct(stringified);
+				System.out.println("Reconstructed the game state from the last stringification.");
+				System.out.println(game.curLocation().curRoom().getShortDesc());
 				System.out.println(game.curLocation().getMapString());
+			} else {
+				System.out.println(controller.control(input));
 			}
 		}
 	}

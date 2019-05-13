@@ -112,6 +112,14 @@ public class EventController {
 					default:
 						break;
 				}
+				if(player.isDead()) {
+					output += "You died a painful death. \n";
+					player.died();
+					location.reset();
+					output += "You reawake where you started. \n";
+					player.calHealth();
+					output += game.curLocation().getMapString();
+				}
 				if(location.locationComplete()) {
 					output += "You have completed all events and defeated all hostile NPCs in this location.\n";
 				} else if(location.eventsClear()) {
