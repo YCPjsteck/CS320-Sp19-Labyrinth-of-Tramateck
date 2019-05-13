@@ -32,7 +32,11 @@ public class TextBasedServlet extends HttpServlet {
 		//		 player as new
 		Game model = new Game();
 		ArrayList<String> output = new ArrayList<String>();
+		String hiddenOutput = "";
 		Player player = model.getPlayer();
+		player.setName("Test");
+		player.setId(1);
+		
 		ArrayList<Item> items = model.getItems();
 		player.addItem(items.get(3));
 		player.addItem(items.get(4));
@@ -49,6 +53,9 @@ public class TextBasedServlet extends HttpServlet {
 		
 		output.add(world.curLocation().curRoom().getLongDesc().toLowerCase());
 		output.addAll(world.curLocation().getMapArray());
+		hiddenOutput += world.curLocation().curRoom().getLongDesc().toLowerCase() + "<br/>";
+		hiddenOutput += world.curLocation().getMapString().toLowerCase();
+		hiddenOutput += "<hr/>";
 		
 		req.setAttribute("output", output);
 		
@@ -57,6 +64,7 @@ public class TextBasedServlet extends HttpServlet {
 		req.setAttribute("roomStr", stringified.get(1));
 		req.setAttribute("npcStr", stringified.get(2));
 		req.setAttribute("eventStr", stringified.get(3));
+		req.setAttribute("hiddenOutput", hiddenOutput);
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/textBased.jsp").forward(req, resp);
@@ -70,9 +78,8 @@ public class TextBasedServlet extends HttpServlet {
 		
 		String errorMessage = null;
 		ArrayList<String> output = new ArrayList<String>();
-		String outputParam = req.getParameter("output");
-		output.add(outputParam);
 		String input = req.getParameter("input");
+		String hiddenOutput = req.getParameter("hiddenOutput");
 		
 		Game model = new Game();
 		String playerStr = req.getParameter("playerStr");
@@ -103,7 +110,8 @@ public class TextBasedServlet extends HttpServlet {
 		else {
 			WordFinder finder = new WordFinder();
 			String temp = controller.control(input);
-			output.addAll(finder.findWords(temp, "\n"));
+			hiddenOutput += temp + "<hr/>";
+			output.addAll(finder.findWords(hiddenOutput, "\n"));
 		}
 		// output.add("<hr>");
 		
@@ -124,6 +132,7 @@ public class TextBasedServlet extends HttpServlet {
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("output", output);
+		req.setAttribute("hiddenOutput", hiddenOutput);
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/textBased.jsp").forward(req, resp);

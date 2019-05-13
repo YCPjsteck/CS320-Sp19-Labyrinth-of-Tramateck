@@ -92,6 +92,7 @@
                     <input name ="roomStr" type="hidden" value="${roomStr}">
                     <input name ="npcStr" type="hidden" value="${npcStr}">
                     <input name ="eventStr" type="hidden" value="${eventStr}">
+                    <input name ="hiddenOutput" type="hidden" value="${hiddenOutput}">
                 </form>
             </body>
         </html>
