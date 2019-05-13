@@ -235,9 +235,9 @@ public class Location implements Named {
 			for(int i = 0; i < roomMap.length; i++) {
 				if(roomMap[i][j] != 0) {
 					if(i == playerX && j == playerY)
-						str += "-X-";
+						str += "-x-";
 					else if(getRoom(roomMap[i][j]).getEntered())
-						str += "-O-";
+						str += "-o-";
 					else if(isConnected(i,j))
 						str += "-?-";
 					else

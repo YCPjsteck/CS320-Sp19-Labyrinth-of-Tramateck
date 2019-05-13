@@ -44,7 +44,7 @@ public class TextBasedServlet extends HttpServlet {
 		world.grantAccess(1);
 		world.grantAccess(2);
 		
-		output.add(world.curLocation().curRoom().getLongDesc());
+		output.add(world.curLocation().curRoom().getLongDesc().toLowerCase());
 		output.addAll(world.curLocation().getMapArray());
 		
 		req.setAttribute("output", output);
@@ -85,9 +85,7 @@ public class TextBasedServlet extends HttpServlet {
 		stringified.add(roomStr);
 		stringified.add(npcStr);
 		stringified.add(eventStr);
-		if(!playerStr.equals("")) {
-			model.reconstruct(stringified);
-		}
+		model.reconstruct(stringified);
 		
 		MetaController controller = new MetaController(model.getWorld(), model.getPlayer(), model.getItems());
 
