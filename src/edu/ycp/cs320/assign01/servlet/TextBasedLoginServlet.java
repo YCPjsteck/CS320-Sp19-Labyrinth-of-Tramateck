@@ -25,7 +25,7 @@ public class TextBasedLoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		System.out.println("TextBased Servlet: doGet");	
+		System.out.println("TextBasedLogin Servlet: doGet");	
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/textBasedLogin.jsp").forward(req, resp);
@@ -35,58 +35,15 @@ public class TextBasedLoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		System.out.println("TextBased Servlet: doPost");
+		System.out.println("TextBasedLogin Servlet: doPost");
 		
-		String errorMessage = null;
 		ArrayList<String> output = new ArrayList<String>();
-		String outputParam = req.getParameter("output");
-		output.add(outputParam);
 		String input = req.getParameter("input");
-		
-		Game model = new Game();
-		String playerStr = req.getParameter("playerStr");
-		String roomStr = req.getParameter("roomStr");
-		String npcStr = req.getParameter("npcStr");
-		String eventStr = req.getParameter("eventStr");
-		System.out.println(playerStr);
-		System.out.println(roomStr);
-		System.out.println(npcStr);
-		System.out.println(eventStr);
-		ArrayList<String> stringified = new ArrayList<String>();
-		stringified.add(playerStr);
-		stringified.add(roomStr);
-		stringified.add(npcStr);
-		stringified.add(eventStr);
-		// TODO check the player's stats to determine if they're a new player,
-		// 		then execute the below statement if true.
-		if(playerStr.equals("")) {
-			Player player = model.getPlayer();
-			ArrayList<Item> items = model.getItems();
-			player.addItem(items.get(3));
-			player.addItem(items.get(4));
-			player.addItem(items.get(5));
-			player.addItem(items.get(6),3);
-			
-			WorldMap world = model.getWorld();
-			world.setPlayer(1);
-			world.curLocation().start();
-			world.curLocation().curRoom().isEntered();
-
-			world.grantAccess(1);
-			world.grantAccess(2);
-			
-			output.add(world.curLocation().curRoom().getLongDesc());
-			output.addAll(world.curLocation().getMapArray());
-		} else {
-			model.reconstruct(stringified);
-		}
-		
-		MetaController controller = new MetaController(model.getWorld(), model.getPlayer(), model.getItems());
-		LoginController loginCon = new LoginController(model.getPlayer());
+		LoginController loginCon = new LoginController();
 
 		// check for errors in the form data before using is in a calculation
 		if (input == null || input.equals("")) {
-			errorMessage = "Please specify input";
+			output.add("Please specify input");
 		}
 		else if (input.contains("login")) {
 			WordFinder finder = new WordFinder();
@@ -98,10 +55,8 @@ public class TextBasedLoginServlet extends HttpServlet {
 				boolean validLogin = loginCon.validateCredentials(username, password);
 				
 				if (!validLogin) {
-					errorMessage = "Username and/or password invalid";
-				}
-				// if login is valid, start a session
-				if (validLogin) {
+					output.add("Username and/or password invalid");
+				} else {
 					System.out.println("   Valid login - starting session");
 
 					// store user object in session
@@ -112,16 +67,18 @@ public class TextBasedLoginServlet extends HttpServlet {
 
 					return;
 				}
-				System.out.println("   Invalid login");
+				output.add("Invalid login");
 			}
-			else System.out.print("You must specify username and password.");
+			else {
+				output.add("You must specify username and password.");
+			}
 		}
 		// otherwise, data is good, do the calculation
 		// must create the controller each time, since it doesn't persist between POSTs
 		// the view does not alter data, only controller methods should be used for that
 		// thus, always call a controller method to operate on the data
 		else {
-			System.out.println("You must login first");
+			output.add("You must login first");
 		}
 		
 		// Add parameters as request attributes
@@ -131,15 +88,9 @@ public class TextBasedLoginServlet extends HttpServlet {
 		// and forth, it's a good idea
 		
 		//req.setAttribute("game", model);
-		stringified = model.stringify();
-		req.setAttribute("playerStr", stringified.get(0));
-		req.setAttribute("roomStr", stringified.get(1));
-		req.setAttribute("npcStr", stringified.get(2));
-		req.setAttribute("eventStr", stringified.get(3));
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
-		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("output", output);
 		
 		// Forward to view to render the result HTML document

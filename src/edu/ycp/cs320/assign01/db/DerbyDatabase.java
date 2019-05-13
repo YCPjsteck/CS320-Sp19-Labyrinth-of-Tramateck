@@ -77,9 +77,9 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	private Connection connect() throws SQLException {
-		//Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Sp19-Labyrinth-of-Tramateck-DB/library.db;create=true");		
+		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Sp19-Labyrinth-of-Tramateck-DB/library.db;create=true");		
 		/***************JADEN CONNECTION BELOW**************/
-		Connection conn = DriverManager.getConnection("jdbc:derby:/Users/jadenmarini/CS320-Sp19-Labyrinth-of-Tramateck-DB/library.db;create=true");	
+		//Connection conn = DriverManager.getConnection("jdbc:derby:/Users/jadenmarini/CS320-Sp19-Labyrinth-of-Tramateck-DB/library.db;create=true");	
 		// Set autocommit() to false to allow the execution of
 		// multiple queries/statements as part of the same transaction.
 		conn.setAutoCommit(false);

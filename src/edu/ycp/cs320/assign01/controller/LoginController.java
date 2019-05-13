@@ -9,13 +9,11 @@ import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.movement.WorldMap;
 
 public class LoginController {
-	private Player player;
-	private WorldMap game;
 	private Account accountModel;
 	private DerbyDatabase db;
 	
-	public LoginController(Player player) {
-		this.player = player;
+	public LoginController() {
+		db = new DerbyDatabase();
 	}
 	
 	public boolean validateCredentials(String username, String password) {
@@ -27,7 +25,7 @@ public class LoginController {
 			String encryptedPassword = new String(messageDigest.digest());
 			// check with account to see if contains username with encryptedPassword
 			accountModel = db.findAccountByUsername(username);
-			if (accountModel.correctPassword(encryptedPassword)) {
+			if(accountModel != null && accountModel.correctPassword(encryptedPassword)) {
 				valid = true;
 			}
 		} catch (NoSuchAlgorithmException e) {
