@@ -3,10 +3,11 @@ package edu.ycp.cs320.assign01.model.movement;
 import java.util.ArrayList;
 
 import edu.ycp.cs320.assign01.enums.LocationType;
+import edu.ycp.cs320.assign01.model.Event;
+import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.interfaces.Named;
-import edu.ycp.cs320.assign01.model.interfaces.Navigable;
 
-public class Location implements Navigable, Named {
+public class Location implements Named {
 	private ArrayList<Room> roomList;
 	private int[][] roomMap;
 	private int playerX, playerY, id;
@@ -14,10 +15,6 @@ public class Location implements Navigable, Named {
 	
 	private int minLevel, maxLevel;
 	private LocationType type;
-	
-	// TODO: 
-	// 		rooms connected to nonadjacent rooms
-	//		determine the start location by finding the room labeled start
 
 	public Location() {
 		roomList = new ArrayList<Room>();
@@ -58,6 +55,57 @@ public class Location implements Navigable, Named {
 	public void setPlayer(int x, int y) {
 		playerX = x;
 		playerY = y;
+	}
+
+	/**
+	 * @return the player's x position
+	 */
+	public int getX() {
+		return playerX;
+	}
+	
+	/**
+	 * @return the player's y position
+	 */
+	public int getY() {
+		return playerY;
+	}
+
+	public void start() {
+		findStart();
+		for(Room room : roomList) {
+			for(NPC npc : room.getNPCs()) {
+				npc.calHealth();
+				npc.generateInventory();
+			}
+		}
+	}
+
+	/**
+	 * Finds the room that has the start boolean set to true and 
+	 * sets the player's coordinates to the coordinates of that room
+	 */
+	public void findStart() {
+		for(int j = 0; j < roomMap[0].length; j++)
+			for(int i = 0; i < roomMap.length; i++)
+				if(roomMap[i][j] != 0 && getRoom(roomMap[i][j]).getStart())
+					setPlayer(i,j);
+	}
+	
+	/**
+	 * Reset the health of all NPCs and regenerate inventories
+	 */
+	public void reset() {
+		findStart();
+		for(Room room : roomList) {
+			for(NPC npc : room.getNPCs()) {
+				npc.calHealth();
+				npc.generateInventory();
+			}
+			for(Event event : room.getEvents()) {
+				event.reset();
+			}
+		}
 	}
 	
 	/**
@@ -123,6 +171,26 @@ public class Location implements Navigable, Named {
 	}
 
 	/**
+	 * Checks if the location is clear of hostile NPCs
+	 * by checking if each room is clear
+	 */
+	public boolean locationClear() {
+		for(Room r: roomList)
+			if(!r.roomClear())
+				return false;
+		return true;
+	}
+	/**
+	 * Checks if the location's events are done
+	 * by checking if each room is done
+	 */
+	public boolean eventsClear() {
+		for(Room r: roomList)
+			if(!r.eventsClear())
+				return false;
+		return true;
+	}
+	/**
 	 * Check if the location is complete by checking
 	 * if each room is complete
 	 */
@@ -141,11 +209,15 @@ public class Location implements Navigable, Named {
 			for(int i = 0; i < roomMap.length; i++) {
 				if(roomMap[i][j] != 0) {
 					if(i == playerX && j == playerY)
-						System.out.print("x ");
+						System.out.print("-X-");
+					else if(getRoom(roomMap[i][j]).getEntered())
+						System.out.print("-O-");
+					else if(isConnected(i,j))
+						System.out.print("-?-");
 					else
-						System.out.print("o ");
+						System.out.print("---");
 				} else {
-					System.out.print("  ");
+					System.out.print("---");
 				}
 			}
 			System.out.println();
@@ -155,7 +227,7 @@ public class Location implements Navigable, Named {
 	/**
 	 * @return an arrayList of strings representing the room map
 	 */
-	public ArrayList<String> getMapString() {
+	public ArrayList<String> getMapArray() {
 		ArrayList<String> temp = new ArrayList<String>();
 		String str = "";
 		
@@ -164,8 +236,12 @@ public class Location implements Navigable, Named {
 				if(roomMap[i][j] != 0) {
 					if(i == playerX && j == playerY)
 						str += "-x-";
-					else
+					else if(getRoom(roomMap[i][j]).getEntered())
 						str += "-o-";
+					else if(isConnected(i,j))
+						str += "-?-";
+					else
+						str += "---";
 				} else {
 					str += "---";
 				}
@@ -174,6 +250,38 @@ public class Location implements Navigable, Named {
 			str = "";
 		}
 		return temp;
+	}
+	
+	public String getMapString() {
+		String str = "";
+		
+		for(int j = 0; j < roomMap[0].length; j++) {
+			for(int i = 0; i < roomMap.length; i++) {
+				if(roomMap[i][j] != 0) {
+					if(i == playerX && j == playerY)
+						str += "-X-";
+					else if(getRoom(roomMap[i][j]).getEntered())
+						str += "-O-";
+					else if(isConnected(i,j))
+						str += "-?-";
+					else
+						str += "---";
+				} else {
+					str += "---";
+				}
+			}
+			str += "\n";
+		}
+		return str;
+	}
+	
+	public boolean isConnected(int x, int y) {
+		if(		(x+1 <= roomMap[0].length-1 && roomMap[x+1][y] != 0 && getRoom(roomMap[x+1][y]).getEntered()) ||
+				(x-1 >= 0 && roomMap[x-1][y] != 0 && getRoom(roomMap[x-1][y]).getEntered()) ||
+				(y+1 <= roomMap[0].length-1 && roomMap[x][y+1] != 0 && getRoom(roomMap[x][y+1]).getEntered()) ||
+				(y-1 >= 0 && roomMap[x][y-1] != 0 && getRoom(roomMap[x][y-1]).getEntered()) )
+			return true;
+		return false;
 	}
 
 	/**

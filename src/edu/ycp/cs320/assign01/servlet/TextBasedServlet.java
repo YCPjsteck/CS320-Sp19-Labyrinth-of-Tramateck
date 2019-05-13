@@ -8,17 +8,63 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.ycp.cs320.assign01.controller.GameController;
+import edu.ycp.cs320.assign01.controller.LoginController;
+import edu.ycp.cs320.assign01.controller.MetaController;
+import edu.ycp.cs320.assign01.db.DerbyDatabase;
+import edu.ycp.cs320.assign01.model.Item;
+import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.game.Game;
+import edu.ycp.cs320.assign01.model.movement.WorldMap;
+import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
 public class TextBasedServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private DerbyDatabase db;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		System.out.println("TextBased Servlet: doGet");	
+		System.out.println("TextBased Servlet: doGet");
+		
+		// TODO: get the current player from the session
+		//		 then show the player's log instead of updating the 
+		//		 player as new
+		Game model = new Game();
+		ArrayList<String> output = new ArrayList<String>();
+		String hiddenOutput = "";
+		Player player = model.getPlayer();
+		player.setName("Test");
+		player.setId(1);
+		
+		ArrayList<Item> items = model.getItems();
+		player.addItem(items.get(3));
+		player.addItem(items.get(4));
+		player.addItem(items.get(5));
+		player.addItem(items.get(6),3);
+		
+		WorldMap world = model.getWorld();
+		world.setPlayer(1);
+		world.curLocation().start();
+		world.curLocation().curRoom().isEntered();
+
+		world.grantAccess(1);
+		world.grantAccess(2);
+		
+		output.add(world.curLocation().curRoom().getLongDesc().toLowerCase());
+		output.addAll(world.curLocation().getMapArray());
+		hiddenOutput += world.curLocation().curRoom().getLongDesc().toLowerCase() + "<br/>";
+		hiddenOutput += world.curLocation().getMapString().toLowerCase();
+		hiddenOutput += "<hr/>";
+		
+		req.setAttribute("output", output);
+		
+		ArrayList<String> stringified = model.stringify();
+		req.setAttribute("playerStr", stringified.get(0));
+		req.setAttribute("roomStr", stringified.get(1));
+		req.setAttribute("npcStr", stringified.get(2));
+		req.setAttribute("eventStr", stringified.get(3));
+		req.setAttribute("hiddenOutput", hiddenOutput);
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/textBased.jsp").forward(req, resp);
@@ -33,18 +79,26 @@ public class TextBasedServlet extends HttpServlet {
 		String errorMessage = null;
 		ArrayList<String> output = new ArrayList<String>();
 		String input = req.getParameter("input");
+		String hiddenOutput = req.getParameter("hiddenOutput");
 		
-		// TODO: Sustain the model/model information between actions
-		Game model;
-		System.out.println(req.getAttribute("game") != null);
-		if(req.getAttribute("game") != null)
-		 	model = new Game(((Game) req.getAttribute("game")).getPlayer(), ((Game) req.getAttribute("game")).getDungeon());
-		else
-			model = new Game();
+		Game model = new Game();
+		String playerStr = req.getParameter("playerStr");
+		String roomStr = req.getParameter("roomStr");
+		String npcStr = req.getParameter("npcStr");
+		String eventStr = req.getParameter("eventStr");
+		System.out.println(playerStr);
+		System.out.println(roomStr);
+		System.out.println(npcStr);
+		System.out.println(eventStr);
+		ArrayList<String> stringified = new ArrayList<String>();
+		stringified.add(playerStr);
+		stringified.add(roomStr);
+		stringified.add(npcStr);
+		stringified.add(eventStr);
+		model.reconstruct(stringified);
 		
-		GameController controller = new GameController();
-		controller.setModel(model);
-
+		MetaController controller = new MetaController(model.getWorld(), model.getPlayer(), model.getItems());
+		
 		// check for errors in the form data before using is in a calculation
 		if (input == null || input.equals("")) {
 			errorMessage = "Please specify input";
@@ -54,9 +108,12 @@ public class TextBasedServlet extends HttpServlet {
 		// the view does not alter data, only controller methods should be used for that
 		// thus, always call a controller method to operate on the data
 		else {
-			controller.actionSet(input);
-			output = controller.getGameLog();
+			WordFinder finder = new WordFinder();
+			String temp = controller.control(input);
+			hiddenOutput += temp + "<hr/>";
+			output.addAll(finder.findWords(hiddenOutput, "\n"));
 		}
+		// output.add("<hr>");
 		
 		// Add parameters as request attributes
 		// this creates attributes named "first" and "second for the response, and grabs the
@@ -64,12 +121,18 @@ public class TextBasedServlet extends HttpServlet {
 		// they don't have to be named the same, but in this case, since we are passing them back
 		// and forth, it's a good idea
 		
-		req.setAttribute("game", model);
+		//req.setAttribute("game", model);
+		stringified = model.stringify();
+		req.setAttribute("playerStr", stringified.get(0));
+		req.setAttribute("roomStr", stringified.get(1));
+		req.setAttribute("npcStr", stringified.get(2));
+		req.setAttribute("eventStr", stringified.get(3));
 		
 		// add result objects as attributes
 		// this adds the errorMessage text and the result to the response
 		req.setAttribute("errorMessage", errorMessage);
 		req.setAttribute("output", output);
+		req.setAttribute("hiddenOutput", hiddenOutput);
 		
 		// Forward to view to render the result HTML document
 		req.getRequestDispatcher("/_view/textBased.jsp").forward(req, resp);

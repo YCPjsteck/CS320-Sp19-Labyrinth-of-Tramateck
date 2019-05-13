@@ -30,7 +30,7 @@ public class LibraryTest {
 		
 		ArrayList<Item> itemList = lib.getItems();
 
-		assertTrue(itemList.size() == 3);
+		assertTrue(itemList.size() == 8);
 		
 		assertTrue(itemList.get(0).getName().equals("Monkey Paw"));
 		assertTrue(itemList.get(1).getName().equals("Monkey Tail"));
@@ -47,6 +47,14 @@ public class LibraryTest {
 		assertTrue(itemList.get(0).getWorth() == 10);
 		assertTrue(itemList.get(1).getWorth() == 50);
 		assertTrue(itemList.get(2).getWorth() == 1000);
+		
+		assertTrue(itemList.get(3).getName().equalsIgnoreCase("Laser Pistol"));
+		assertTrue(itemList.get(4).getName().equalsIgnoreCase("Battery Pack"));
+		assertTrue(itemList.get(5).getName().equalsIgnoreCase("Personal Shield"));
+		assertTrue(itemList.get(6).getName().equalsIgnoreCase("Medkit"));
+		
+		assertTrue(((Equipment)itemList.get(3)).getStrength() == 1);
+		assertTrue(((Equipment)itemList.get(3)).getQuality() == 0);
 	}
 	
 	@Test
@@ -66,12 +74,12 @@ public class LibraryTest {
 		assertTrue(npcList.get(2).getName().equals("Rat"));
 
 		assertTrue(npcList.get(0).getType().getString().equalsIgnoreCase("hostile"));
-		assertTrue(npcList.get(0).getBaseHealth() == 10);
+		assertTrue(npcList.get(0).getBaseHealth() == 5);
 		assertTrue(npcList.get(0).getMinAttack() == 1);
 		assertTrue(npcList.get(0).getMaxAttack() == 2);
 		
 		assertTrue(npcList.get(0).getAllLoot().get(0).getLeft().getName().equalsIgnoreCase("Monkey Paw"));
-		assertTrue(npcList.get(0).getAllLoot().get(0).getMiddle() == 10);
+		assertTrue(npcList.get(0).getAllLoot().get(0).getMiddle() == 50);
 		assertTrue(npcList.get(0).getAllLoot().get(0).getRight() == 4);
 		
 		assertTrue(npcList.get(2).getType().getString().equalsIgnoreCase("friendly"));
@@ -100,6 +108,12 @@ public class LibraryTest {
 		assertTrue(loc.getMap().length == 3);
 		assertTrue(loc.getMap()[0].length == 3);
 		assertTrue(loc.getRooms().size() == 7);
+		loc.findStart();
+		loc.printMap();
+		assertTrue(loc.canTravel("west"));
+		loc.travel("west");
+		loc.curRoom().isEntered();
+		System.out.println();
 		loc.printMap();
 		
 		System.out.println();
@@ -112,6 +126,17 @@ public class LibraryTest {
 		assertTrue(loc.getMap().length == 5);
 		assertTrue(loc.getMap()[0].length == 5);
 		assertTrue(loc.getRooms().size() == 14);
+		loc.findStart();
+		loc.printMap();
+		assertTrue(loc.canTravel("north"));
+		loc.travel("north");
+		loc.curRoom().isEntered();
+		System.out.println();
+		loc.printMap();
+		assertTrue(loc.canTravel("north"));
+		loc.travel("north");
+		loc.curRoom().isEntered();
+		System.out.println();
 		loc.printMap();
 	}
 	
@@ -124,7 +149,7 @@ public class LibraryTest {
 		}
 		
 		ArrayList<Event> eventList = lib.getEvents();
-		assertTrue(eventList.size() == 2);
+		assertTrue(eventList.size() == 3);
 		
 		//TEST 1
 		assertTrue(eventList.get(0).getId() == 1);
@@ -152,7 +177,6 @@ public class LibraryTest {
 		
 		assertTrue(eventList.get(0).getBFailPair().getLeft() == 0);
 		assertTrue(eventList.get(0).getBFailPair().getRight() == 0);
-		assertTrue(!eventList.get(0).isRepeatable());
 		
 		//TEST 2
 		assertTrue(eventList.get(1).getId() == 2);
@@ -178,7 +202,5 @@ public class LibraryTest {
 		assertTrue(eventList.get(1).getBPassPair().getRight() == 10);
 		
 		assertTrue(eventList.get(1).getBFailPair().getLeft() == 11);
-		assertTrue(eventList.get(1).getBFailPair().getRight() == 12);
-		assertTrue(eventList.get(1).isRepeatable());
 	}
 }

@@ -17,10 +17,7 @@ public class NPC extends Character implements Named {
 	
 	private ArrayList<Triple<Item,Integer,Integer>> loot;
 	private ArrayList<Triple<Item,Integer,Integer>> fullInventory;
-	private ArrayList<Pair<Item,Integer>> inventory;
 	private Set<String> weakPoints, partsList;
-	
-	// TODO: Buy/Sell items from NPCs. Have this be a controller?
 	
 	public NPC() {
 		loot = new ArrayList<Triple<Item,Integer,Integer>>();
@@ -66,6 +63,9 @@ public class NPC extends Character implements Named {
 	 * @return an arraylist of pairs of items and an integer representing the quantity of that item.
 	 */
 	public ArrayList<Pair<Item,Integer>> getLoot() {
+		for(Pair<Item,Integer> pair : inventory) {
+			addLoot(pair.getLeft(),50,pair.getRight());
+		}
 		return tripleItem(loot);
 	}
 	/**
@@ -98,12 +98,6 @@ public class NPC extends Character implements Named {
 	 */
 	public ArrayList<Triple<Item,Integer,Integer>> getFullInventory() {
 		return fullInventory;
-	}
-	/**
-	 * Get the generated inventory of this NPC.
-	 */
-	public ArrayList<Pair<Item,Integer>> getInventory() {
-		return inventory;
 	}
 
 	/**
@@ -206,7 +200,9 @@ public class NPC extends Character implements Named {
 	 */
 	public int attack() {
 		Random rand = new Random();
-		return (rand.nextInt(getMaxAttack()-getMinAttack()) + getMinAttack()) * getLevel();
+		int min = getMinAttack() * getLevel();
+		int max = getMaxAttack() * getLevel();
+		return (rand.nextInt(max-min+1) + min);
 	}
 	 /**
 	 * Give this NPC a weakness

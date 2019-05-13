@@ -22,9 +22,6 @@ public class Library {
 	private ArrayList<Item> itemList; // items.txt
 	ArrayList<Event> eventList; // events.txt
 	
-	// TODO
-	//		Read events
-	
 	public Library() {
 		locationList = new ArrayList<Location>();
 		npcList = new ArrayList<NPC>();
@@ -95,25 +92,22 @@ public class Library {
 	 */
 	public WorldMap generateWorld() {
 		WorldMap map = new WorldMap();
-		int[][] locMap = new int[1][1];
-		locMap[0][0] = 1;
-		map.setMap(locMap);
-		
-		map.setPlayer(0, 0);
 		
 		try {
-			generateItems("items.txt");
-			generateNPCs("npcs.txt");
+			generateItems("test items.txt");
+			generateNPCs("test npcs.txt");
 			generateEvents("events.txt");
-			generateLocations("locations.txt");
+			generateLocations("test locations.txt");
 		} 
 		catch (FileNotFoundException e) { 
 			e.printStackTrace();
 		}
+		map.addLocations(locationList);
 		
 		return map;
 	}
 
+	private int npcID;
 	/**
 	 * Read the given file to generate the game's locations.
 	 */
@@ -133,7 +127,7 @@ public class Library {
 				loc.setName(str.substring(words.get(0).length()).trim()); // Set the location name to the rest of the string
 				loc.setId(locID); // Set its ID number
 				locID++; // Increment the locID for the next location
-				int npcID = 1; // Create an npcID starting at 1
+				npcID = 1; // Create an npcID starting at 1
 				str = reader.nextLine().trim();
 				while(!str.equalsIgnoreCase("")) { // Begin reading the rest of the lines to finish making this location
 					words = finder.findWords(str); 
@@ -153,7 +147,11 @@ public class Library {
 						loc.setMap(generateLocMap(reader, x, y));
 					} else if(words.get(0).equalsIgnoreCase("room")) { // If the first word is "room"
 						// Pass everything to the generateRoom method to create the room.
-						loc.addRoom(generateRoom(reader, loc, npcID, min, max));
+						loc.addRoom(generateRoom(reader, loc, min, max));
+					} else if(words.get(0).equalsIgnoreCase("long")) {
+						loc.setLongDesc(str.substring(words.get(0).length()).trim());
+					} else if(words.get(0).equalsIgnoreCase("short")) {
+						loc.setShortDesc(str.substring(words.get(0).length()).trim());
 					}
 					// Get the next line
 					if(reader.hasNext())
@@ -191,7 +189,7 @@ public class Library {
 	/**
 	 * Create a Room, using the scanner as input.
 	 */
-	private Room generateRoom(Scanner reader, Location loc, int id, int min, int max) {
+	private Room generateRoom(Scanner reader, Location loc, int min, int max) {
 		WordFinder finder = new WordFinder();
 		Room room = new Room();
 
@@ -214,16 +212,20 @@ public class Library {
 				NPC npc = new NPC(findNPC(words.get(1))); // Copy the requested NPC into a new NPC object
 				
 				// Set this NPC's ID and level, then calculate its health
-				npc.setId(id);
-				id++;
+				npc.setId(npcID);
+				npcID++;
 				Random rand = new Random();
-				npc.setLevel(rand.nextInt(max-min) + min);
+				npc.setLevel(rand.nextInt(max-min+1) + min);
 				npc.calHealth();
 				
 				// Add the NPC to the room
 				room.addNPC(npc);
 			} else if(words.get(0).equalsIgnoreCase("event")) { // If the first word is "event"
-				// TODO: read events
+				room.addEvent(findEvent(Integer.parseInt(words.get(1))));
+			} else if(words.get(0).equalsIgnoreCase("long")) {
+				room.setLongDesc(str.substring(words.get(0).length()).trim());
+			} else if(words.get(0).equalsIgnoreCase("short")) {
+				room.setShortDesc(str.substring(words.get(0).length()).trim());
 			}
 			// Get the next line
 			if(reader.hasNext())
@@ -273,6 +275,10 @@ public class Library {
 						npc.setPart(words.get(1));
 					} else if(words.get(0).equalsIgnoreCase("weakness")) { // If the first word is "weakness"
 						npc.setWeakness(words.get(1));
+					} else if(words.get(0).equalsIgnoreCase("long")) {
+						npc.setLongDesc(str.substring(words.get(0).length()).trim());
+					} else if(words.get(0).equalsIgnoreCase("short")) {
+						npc.setShortDesc(str.substring(words.get(0).length()).trim());
 					}
 					
 					// Read the next line
@@ -287,13 +293,15 @@ public class Library {
 		reader.close();
 	}
 	
+	private int itemID;
+	
 	/**
 	 * Read the given file to generate the game's items.
 	 */
 	public void generateItems(String file) throws FileNotFoundException {
 		Scanner reader = new Scanner(new File(file));
 		WordFinder finder = new WordFinder();
-		int id = 1;
+		itemID = 1;
 		
 		while(reader.hasNext()) {
 			String str = reader.nextLine();
@@ -301,11 +309,11 @@ public class Library {
 			// Find if this item is a generic item, a consumable, or an equipment.
 			// If so, pass the information on to the necessary helper method.
 			if(words.get(0).equalsIgnoreCase("item")) {
-				itemGeneration(reader,str,finder,words,id);
+				itemGeneration(reader,str,finder,words);
 			} else if(words.get(0).equalsIgnoreCase("consumable")) {
-				consumableGeneration(reader,str,finder,words,id);
+				consumableGeneration(reader,str,finder,words);
 			} else if(words.get(0).equalsIgnoreCase("equipment")) {
-				equipmentGeneration(reader,str,finder,words,id);
+				equipmentGeneration(reader,str,finder,words);
 			}
 		}
 		reader.close();
@@ -317,9 +325,9 @@ public class Library {
 		Event event;
 		
 		while(reader.hasNext()) {
-			String str = reader.nextLine();
+			String str = reader.nextLine().trim();
 			ArrayList<String> words = finder.findWords(str);
-			str = reader.nextLine();
+			str = reader.nextLine().trim();
 			
 			if(words.get(0).equals("event")) {
 				event = new Event();
@@ -349,8 +357,6 @@ public class Library {
 						event.setBPassPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Pass Pair
 					} else if (words.get(0).equals("bfailpair")) {
 						event.setBFailPair(Integer.parseInt(words.get(1)), Integer.parseInt(words.get(2)));	//Sets B Fail Pair
-					} else if (words.get(0).equals("repeat")) {
-						event.setRepeatable(true);
 					}
 					
 					if(reader.hasNext())
@@ -368,7 +374,7 @@ public class Library {
 	/**
 	 * Generate a basic item.
 	 */
-	private void itemGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words, int id) {
+	private void itemGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words) {
 		Item item = new Item(); // Create a new item
 		item.setName(str.substring(words.get(0).length()).trim()); // Read the rest of the string for this item's name
 		str = reader.nextLine();
@@ -383,15 +389,15 @@ public class Library {
 				str = "";
 		}
 		// Set this item's ID and add it to the list.
-		item.setId(id);
-		id++;
+		item.setId(itemID);
+		itemID++;
 		itemList.add(item);
 	}
 	
 	/**
 	 * Generate a consumable item.
 	 */
-	private void consumableGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words, int id) {
+	private void consumableGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words) {
 		Consumable item = new Consumable(); // Create a new consumable
 		item.setName(str.substring(words.get(0).length()).trim()); // Read the rest of the string for this item's name
 		str = reader.nextLine();
@@ -407,15 +413,15 @@ public class Library {
 				str = "";
 		}
 		// Set this item's ID and add it to the list.
-		item.setId(id);
-		id++;
+		item.setId(itemID);
+		itemID++;
 		itemList.add(item);
 	}
 	
 	/**
 	 * Generate an equipment item.
 	 */
-	private void equipmentGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words, int id) {
+	private void equipmentGeneration(Scanner reader, String str, WordFinder finder, ArrayList<String> words) {
 		Equipment item = new Equipment(); // Create a new equipment
 		item.setName(str.substring(words.get(0).length()).trim()); // Read the rest of the string for this item's name
 		str = reader.nextLine();
@@ -431,8 +437,8 @@ public class Library {
 				str = "";
 		}
 		// Set this item's ID and add it to the list.
-		item.setId(id);
-		id++;
+		item.setId(itemID);
+		itemID++;
 		itemList.add(item);
 	}
 	
@@ -463,8 +469,6 @@ public class Library {
 			item.setHealth(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("score")) {
 			item.setScore(Integer.parseInt(words.get(1)));
-		} else if(words.get(0).equalsIgnoreCase("level")) {
-			item.setLevelChange(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("currency")) {
 			item.setCurrency(Integer.parseInt(words.get(1)));
 		} else if(words.get(0).equalsIgnoreCase("intellect")) {

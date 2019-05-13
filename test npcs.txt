@@ -1,19 +1,36 @@
 npc Monkey
 	type Hostile
-	health 10
+	health 5
 	attack 1 2
-	loot 10 4 | Monkey Paw
 	part head
 	part tail
 	weakness tail
+	loot 50 4 | Monkey Paw
+	loot 25 2 | Monkey Tail
+	loot 10 1 | Monkey Head
+	short A lowly monkey.
+	long A lowly monkey. Common and easy to take care of.
 
 npc Jaguar
 	type Hostile
 	health 10
 	attack 2 4
 	part head
+	part tail
+	weakness head
+	loot 75 4 | Jaguar Claw
+	short A fiersome jaguar.
+	long A fiersome jaguar. Strong and difficult to fight.
 
 npc Rat
 	type Friendly
 	health 100
 	attack 0 1
+	part tail
+	weakness tail
+	inventory 50 20 | Monkey Paw
+	inventory 50 10 | Monkey Tail
+	inventory 50 5 | Monkey Head
+	inventory 50 3 | Medkit
+	short A friendly rat.
+	long A friendly rat. Often sell wares for travelers to purchase, and has bottomless pockets to purchase items from you.

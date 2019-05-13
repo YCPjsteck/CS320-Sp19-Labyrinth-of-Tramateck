@@ -45,7 +45,12 @@
                         display: border-box;
                         outline: none;
                     }
-
+                    
+                    hr { display: block; height: 1px;
+                        border: 0; border-top: 1px solid #39FF14;
+                        margin: 1em 0; padding: 0; 
+                    }
+                    
                     #contentGrid {
                         display: grid;
                         align-content: center;
@@ -63,6 +68,12 @@
                         background color: black;
                     }
                 </style>
+                <script language="javascript" type="text/javascript">
+                    window.onload=toBottom;
+                    function toBottom(){
+                        window.scrollTo(0, document.body.scrollHeight);
+                    } 
+                </script>
             </head>
 
             <body>
@@ -87,7 +98,12 @@
                             <input type="Submit" name="submit" value="Submit" >
                         </div>
                     </div>
-
+                    
+                    <input name ="playerStr" type="hidden" value="${playerStr}">
+                    <input name ="roomStr" type="hidden" value="${roomStr}">
+                    <input name ="npcStr" type="hidden" value="${npcStr}">
+                    <input name ="eventStr" type="hidden" value="${eventStr}">
+                    <input name ="hiddenOutput" type="hidden" value="${hiddenOutput}">
                 </form>
             </body>
         </html>

@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ycp.cs320.assign01.model.Account;
+import edu.ycp.cs320.assign01.model.Item;
 import edu.ycp.cs320.assign01.model.Player;
+import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.Pair;
 import edu.ycp.cs320.assign01.model.utility.Triple;
 
@@ -75,8 +77,9 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	private Connection connect() throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Sp19-Labyrinth-of-Tramateck-DB/library.db;create=true");		
-		
+		Connection conn = DriverManager.getConnection("jdbc:derby:C:/CS320-Sp19-Labyrinth-of-Tramateck-DB/library.db;create=true");
+		/***************JADEN CONNECTION BELOW**************/
+		//Connection conn = DriverManager.getConnection("jdbc:derby:/Users/jadenmarini/CS320-Sp19-Labyrinth-of-Tramateck-DB/library.db;create=true");
 		// Set autocommit() to false to allow the execution of
 		// multiple queries/statements as part of the same transaction.
 		conn.setAutoCommit(false);
@@ -596,9 +599,253 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
-	public void insertPlayerIntoAccount(int accountID) {
-		// TODO Auto-generated method stub
-		
+	public Player modifyPlayer(Player player) {
+		return executeTransaction(new Transaction<Player>() {
+			@Override
+			public Player execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+							
+				ResultSet resultSet2 = null;
+			
+				Player tempPlayer = new Player();
+				String name;
+				int playerID;
+
+				try {
+					name = player.getName();
+					playerID = player.getId();
+					
+					if (findPlayerByID(playerID) != null) {
+						System.out.println("modifyPlayer: Player found with player ID: " + playerID);						
+					} else {
+						System.out.println("modifyPlayer: Player with player ID: " + playerID + " not found");
+						return null;
+					}
+					
+					stmt1 = conn.prepareStatement(
+							"update players" + 
+							"	set name = ?, location_id = ?, level = ?, experience = ?," +
+							"		score = ?, currency = ?, dexterity = ?, strength = ?," +
+							"		intellect = ?, armor = ?, weapon = ?, accessory = ? " +
+							"	where player_id = ? "
+					);
+					stmt1.setString(1, name);
+					stmt1.setInt(2, player.getLocationID());
+					stmt1.setInt(3, player.getLevel());
+					stmt1.setInt(4, player.getExperience());
+					stmt1.setInt(5, player.getScore());
+					stmt1.setInt(6, player.getCurrency());
+					stmt1.setInt(7, player.getDexterity());
+					stmt1.setInt(8, player.getStrength());
+					stmt1.setInt(9, player.getIntellect());
+					stmt1.setInt(10, player.getArmorID());
+					stmt1.setInt(11, player.getWeaponID());
+					stmt1.setInt(12, player.getAccessoryID());
+					stmt1.setInt(13, playerID);
+					stmt1.executeUpdate();
+					System.out.println("modifyPlayer: Player <" + name + "> updated in players table");	
+					
+					stmt2 = conn.prepareStatement(
+						"select players.* " +
+						"	from players " +
+						"	where player_id = ? "
+					);
+					stmt2.setInt(1, playerID);
+					resultSet2 = stmt2.executeQuery();
+					
+					if (resultSet2.next()) {
+						System.out.println("modifyPlayer: New player <" + name + "> ID: " + playerID);
+						loadPlayer(tempPlayer, resultSet2, 1);
+						return tempPlayer;
+					} else	{
+						System.out.println("modifyPlayer: New player <" + name + "> not found in Player table ID: " + playerID);
+						return null;
+					}
+				} finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet2);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});
+	}
+	
+	@Override
+	public List<Pair<Integer,Integer>> modifyInventory(Player player) {
+		return executeTransaction(new Transaction<List<Pair<Integer,Integer>>>() {
+			@Override
+			public List<Pair<Integer,Integer>> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				String preparedString = "insert into inventory (player_id, item_id, quantity) values ";
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+				
+				ResultSet resultSet3 = null;
+				int playerID;
+				int index = 1;
+
+				try {
+					playerID = player.getId();
+					
+					if (findPlayerByID(playerID) != null) {
+						System.out.println("modifyInventory: Player found with player ID: " + playerID);						
+					} else {
+						System.out.println("modifyInventory: Player with player ID: " + playerID + " not found");
+						return null;
+					}
+					
+					stmt1 = conn.prepareStatement(
+						"delete from inventory " +
+						"	where player_id = ? "
+					);
+					stmt1.setInt(1, playerID);
+					stmt1.executeUpdate();
+					
+					ArrayList<Pair<Item, Integer>> inventory = player.getInventory();
+					
+					for (Pair<Item, Integer> item : inventory) {
+						preparedString += "  (?, ?, ?),";
+					}
+					
+					if (inventory != null) {
+						preparedString = preparedString.substring(0, preparedString.length() - 1);
+						System.out.println(preparedString);
+						stmt2 = conn.prepareStatement( preparedString );
+						for (Pair<Item, Integer> item : inventory) {
+							stmt2.setInt(index++, playerID);
+							stmt2.setInt(index++, item.getLeft().getId());
+							stmt2.setInt(index++, item.getRight());
+						}
+						stmt2.executeUpdate();
+					}
+					
+					
+					stmt3 = conn.prepareStatement(
+						"select inventory.* " +
+						"	from inventory " +
+						"	where player_id = ? "
+					);
+					stmt3.setInt(1, playerID);
+					
+					List<Pair<Integer, Integer>> result = new ArrayList<Pair<Integer, Integer>>();
+					
+					resultSet3 = stmt3.executeQuery();
+
+					while(resultSet3.next()) {
+						index = 1;
+						resultSet3.getInt(index++); // Ignore the player ID
+						int itemID = resultSet3.getInt(index++);
+						int quantity = resultSet3.getInt(index++);
+						Pair<Integer, Integer> pair = new Pair<Integer, Integer>(itemID, quantity);
+						result.add(pair);
+					}
+					
+					return result;
+					
+				} finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});
+	}
+	
+	@Override
+	public List<Integer> modifyAccess(WorldMap world, int playerID) {
+		return executeTransaction(new Transaction<List<Integer>>() {
+			@Override
+			public List<Integer> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+				PreparedStatement stmt3 = null;
+							
+				ResultSet resultSet3 = null;
+				
+				int index;
+
+				try {
+					
+					if (findPlayerByID(playerID) != null) {
+						System.out.println("modifyAccess: Player found with player ID: " + playerID);						
+					} else {
+						System.out.println("modifyAccess: Player with player ID: " + playerID + " not found");
+						return null;
+					}
+					
+					stmt1 = conn.prepareStatement(
+						"delete from locationAccess " +
+						"	where player_id = ? "
+					);
+					stmt1.setInt(1, playerID);
+					stmt1.executeUpdate();
+
+					ArrayList<Integer> accesses = world.getAccess();
+					
+					for (Integer access : accesses) {
+						stmt2 = conn.prepareStatement(
+								"insert into locationAccess (player_id, location_id)" +
+								"  values(?, ?) "
+						);
+						stmt2.setInt(1, playerID);
+						stmt2.setInt(2, access);
+						stmt2.executeUpdate();
+					}
+					
+					List<Integer> result = new ArrayList<Integer>();
+					
+					stmt3 = conn.prepareStatement(
+						"select locationAccess.* " +
+						"	from locationAccess" +
+						"	where player_id = ? "
+					);
+					stmt3.setInt(1, playerID);
+					resultSet3 = stmt3.executeQuery();
+					
+					while(resultSet3.next()) {
+						index = 1;
+						resultSet3.getInt(index++); // Ignore the player ID
+						result.add(resultSet3.getInt(index++));
+					}
+					
+					return result;
+					
+				} finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(stmt2);
+				}
+			}
+		});
+	}
+	
+	@Override
+	public boolean validateLogin (String username, String password) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+						"select accounts.* " +
+						"	from accounts" +
+						"	where username = ? and password = ? "
+					);
+					stmt.setString(1, username);
+					stmt.setString(2, password);
+					resultSet = stmt.executeQuery();
+					
+					while(resultSet.next()) {
+						return true;
+					}
+					
+					return false;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
 	}
 	
 	private void loadPlayer(Player player, ResultSet resultSet, int index) throws SQLException {

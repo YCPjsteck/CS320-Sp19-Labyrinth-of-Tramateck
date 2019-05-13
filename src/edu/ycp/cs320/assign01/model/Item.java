@@ -6,11 +6,11 @@ import edu.ycp.cs320.assign01.model.interfaces.Named;
 
 public class Item implements Named {
 	private String name, longDesc, shortDesc;
-	private int id, worth, weight, level;
+	private int id, worth, weight;
 	private ItemRarity rarity;
 	private ItemType type;
 	
-	public Item() {	
+	public Item() {
 	}
 
 	public void setName(String name) {
@@ -60,11 +60,5 @@ public class Item implements Named {
 	}
 	public ItemType getType() {
 		return type;
-	}
-	public int getLevel() {
-		return level;
-	}
-	public void setLevel(int level) {
-		this.level = level;
 	}
 }
