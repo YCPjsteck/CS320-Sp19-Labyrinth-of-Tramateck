@@ -45,7 +45,12 @@
                         display: border-box;
                         outline: none;
                     }
-
+                    
+                    hr { display: block; height: 1px;
+                        border: 0; border-top: 1px solid #39FF14;
+                        margin: 1em 0; padding: 0; 
+                    }
+                    
                     #contentGrid {
                         display: grid;
                         align-content: center;
@@ -63,6 +68,12 @@
                         background color: black;
                     }
                 </style>
+                <script language="javascript" type="text/javascript">
+                    window.onload=toBottom;
+                    function toBottom(){
+                        window.scrollTo(0, document.body.scrollHeight);
+                    } 
+                </script>
             </head>
 
             <body>

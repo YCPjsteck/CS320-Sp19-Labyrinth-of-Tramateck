@@ -50,15 +50,15 @@ public class DatabaseTest {
 	@Test
 	public void findPlayerByIDTest() {
 		Player player = db.findPlayerByID(1);
-		assertTrue(player.getName().equals("Bob"));
+		assertTrue(player.getName().equals("Test"));
 		assertTrue(player.getLocationID() == 0);
 		assertTrue(player.getLevel() == 1);
 		assertTrue(player.getExperience() == 0);
 		assertTrue(player.getScore() == 0);
 		assertTrue(player.getCurrency() == 0);
-		assertTrue(player.getDexterity() == 10);
-		assertTrue(player.getStrength() == 10);
-		assertTrue(player.getIntellect() == 10);
+		assertTrue(player.getDexterity() == 1);
+		assertTrue(player.getStrength() == 1);
+		assertTrue(player.getIntellect() == 1);
 		assertTrue(player.getArmorID() == 0);
 		assertTrue(player.getWeaponID() == 0);
 		assertTrue(player.getAccessoryID() == 0);
@@ -72,15 +72,15 @@ public class DatabaseTest {
 		
 		Player player = players.get(0);
 		assertTrue(player.getId() == 1);
-		assertTrue(player.getName().equals("Bob"));
+		assertTrue(player.getName().equals("Test"));
 		assertTrue(player.getLocationID() == 0);
 		assertTrue(player.getLevel() == 1);
 		assertTrue(player.getExperience() == 0);
 		assertTrue(player.getScore() == 0);
 		assertTrue(player.getCurrency() == 0);
-		assertTrue(player.getDexterity() == 10);
-		assertTrue(player.getStrength() == 10);
-		assertTrue(player.getIntellect() == 10);
+		assertTrue(player.getDexterity() == 1);
+		assertTrue(player.getStrength() == 1);
+		assertTrue(player.getIntellect() == 1);
 		assertTrue(player.getArmorID() == 0);
 		assertTrue(player.getWeaponID() == 0);
 		assertTrue(player.getAccessoryID() == 0);
