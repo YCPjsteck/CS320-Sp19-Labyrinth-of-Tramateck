@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Mon May 13 10:06:31 EDT 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-016a-b184-2eed-00000de74260 
+Mon May 13 13:35:03 EDT 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-016a-b243-1a87-00000df90200 
 on database directory /Users/jadenmarini/CS320-Sp19-Labyrinth-of-Tramateck-DB/library.db with class loader sun.misc.Launcher$AppClassLoader@7a81197d 
 Loaded from file:/Users/jadenmarini/Desktop/CS320/Labs/CS320_Derby/lib/derby.jar
 java.vendor=Oracle Corporation

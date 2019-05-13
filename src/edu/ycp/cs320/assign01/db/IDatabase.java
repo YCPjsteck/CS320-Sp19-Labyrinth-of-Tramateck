@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.ycp.cs320.assign01.model.Account;
 import edu.ycp.cs320.assign01.model.Player;
+import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.Pair;
 import edu.ycp.cs320.assign01.model.utility.Triple;
 
@@ -30,5 +31,8 @@ public interface IDatabase {
 	public Integer			insertInventory(int playerID, int itemID, int itemAmount);
 
 	public Player			modifyPlayer(Player player); //Returns the new player
+	public List<Pair<Integer,Integer>> modifyInventory(Player player); //Returns the new player
+	public List<Integer>	modifyAccess(WorldMap world, int playerID); //Returns the new player
+	
 	public boolean			validateLogin(String username, String password); //Returns the new player
 }

@@ -10,7 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ycp.cs320.assign01.model.Account;
+import edu.ycp.cs320.assign01.model.Item;
 import edu.ycp.cs320.assign01.model.Player;
+import edu.ycp.cs320.assign01.model.movement.Location;
+import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.Pair;
 import edu.ycp.cs320.assign01.model.utility.Triple;
 
@@ -394,17 +397,104 @@ public class DatabaseTest {
 	}
 	
 	@Test
-	public void testvalidateLogin() {
-		//NOT REAL PLAYER
-		//PLAYER FOUND
-		System.out.println("\n*** Testing modifyPlayer ***");
+	public void testModifyInventory() {
+		System.out.println("\n*** Testing modifyInventory ***");
+//		db.removePlayer(66);
+		String username    		= "testusername";
+		String password   		= "testpassword";
+		String name    			= "testname";
+		int accountID 			= db.insertAccount(username, password);
+		int playerID 			= db.insertPlayerIntoAccount(accountID, name);
+		Player player			= db.findPlayerByID(playerID);
+		
+		Item item1 = new Item();
+		item1.setName("TestItem1");
+		item1.setId(-1);
+		Item item2 = new Item();
+		item2.setName("TestItem2");
+		item2.setId(-2);
+		Item item3 = new Item();
+		item3.setName("TestItem3");
+		item3.setId(-3);
+		
+		player.addItem(item1, 10);
+		player.addItem(item2, 20);
+		player.addItem(item3, 30);
+		
+		List<Pair<Item ,Integer>>  inventoryStart = player.getInventory();
+		List<Pair<Integer ,Integer>>  inventoryEnd;
+
+		
+		assertTrue(player.getId() == playerID);
+		
+		System.out.println("*TEST: Modifying inventory");
+		inventoryEnd = db.modifyInventory(player);
+		
+		assertTrue(inventoryEnd != null);
+		assertTrue(inventoryStart.get(0).getLeft().getId() == inventoryEnd.get(0).getLeft());
+		assertTrue(inventoryStart.get(0).getRight() == inventoryEnd.get(0).getRight());
+		assertTrue(inventoryStart.get(1).getLeft().getId() == inventoryEnd.get(1).getLeft());
+		assertTrue(inventoryStart.get(1).getRight() == inventoryEnd.get(1).getRight());
+		assertTrue(inventoryStart.get(2).getLeft().getId() == inventoryEnd.get(2).getLeft());
+		assertTrue(inventoryStart.get(2).getRight() == inventoryEnd.get(2).getRight());
+
+		
+		player.setId(playerID + 1);
+		System.out.println("*TEST: Modifying inventory with invalid id");
+		assertTrue(db.modifyPlayer(player) == null);
+		
+		db.removeAccount(db.findAccountByUsername(username).getId());
+	}
+	
+	@Test
+	public void testModifyAccess() {
+		System.out.println("\n*** Testing modifyAccess ***");
+
+		String username    		= "testusername";
+		String password   		= "testpassword";
+		String name    			= "testname";
+		int accountID 			= db.insertAccount(username, password);
+		int playerID 			= db.insertPlayerIntoAccount(accountID, name);
+		Player player			= db.findPlayerByID(playerID);
+		WorldMap world			= new WorldMap();
+
+		world.grantAccess(-1);
+		world.grantAccess(-2);
+		world.grantAccess(-3);
+		world.grantAccess(-4);
+		
+		List<Integer> accessStart = world.getAccess();
+		
+		
+		assertTrue(player.getId() == playerID);
+		
+		System.out.println("*TEST: Modifying access");
+		List<Integer> accessEnd = db.modifyAccess(world, playerID);
+		
+		assertTrue(accessStart.get(0) == accessEnd.get(0));
+		assertTrue(accessStart.get(1) == accessEnd.get(1));
+		assertTrue(accessStart.get(2) == accessEnd.get(2));
+		assertTrue(accessStart.get(3) == accessEnd.get(3));
+		
+		System.out.println("*TEST: Modifying access with invalid id");
+		assertTrue(db.modifyAccess(world, playerID + 1) == null);
+		
+		db.removeAccount(db.findAccountByUsername(username).getId());
+	}
+	
+	@Test
+	public void testValidateLogin() {
+		System.out.println("\n*** Testing validateLogin ***");
 		//db.removePlayer(28);
 		String username    		= "testusername";
 		String password   		= "testpassword";
 		db.insertAccount(username, password);
 
-		
-		assertTrue(db.validateLogin(username, password) == true);
+		System.out.println("*TEST: Validating login with valid login");
+		assertTrue(db.validateLogin(username, password));
+		System.out.println("*TEST: Validating login with invalid login");
+		assertTrue(!db.validateLogin(username + "2", password));
+		assertTrue(!db.validateLogin(username, password + "2"));
 
 		db.removeAccount(db.findAccountByUsername(username).getId());
 	}
