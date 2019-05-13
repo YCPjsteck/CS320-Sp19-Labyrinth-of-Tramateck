@@ -22,7 +22,38 @@ public class TextBasedServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		System.out.println("TextBased Servlet: doGet");	
+		System.out.println("TextBased Servlet: doGet");
+		
+		// TODO: get the current player from the session
+		//		 then show the player's log instead of updating the 
+		//		 player as new
+		Game model = new Game();
+		ArrayList<String> output = new ArrayList<String>();
+		Player player = model.getPlayer();
+		ArrayList<Item> items = model.getItems();
+		player.addItem(items.get(3));
+		player.addItem(items.get(4));
+		player.addItem(items.get(5));
+		player.addItem(items.get(6),3);
+		
+		WorldMap world = model.getWorld();
+		world.setPlayer(1);
+		world.curLocation().start();
+		world.curLocation().curRoom().isEntered();
+
+		world.grantAccess(1);
+		world.grantAccess(2);
+		
+		output.add(world.curLocation().curRoom().getLongDesc());
+		output.addAll(world.curLocation().getMapArray());
+		
+		req.setAttribute("output", output);
+		
+		ArrayList<String> stringified = model.stringify();
+		req.setAttribute("playerStr", stringified.get(0));
+		req.setAttribute("roomStr", stringified.get(1));
+		req.setAttribute("npcStr", stringified.get(2));
+		req.setAttribute("eventStr", stringified.get(3));
 		
 		// call JSP to generate empty form
 		req.getRequestDispatcher("/_view/textBased.jsp").forward(req, resp);
@@ -54,25 +85,7 @@ public class TextBasedServlet extends HttpServlet {
 		stringified.add(roomStr);
 		stringified.add(npcStr);
 		stringified.add(eventStr);
-		if(playerStr.equals("")) {
-			Player player = model.getPlayer();
-			ArrayList<Item> items = model.getItems();
-			player.addItem(items.get(3));
-			player.addItem(items.get(4));
-			player.addItem(items.get(5));
-			player.addItem(items.get(6),3);
-			
-			WorldMap world = model.getWorld();
-			world.setPlayer(1);
-			world.curLocation().start();
-			world.curLocation().curRoom().isEntered();
-
-			world.grantAccess(1);
-			world.grantAccess(2);
-			
-			output.add(world.curLocation().curRoom().getLongDesc());
-			output.addAll(world.curLocation().getMapArray());
-		} else {
+		if(!playerStr.equals("")) {
 			model.reconstruct(stringified);
 		}
 		
@@ -91,6 +104,7 @@ public class TextBasedServlet extends HttpServlet {
 			String temp = controller.control(input);
 			output.addAll(finder.findWords(temp, "\n"));
 		}
+		// output.add("<hr>");
 		
 		// Add parameters as request attributes
 		// this creates attributes named "first" and "second for the response, and grabs the
