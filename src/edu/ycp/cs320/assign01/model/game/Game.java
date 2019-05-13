@@ -1,8 +1,11 @@
 package edu.ycp.cs320.assign01.model.game;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import edu.ycp.cs320.assign01.db.DerbyDatabase;
 import edu.ycp.cs320.assign01.enums.NPCType;
+import edu.ycp.cs320.assign01.model.Equipment;
 import edu.ycp.cs320.assign01.model.Item;
 import edu.ycp.cs320.assign01.model.NPC;
 import edu.ycp.cs320.assign01.model.Player;
@@ -66,8 +69,10 @@ public class Game {
 	 * 		0 = roomID
 	 * 		1 = Done? (0 for not, 1 for yes)
 	 */
-	// TODO Update DB accordingly before stringifying game
 	public ArrayList<String> stringify() {
+		// Update the player's model, inventory, and access in the DB
+		updatePlayerDB();
+		
 		ArrayList<String> output = new ArrayList<String>();
 		Location loc = game.curLocation();
 		
@@ -130,7 +135,10 @@ public class Game {
 		WordFinder finder = new WordFinder();
 		
 		ArrayList<String> playerStats = finder.findWords(playerStr);
-		// TODO player = find player from DB by Integer.parseInt(playerWords.get(0))
+		
+		// Update the player's model, location, and access from the DB
+		updatePlayerReal(playerStats);
+		
 		game.setPlayer(Integer.parseInt(playerStats.get(1)));
 		Location loc = game.curLocation();
 		loc.setPlayer(Integer.parseInt(playerStats.get(2)), Integer.parseInt(playerStats.get(3)));
@@ -176,6 +184,73 @@ public class Game {
 			else {
 				room.getEvents().get(0).reset();
 			}
+		}
+	}
+	
+	/**
+	 * Unequip all the player's equipment so that their stats save properly
+	 * BUT keep the IDs of the equipment as being equipped
+	 * 
+	 * Check if there's any changes to the player's location access
+	 * Add/remove access as necessary
+	 * 
+	 * Check if there's any changes to the player's inventory
+	 * Add/remove items as necessary
+	 */
+	public void updatePlayerDB() {
+		DerbyDatabase db = new DerbyDatabase();
+		
+		// Unequip all the player's equipment but save the IDs
+		// so that the player's stats don't save with the equipment
+		// on.
+		int acc = player.getAccessoryID();
+		int arm = player.getArmorID();
+		int wep = player.getWeaponID();
+		player.unequipAccessory();
+		player.unequipArmor();
+		player.unequipWeapon();
+		player.setAccessoryID(acc);
+		player.setArmorID(arm);
+		player.setWeaponID(wep);
+		
+		// Update the player's stats
+		db.modifyPlayer(player);
+		// Update the player's inventory
+		db.modifyInventory(player);
+		// Update the player's location access
+		db.modifyAccess(game, player.getId());
+	}
+	
+	public void updatePlayerReal(ArrayList<String> playerStats) {
+		DerbyDatabase db = new DerbyDatabase();
+		
+		// Get the player's stats
+		player = db.findPlayerByID(Integer.parseInt(playerStats.get(0)));
+		
+		// Get the player's inventory
+		List<Pair<Integer,Integer>> inv = db.findInventoryByPlayerID(player.getId());
+		for(Pair<Integer,Integer> pair : inv) {
+			player.addItem(items.get(pair.getLeft()-1),pair.getRight());
+		}
+		
+		// Equip the proper items on the player
+		int acc = player.getAccessoryID();
+		int arm = player.getArmorID();
+		int wep = player.getWeaponID();
+		if(acc != 0) {
+			player.equip((Equipment)items.get(acc-1));
+		}
+		if(arm != 0) {
+			player.equip((Equipment)items.get(arm-1));
+		}
+		if(wep != 0) {
+			player.equip((Equipment)items.get(wep-1));
+		}
+		
+		// Update the player's location access
+		List<Integer> access = db.findAccessByPlayerID(player.getId());
+		for(Integer i : access) {
+			game.grantAccess(i);
 		}
 	}
 }

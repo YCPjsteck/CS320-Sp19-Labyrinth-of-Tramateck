@@ -54,8 +54,6 @@ public class TextBasedServlet extends HttpServlet {
 		stringified.add(roomStr);
 		stringified.add(npcStr);
 		stringified.add(eventStr);
-		// TODO check the player's stats to determine if they're a new player,
-		// 		then execute the below statement if true.
 		if(playerStr.equals("")) {
 			Player player = model.getPlayer();
 			ArrayList<Item> items = model.getItems();

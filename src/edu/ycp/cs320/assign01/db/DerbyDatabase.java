@@ -1173,7 +1173,7 @@ public class DerbyDatabase implements IDatabase {
 					stmt1.setInt(6, player.getCurrency());
 					stmt1.setInt(7, player.getDexterity());
 					stmt1.setInt(8, player.getStrength());
-					stmt1.setInt(9, player.getIntellect());;
+					stmt1.setInt(9, player.getIntellect());
 					stmt1.setInt(10, player.getArmorID());
 					stmt1.setInt(11, player.getWeaponID());
 					stmt1.setInt(12, player.getAccessoryID());
