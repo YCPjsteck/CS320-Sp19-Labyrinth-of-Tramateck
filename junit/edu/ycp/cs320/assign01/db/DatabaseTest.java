@@ -135,6 +135,16 @@ public class DatabaseTest {
 	}
 	
 	@Test
+	public void findAllPlayerAccountsTest() {
+		List<Pair<Integer, Integer>> playerAccounts = db.findAllPlayerAccounts();
+		System.out.println("\nno. playerAccounts: " + playerAccounts.size());
+		
+		for (Pair<Integer,Integer> playerAccount : playerAccounts) {
+			System.out.println("Player ID: " + playerAccount.getLeft() + " || Account ID: " + playerAccount.getRight());
+		}
+	}
+	
+	@Test
 	public void testRemoveAccount() {
 		System.out.println("\n*** Testing removeAccount ***");
 
@@ -230,7 +240,7 @@ public class DatabaseTest {
 		inventory = db.removeInventoryByItemAmount(player, -1, 10);
 		assertTrue(inventory != null);
 		foundInventory = db.findInventoryByPlayerID(player).get(0);
-		System.out.println("ITEMSHIT" + inventory.getLeft());
+		System.out.println("*TEST: Removing inventory partially");
 		assertTrue(inventory.getLeft() == player.intValue());
 		assertTrue(inventory.getMiddle() == foundInventory.getLeft());
 		assertTrue(inventory.getRight() == foundInventory.getRight());
@@ -314,5 +324,39 @@ public class DatabaseTest {
 	public void testModifyPlayer() {
 		//NOT REAL PLAYER
 		//PLAYER FOUND
+		System.out.println("\n*** Testing modifyPlayer ***");
+		//db.removePlayer(28);
+		String username    		= "testusername";
+		String password   		= "testpassword";
+		String name    			= "testname";
+		int accountID 			= db.insertAccount(username, password);
+		int playerID 			= db.insertPlayerIntoAccount(accountID, name);
+		Player playerStart 		= db.findPlayerByID(playerID);
+		Player playerEnd;
+		
+		playerStart.setStrength(20);
+		playerStart.setDexterity(31);
+		playerStart.setIntellect(44);
+		
+		assertTrue(playerStart.getId() == playerID);
+		assertTrue(playerStart.getName().equals(name));
+		assertTrue(playerStart.getStrength() == 20);
+		assertTrue(playerStart.getDexterity() == 31);
+		assertTrue(playerStart.getIntellect() == 44);
+		
+		System.out.println("*TEST: Modifying player");
+		playerEnd = db.modifyPlayer(playerStart);
+		
+		assertTrue(playerEnd != null);
+		assertTrue(playerStart.getId() == playerEnd.getId());
+		assertTrue(playerStart.getStrength() == playerEnd.getStrength());
+		assertTrue(playerStart.getDexterity() == playerEnd.getDexterity());
+		assertTrue(playerStart.getIntellect() == playerEnd.getIntellect());
+		
+		playerEnd.setId(playerID + 1);
+		System.out.println("*TEST: Modifying player with invalid id");
+		assertTrue(db.modifyPlayer(playerEnd) == null);
+		
+		db.removeAccount(db.findAccountByUsername(username).getId());
 	}
 }

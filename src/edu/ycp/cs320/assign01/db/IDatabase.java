@@ -17,6 +17,7 @@ public interface IDatabase {
 	public Account 			findAccountByUsername(String name);
 	public List<Pair<Integer,Integer>> 	findInventoryByPlayerID(int id);
 	public List<Integer>	findAccessByPlayerID(int id);
+	public List<Pair<Integer, Integer>>		findAllPlayerAccounts();
 	
 	public Account 			removeAccount(int id); //These all return exactly what was removed
 	public Player 			removePlayer(int id);
@@ -28,5 +29,5 @@ public interface IDatabase {
 	public Integer 			insertLocationAccess(int playerID, int locationID);
 	public Integer			insertInventory(int playerID, int itemID, int itemAmount);
 
-	public Player			modifyPlayer(int playerID, Player player); //Returns the new player
+	public Player			modifyPlayer(Player player); //Returns the new player
 }

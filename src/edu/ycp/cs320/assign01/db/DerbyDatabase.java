@@ -619,11 +619,52 @@ public class DerbyDatabase implements IDatabase {
 	}
 
 	@Override
+	public List<Pair<Integer, Integer>> findAllPlayerAccounts() {
+		return executeTransaction(new Transaction<List<Pair<Integer, Integer>>>() {
+			@Override
+			public List<Pair<Integer, Integer>> execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+						"select playerAccounts.* " +
+						"	from playerAccounts"
+					);
+					
+					List<Pair<Integer, Integer>> result = new ArrayList<Pair<Integer, Integer>>(); 
+					
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					
+					while(resultSet.next()) {
+						found = true;
+						int index = 1;
+						result.add(new Pair<Integer, Integer>(resultSet.getInt(index++), resultSet.getInt(index++)));
+					}
+					
+					if(!found) {
+						System.out.println("No playerAccounts found found");
+					}
+					
+					return result;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
+	@Override
 	public Account removeAccount(int id) {
 		return executeTransaction(new Transaction<Account>() {
 			@Override
 			public Account execute(Connection conn) throws SQLException {
-				PreparedStatement stmt1 = null;				
+				PreparedStatement stmt1 = null;	
+				PreparedStatement stmt2 = null;	
+				
+				ResultSet resultSet1 = null;
 				
 				try {
 					Account account = findAccountByID(id);
@@ -635,12 +676,30 @@ public class DerbyDatabase implements IDatabase {
 					}									
 					
 					stmt1 = conn.prepareStatement(
-							"delete from accounts " +
+							"select playerAccounts.* from playerAccounts " +
 							"  where account_id = ? "
 					);
 					
 					stmt1.setInt(1, id);
-					stmt1.executeUpdate();
+					resultSet1 = stmt1.executeQuery();
+					
+					if (resultSet1.next()) {
+						stmt2 = conn.prepareStatement(
+								"delete from playerAccounts " +
+								"  where account_id = ? "
+						);
+						
+						stmt2.setInt(1, id);
+						stmt2.executeUpdate();
+					}
+					
+					stmt2 = conn.prepareStatement(
+							"delete from accounts " +
+							"  where account_id = ? "
+					);
+					
+					stmt2.setInt(1, id);
+					stmt2.executeUpdate();
 					
 					System.out.println("removeAccount: Deleted account with accountID <" + id + "> from DB");									
 
@@ -887,44 +946,49 @@ public class DerbyDatabase implements IDatabase {
 				PreparedStatement stmt4 = null;
 							
 				ResultSet resultSet2 = null;
+				Account account;
 			
 				// for saving playerID
 				Integer playerID = -1;
 
 				try {
-				
-					if (findAccountByID(accountID) != null) {
+					account = findAccountByID(accountID);
+					if (account != null) {
 						System.out.println("insertPlayerIntoAccount: Account found with accountID: " + accountID);						
 					} else {
 						System.out.println("insertPlayerIntoAccount: Account with accountID: " + accountID + " not found");
 						return null;
 					}
+					
+					List<Player> players = findPlayersByAccountID(accountID);
+					for (Player player : players) {
+						if (name.equalsIgnoreCase(player.getName())) {
+							System.out.println("insertPlayerIntoAccount: Player <" + name + "> already exists in Account with accountID: " + accountID);
+							return null;
+						}
+					}
+					
 					stmt1 = conn.prepareStatement(
-							"insert into players (name, location_id, level, experience,"	+
+							"insert into players (location_id, level, experience,"	+
 							 					"score, currency, dexterity, strength, "+
 							 					"intellect, armor, weapon, accessory) " +
-							"  values(?, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0) "
+							"  values(0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0) "
 					);
-					stmt1.setString(1, name);
 					stmt1.executeUpdate();
 					
 					System.out.println("insertPlayerIntoAccount: New player <" + name + "> inserted into players table");					
 
-
 					stmt2 = conn.prepareStatement(
-							"select player_id from players " +
-							"  where name = ? "
-									
+							"select players.player_id from players " +
+							"	where name is null "
 					);
-					stmt2.setString(1, name);
 					resultSet2 = stmt2.executeQuery();
 					
 					if (resultSet2.next()) {
 						playerID = resultSet2.getInt(1);
-						System.out.println("insertPlayerIntoAccount: New player <" + name + "> ID: " + playerID);						
-					} else	
-					{
-						System.out.println("insertPlayerIntoAccount: New player <" + name + "> not found in Player table ID: " + playerID);
+					} else {
+						System.out.println("insertPlayerIntoAccount: Error inserting new player into players table");
+						return null;
 					}
 					
 					stmt3 = conn.prepareStatement(
@@ -935,6 +999,15 @@ public class DerbyDatabase implements IDatabase {
 					stmt3.setInt(2, accountID);
 					stmt3.executeUpdate();
 					System.out.println("insertPlayerIntoAccount: New entry for player ID <" + playerID + "> and account ID <" + accountID + "> inserted into PlayerAccounts junction table");
+					
+					stmt4 = conn.prepareStatement(
+							"update players " +
+							"	set players.name = ?" +
+							"	where players.name is null "
+									
+					);
+					stmt4.setString(1, name);
+					stmt4.executeUpdate();
 					
 					System.out.println("insertPlayerIntoAccount: New player <" + name + "> inserted into Player table");
 					
@@ -1061,93 +1134,74 @@ public class DerbyDatabase implements IDatabase {
 	}
 	
 	@Override
-	public Player modifyPlayer(int playerID, Player player) {
+	public Player modifyPlayer(Player player) {
 		return executeTransaction(new Transaction<Player>() {
 			@Override
 			public Player execute(Connection conn) throws SQLException {
-				return null;
-//				PreparedStatement stmt1 = null;
-//				PreparedStatement stmt2 = null;
-//				PreparedStatement stmt3 = null;
-//				PreparedStatement stmt4 = null;
-//							
-//				ResultSet resultSet2 = null;
-//			
-//				// for saving playerID
-//				Player player;
-//
-//				try {
-//					player = findPlayerByID(playerID);
-//					if (player != null) {
-//						System.out.println("modifyPlayer: Player found with player ID: " + playerID);						
-//					} else {
-//						System.out.println("modifyPlayer: Player with player ID: " + playerID + " not found");
-//						return null;
-//					}
-//					removePlayer(playerID);
-//					
-//					stmt1 = conn.prepareStatement(
-//							"update players" + 
-//							"	set name = ?, location_id = ?, level = ?, experience = ?," +
-//							"		score = ?, currency = ?, dexterity = ?, strength = ?," +
-//							"		intellect = ? " +
-//							"	where player_id = ? "
-//					);
-//					stmt1.setString(1, player.getName());
-//					stmt1.setInt(2, player.getLocationID());
-//					stmt1.setInt(3, player.getLevel());
-//					stmt1.setInt(4, player.getExperience());
-//					stmt1.setInt(5, player.getScore());
-//					stmt1.setInt(6, player.getCurrency());
-//					stmt1.setInt(7, player.getDexterity());
-//					stmt1.setInt(8, player.getStrength());
-//					stmt1.setInt(9, player.getIntellect());
-//					stmt1.setInt(10, player.getArmor());
-//					stmt1.setInt(11, player.getArmorID());
-//					stmt1.setInt(12, player.getWeaponID());
-//					stmt1.setInt(13, player.getAccessoryID());
-//					stmt1.setInt(14, player.getId());
-//
-//					stmt1.executeUpdate();
-//					
-//					System.out.println("insertPlayerIntoAccount: New player <" + name + "> inserted into players table");					
-//
-//
-//					stmt2 = conn.prepareStatement(
-//							"select player_id from players " +
-//							"  where name = ? "
-//									
-//					);
-//					stmt2.setString(1, name);
-//					resultSet2 = stmt2.executeQuery();
-//					
-//					if (resultSet2.next()) {
-//						playerID = resultSet2.getInt(1);
-//						System.out.println("insertPlayerIntoAccount: New player <" + name + "> ID: " + playerID);						
-//					} else	
-//					{
-//						System.out.println("insertPlayerIntoAccount: New player <" + name + "> not found in Player table ID: " + playerID);
-//					}
-//					
-//					stmt3 = conn.prepareStatement(
-//							"insert into playerAccounts (player_id, account_id) " +
-//							"  values(?, ?) "
-//					);
-//					stmt3.setInt(1, playerID);
-//					stmt3.setInt(2, accountID);
-//					stmt3.executeUpdate();
-//					System.out.println("insertPlayerIntoAccount: New entry for player ID <" + playerID + "> and account ID <" + accountID + "> inserted into PlayerAccounts junction table");
-//					
-//					System.out.println("insertPlayerIntoAccount: New player <" + name + "> inserted into Player table");
-//					
-//					return playerID;
-//				} finally {
-//					DBUtil.closeQuietly(stmt1);
-//					DBUtil.closeQuietly(resultSet2);
-//					DBUtil.closeQuietly(stmt2);
-//					DBUtil.closeQuietly(stmt3);
-//					DBUtil.closeQuietly(stmt4);
-//				}
+				PreparedStatement stmt1 = null;
+				PreparedStatement stmt2 = null;
+							
+				ResultSet resultSet2 = null;
+			
+				Player tempPlayer = new Player();
+				String name;
+				int playerID;
+
+				try {
+					name = player.getName();
+					playerID = player.getId();
+					
+					if (findPlayerByID(playerID) != null) {
+						System.out.println("modifyPlayer: Player found with player ID: " + playerID);						
+					} else {
+						System.out.println("modifyPlayer: Player with player ID: " + playerID + " not found");
+						return null;
+					}
+					
+					stmt1 = conn.prepareStatement(
+							"update players" + 
+							"	set name = ?, location_id = ?, level = ?, experience = ?," +
+							"		score = ?, currency = ?, dexterity = ?, strength = ?," +
+							"		intellect = ?, armor = ?, weapon = ?, accessory = ? " +
+							"	where player_id = ? "
+					);
+					stmt1.setString(1, name);
+					stmt1.setInt(2, player.getLocationID());
+					stmt1.setInt(3, player.getLevel());
+					stmt1.setInt(4, player.getExperience());
+					stmt1.setInt(5, player.getScore());
+					stmt1.setInt(6, player.getCurrency());
+					stmt1.setInt(7, player.getDexterity());
+					stmt1.setInt(8, player.getStrength());
+					stmt1.setInt(9, player.getIntellect());;
+					stmt1.setInt(10, player.getArmorID());
+					stmt1.setInt(11, player.getWeaponID());
+					stmt1.setInt(12, player.getAccessoryID());
+					stmt1.setInt(13, playerID);
+					stmt1.executeUpdate();
+					System.out.println("modifyPlayer: Player <" + name + "> updated in players table");	
+					
+					stmt2 = conn.prepareStatement(
+						"select players.* " +
+						"	from players " +
+						"	where player_id = ? "
+					);
+					stmt2.setInt(1, playerID);
+					resultSet2 = stmt2.executeQuery();
+					
+					if (resultSet2.next()) {
+						System.out.println("modifyPlayer: New player <" + name + "> ID: " + playerID);
+						loadPlayer(tempPlayer, resultSet2, 1);
+						return tempPlayer;
+					} else	{
+						System.out.println("modifyPlayer: New player <" + name + "> not found in Player table ID: " + playerID);
+						return null;
+					}
+				} finally {
+					DBUtil.closeQuietly(stmt1);
+					DBUtil.closeQuietly(resultSet2);
+					DBUtil.closeQuietly(stmt2);
+				}
 			}
 		});
 	}
