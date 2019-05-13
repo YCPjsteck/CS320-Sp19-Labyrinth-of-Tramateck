@@ -36,6 +36,8 @@ public class TextBasedServlet extends HttpServlet {
 		
 		String errorMessage = null;
 		ArrayList<String> output = new ArrayList<String>();
+		String outputParam = req.getParameter("output");
+		output.add(outputParam);
 		String input = req.getParameter("input");
 		
 		Game model = new Game();
@@ -52,6 +54,8 @@ public class TextBasedServlet extends HttpServlet {
 		stringified.add(roomStr);
 		stringified.add(npcStr);
 		stringified.add(eventStr);
+		// TODO check the player's stats to determine if they're a new player,
+		// 		then execute the below statement if true.
 		if(playerStr.equals("")) {
 			Player player = model.getPlayer();
 			ArrayList<Item> items = model.getItems();
@@ -87,7 +91,7 @@ public class TextBasedServlet extends HttpServlet {
 		else {
 			WordFinder finder = new WordFinder();
 			String temp = controller.control(input);
-			output = finder.findWords(temp, "\n");
+			output.addAll(finder.findWords(temp, "\n"));
 		}
 		
 		// Add parameters as request attributes
