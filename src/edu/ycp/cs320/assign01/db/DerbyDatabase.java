@@ -1206,6 +1206,38 @@ public class DerbyDatabase implements IDatabase {
 		});
 	}
 	
+	@Override
+	public boolean validateLogin (String username, String password) {
+		return executeTransaction(new Transaction<Boolean>() {
+			@Override
+			public Boolean execute(Connection conn) throws SQLException {
+				PreparedStatement stmt = null;
+				ResultSet resultSet = null;
+				try {
+					stmt = conn.prepareStatement(
+						"select accounts.* " +
+						"	from accounts" +
+						"	where username = ? and password = ? "
+					);
+					stmt.setString(1, username);
+					stmt.setString(2, password);
+					resultSet = stmt.executeQuery();
+					
+					Boolean found = false;
+					
+					while(resultSet.next()) {
+						return true;
+					}
+					
+					return false;
+				} finally {
+					DBUtil.closeQuietly(resultSet);
+					DBUtil.closeQuietly(stmt);
+				}
+			}
+		});
+	}
+	
 	private void loadPlayer(Player player, ResultSet resultSet, int index) throws SQLException {
 		player.setId(resultSet.getInt(index++));
 		player.setName(resultSet.getString(index++));

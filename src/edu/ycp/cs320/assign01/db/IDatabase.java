@@ -30,4 +30,5 @@ public interface IDatabase {
 	public Integer			insertInventory(int playerID, int itemID, int itemAmount);
 
 	public Player			modifyPlayer(Player player); //Returns the new player
+	public boolean			validateLogin(String username, String password); //Returns the new player
 }

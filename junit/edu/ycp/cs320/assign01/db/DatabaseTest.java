@@ -357,8 +357,6 @@ public class DatabaseTest {
 	
 	@Test
 	public void testModifyPlayer() {
-		//NOT REAL PLAYER
-		//PLAYER FOUND
 		System.out.println("\n*** Testing modifyPlayer ***");
 		//db.removePlayer(28);
 		String username    		= "testusername";
@@ -392,6 +390,22 @@ public class DatabaseTest {
 		System.out.println("*TEST: Modifying player with invalid id");
 		assertTrue(db.modifyPlayer(playerEnd) == null);
 		
+		db.removeAccount(db.findAccountByUsername(username).getId());
+	}
+	
+	@Test
+	public void testvalidateLogin() {
+		//NOT REAL PLAYER
+		//PLAYER FOUND
+		System.out.println("\n*** Testing modifyPlayer ***");
+		//db.removePlayer(28);
+		String username    		= "testusername";
+		String password   		= "testpassword";
+		db.insertAccount(username, password);
+
+		
+		assertTrue(db.validateLogin(username, password) == true);
+
 		db.removeAccount(db.findAccountByUsername(username).getId());
 	}
 }
