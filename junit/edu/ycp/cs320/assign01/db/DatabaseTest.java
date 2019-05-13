@@ -15,7 +15,6 @@ import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.movement.Location;
 import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.Pair;
-import edu.ycp.cs320.assign01.model.utility.Triple;
 
 public class DatabaseTest {
 	private DerbyDatabase db = null;
@@ -28,22 +27,14 @@ public class DatabaseTest {
 	@Test
 	public void findAllPlayersTest() {
 		List<Player> players = db.findAllPlayers();
-		System.out.println("\nno. players: " + players.size());
 		
-		for (Player player : players) {
-			System.out.println("ID: " + player.getId() + " || Name: " + player.getName());
-		}
 		assertTrue(players.size() == 3);
 	}
 
 	@Test
 	public void findAllAccountsTest() {
 		List<Account> accounts = db.findAllAccounts();
-		System.out.println("\nno. accounts: " + accounts.size());
 		
-		for (Account account : accounts) {
-			System.out.println("ID: " + account.getId() + " || Username: " + account.getUsername());
-		}
 		assertTrue(accounts.size() == 2);
 	}
 	

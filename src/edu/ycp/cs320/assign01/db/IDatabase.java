@@ -6,10 +6,8 @@ import edu.ycp.cs320.assign01.model.Account;
 import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.Pair;
-import edu.ycp.cs320.assign01.model.utility.Triple;
 
 public interface IDatabase {
-	
 	public List<Player> 	findAllPlayers();
 	public List<Account> 	findAllAccounts();
 	public Player			findPlayerByID(int id);
