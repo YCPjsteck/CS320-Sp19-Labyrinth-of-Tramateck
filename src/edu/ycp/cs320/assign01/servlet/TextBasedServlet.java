@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import edu.ycp.cs320.assign01.controller.LoginController;
 import edu.ycp.cs320.assign01.controller.MetaController;
+import edu.ycp.cs320.assign01.db.DerbyDatabase;
 import edu.ycp.cs320.assign01.model.Item;
 import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.game.Game;
@@ -17,6 +19,7 @@ import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
 public class TextBasedServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private DerbyDatabase db;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -88,7 +91,7 @@ public class TextBasedServlet extends HttpServlet {
 		model.reconstruct(stringified);
 		
 		MetaController controller = new MetaController(model.getWorld(), model.getPlayer(), model.getItems());
-
+		
 		// check for errors in the form data before using is in a calculation
 		if (input == null || input.equals("")) {
 			errorMessage = "Please specify input";
