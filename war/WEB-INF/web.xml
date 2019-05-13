@@ -18,6 +18,10 @@
     <servlet-name>TextBasedServlet</servlet-name>
     <servlet-class>edu.ycp.cs320.assign01.servlet.TextBasedServlet</servlet-class>
   </servlet>
+    <servlet>
+    <servlet-name>TextBasedLoginServlet</servlet-name>
+    <servlet-class>edu.ycp.cs320.assign01.servlet.TextBasedLoginServlet</servlet-class>
+  </servlet>
   
   <!-- AJAX servlets. -->
   <servlet>
@@ -37,6 +41,10 @@
   <servlet-mapping>
     <servlet-name>TextBasedServlet</servlet-name>
     <url-pattern>/textBased</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>TextBasedLoginServlet</servlet-name>
+    <url-pattern>/textBasedLogin</url-pattern>
   </servlet-mapping>
   
   <!--  AJAX servlet mappings. -->

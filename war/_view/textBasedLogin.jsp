@@ -70,7 +70,7 @@
                     <div class="error">${errorMessage}</div>
                 </c:if>
 
-                <form action="${pageContext.servletContext.contextPath}/textBased" method="post">
+                <form action="${pageContext.servletContext.contextPath}/textBasedLogin" method="post">
                     <div id="contentGrid">
                         <div id="outputBox">
                             <!-- <div id="outputScreen">${output}</div> -->

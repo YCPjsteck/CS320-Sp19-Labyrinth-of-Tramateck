@@ -28,7 +28,7 @@ public class TextBasedLoginServlet extends HttpServlet {
 		System.out.println("TextBased Servlet: doGet");	
 		
 		// call JSP to generate empty form
-		req.getRequestDispatcher("/_view/textBased.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/textBasedLogin.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -107,6 +107,8 @@ public class TextBasedLoginServlet extends HttpServlet {
 					// store user object in session
 					req.getSession().setAttribute("user", username);
 					req.getSession().setAttribute("player", db.findAccountByUsername(username).getPlayer(0).getId());
+					
+					resp.sendRedirect(req.getContextPath() + "/textBased");
 
 					return;
 				}
@@ -141,6 +143,6 @@ public class TextBasedLoginServlet extends HttpServlet {
 		req.setAttribute("output", output);
 		
 		// Forward to view to render the result HTML document
-		req.getRequestDispatcher("/_view/textBased.jsp").forward(req, resp);
+		req.getRequestDispatcher("/_view/textBasedLogin.jsp").forward(req, resp);
 	}
 }
