@@ -29,6 +29,9 @@ public class Player extends Character{
 		intellect = 1;
 		strength = 1;
 		dexterity = 1;
+		setWeaponID(0);
+		setArmorID(0);
+		setAccessoryID(0);
 	}
 	
 	public String getName() {

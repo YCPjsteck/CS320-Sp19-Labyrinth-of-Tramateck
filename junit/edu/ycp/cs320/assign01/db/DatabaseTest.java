@@ -12,6 +12,7 @@ import org.junit.Test;
 import edu.ycp.cs320.assign01.model.Account;
 import edu.ycp.cs320.assign01.model.Player;
 import edu.ycp.cs320.assign01.model.utility.Pair;
+import edu.ycp.cs320.assign01.model.utility.Triple;
 
 public class DatabaseTest {
 	private DerbyDatabase db = null;
@@ -24,14 +25,22 @@ public class DatabaseTest {
 	@Test
 	public void findAllPlayersTest() {
 		List<Player> players = db.findAllPlayers();
+		System.out.println("\nno. players: " + players.size());
 		
+		for (Player player : players) {
+			System.out.println("ID: " + player.getId() + " || Name: " + player.getName());
+		}
 		assertTrue(players.size() == 3);
 	}
 
 	@Test
 	public void findAllAccountsTest() {
 		List<Account> accounts = db.findAllAccounts();
+		System.out.println("\nno. accounts: " + accounts.size());
 		
+		for (Account account : accounts) {
+			System.out.println("ID: " + account.getId() + " || Username: " + account.getUsername());
+		}
 		assertTrue(accounts.size() == 2);
 	}
 	
@@ -158,5 +167,231 @@ public class DatabaseTest {
 		assertTrue(access.get(0) == 1);
 		assertTrue(access.get(1) == 2);
 		assertTrue(access.get(2) == 3);
+	}
+	
+	@Test
+	public void findAllPlayerAccountsTest() {
+		List<Pair<Integer, Integer>> playerAccounts = db.findAllPlayerAccounts();
+		System.out.println("\nno. playerAccounts: " + playerAccounts.size());
+		
+		for (Pair<Integer,Integer> playerAccount : playerAccounts) {
+			System.out.println("Player ID: " + playerAccount.getLeft() + " || Account ID: " + playerAccount.getRight());
+		}
+	}
+	
+	@Test
+	public void testRemoveAccount() {
+		System.out.println("\n*** Testing removeAccount ***");
+
+		String username    		= "testusername";
+		String username2     	= "testusername2";
+		String password   		= "testpassword";
+		String name    			= "testname";
+		String name2    			= "testname2";
+		int endAccountSize 		= db.findAllAccounts().size();
+		int endPlayerSize 		= db.findAllPlayers().size();
+		Integer account1 = db.insertAccount(username, password);
+		Integer account2 = db.insertAccount(username2, password);
+		
+		db.insertPlayerIntoAccount(account2, name);
+		db.insertPlayerIntoAccount(account2, name2);
+		
+		System.out.println("*TEST: Removing account");
+		assertTrue(db.removeAccount(account1).getId() == account1);
+		System.out.println("*TEST: Removing account with 2 players");
+		assertTrue(db.removeAccount(account2).getId() == account2);
+		System.out.println("*TEST: Removing account with invalid account ID");
+		assertTrue(db.removeAccount(account2 + 1) == null);
+		
+		
+		System.out.println("*TEST: Account and Player amount at start are equal to end amounts");
+		assertTrue(endAccountSize == db.findAllAccounts().size());
+		assertTrue(endPlayerSize == db.findAllPlayers().size());
+	}
+	
+	@Test
+	public void testRemovePlayer() {
+		System.out.println("\n*** Testing removePlayer ***");
+
+		String username    		= "testusername";
+		String password   		= "testpassword";
+		String name    			= "testname";
+		int endSize 			= db.findAllPlayers().size();
+		Integer account1 		= db.insertAccount(username, password);
+		Integer player1 		= db.insertPlayerIntoAccount(account1, name);
+
+		System.out.println("*TEST: Removing player");
+		assertTrue(db.removePlayer(player1).getId() == player1);
+		System.out.println("*TEST: Removing player with invalid ID");
+		assertTrue(db.removePlayer(player1) == null);
+		assertTrue(endSize == db.findAllAccounts().size());
+		
+		db.removeAccount(db.findAccountByUsername(username).getId());
+	}
+	
+	@Test
+	public void testRemoveInventory() {
+		System.out.println("\n*** Testing removeInventory ***");
+
+		String username    		= "testusername";
+		String password   		= "testpassword";
+		String name    			= "testname";
+		Integer account 		= db.insertAccount(username, password);
+		Integer player 		= db.insertPlayerIntoAccount(account, name);
+		Triple<Integer, Integer, Integer> inventory;
+		
+		db.insertInventory(player, -1, 20);
+		System.out.println("*TEST: Removing inventory of invalid item id");
+		assertTrue(db.removeInventory(player, -2) == null);
+		System.out.println("*TEST: Removing inventory of invalid player id");
+		assertTrue(db.removeInventory(player + 1, -1) == null);
+		System.out.println("*TEST: Removing inventory");
+		inventory = db.removeInventory(player, -1);
+		assertTrue(inventory.getLeft() == player.intValue());
+		assertTrue(inventory.getMiddle() == -1);
+		assertTrue(inventory.getRight() == 20);
+
+		db.removeAccount(db.findAccountByUsername(username).getId());
+	}
+	
+	@Test
+	public void testRemoveInventoryByItemAmount() {
+		System.out.println("\n*** Testing removeInventoryByItemAmount ***");
+
+		String username    		= "testusername";
+		String password   		= "testpassword";
+		String name    			= "testname";
+		Integer account 		= db.insertAccount(username, password);
+		Integer player 		= db.insertPlayerIntoAccount(account, name);
+		Triple<Integer, Integer, Integer> inventory;
+		Pair<Integer, Integer> foundInventory;
+		
+		db.insertInventory(player, -1, 20);
+		System.out.println("*TEST: Removing inventory of invalid item id");
+		assertTrue(db.removeInventoryByItemAmount(player, -2, 20) == null);
+		System.out.println("*TEST: Removing inventory of invalid player id");
+		assertTrue(db.removeInventoryByItemAmount(player + 1, -1, 20) == null);
+		System.out.println("*TEST: Removing inventory partially");
+		inventory = db.removeInventoryByItemAmount(player, -1, 10);
+		assertTrue(inventory != null);
+		foundInventory = db.findInventoryByPlayerID(player).get(0);
+		System.out.println("*TEST: Removing inventory partially");
+		assertTrue(inventory.getLeft() == player.intValue());
+		assertTrue(inventory.getMiddle() == foundInventory.getLeft());
+		assertTrue(inventory.getRight() == foundInventory.getRight());
+		db.removeAccount(db.findAccountByUsername(username).getId());
+		
+	}
+	
+	@Test
+	public void testInsertAccount() {
+		System.out.println("\n*** Testing insertAccount ***");
+
+		String username     = "testusername";
+		String password     = "testpassword";
+		int endSize 		= db.findAllAccounts().size() + 1;
+		
+		System.out.println("*TEST: Inserting new account");
+		assertTrue(db.insertAccount(username, password) != null);
+		System.out.println("*TEST: Inserting new account with duplicate username");
+		assertTrue(db.insertAccount(username, password) == null);
+		assertTrue(endSize == db.findAllAccounts().size());
+		
+		db.removeAccount(db.findAccountByUsername(username).getId());
+	}
+	
+	@Test
+	public void testInsertPlayerIntoAccount() {
+		System.out.println("\n*** Testing insertPlayerIntoAccount ***");
+		String username     = "testusername";
+		String password     = "testpassword";
+		String name    		= "testname";
+		int endSize 		= db.findAllPlayers().size() + 1;
+		Integer account = db.insertAccount(username, password);
+		
+		System.out.println("*TEST: Inserting new player");
+		assertTrue(db.insertPlayerIntoAccount(account, name) != null);
+		System.out.println("*TEST: Inserting player into invalid account ID");
+		assertTrue(db.insertPlayerIntoAccount(account + 1, name) == null);
+		assertTrue(endSize == db.findAllPlayers().size());
+		
+		db.removeAccount(db.findAccountByUsername(username).getId());
+	}
+	
+	@Test
+	public void testInsertLocationAccess() {
+		System.out.println("\n*** Testing insertLocationAccess ***");
+		String username     = "testusername";
+		String password     = "testpassword";
+		String name    		= "testname";
+		int accountID = db.insertAccount(username, password);
+		int playerID = db.insertPlayerIntoAccount(accountID, name);
+		
+		System.out.println("*TEST: Inserting new locationAccess");
+		assertTrue(db.insertLocationAccess(playerID, 0) != null); 
+		System.out.println("*TEST: Inserting locationAccess with invalid player ID");
+		assertTrue(db.insertLocationAccess(playerID + 1, 0) == null); 
+		
+		db.removeAccount(db.findAccountByUsername(username).getId());
+	}
+	
+	@Test
+	public void testInsertInventory() {
+		System.out.println("\n*** Testing insertInventory ***");
+		String username     = "testusername";
+		String password     = "testpassword";
+		String name    		= "testname";
+		int accountID = db.insertAccount(username, password);
+		int playerID = db.insertPlayerIntoAccount(accountID, name);
+		
+		System.out.println("*TEST: Inserting new inventory");
+		assertTrue(db.insertInventory(playerID, -1, 1) != null);
+		System.out.println("*TEST: Inserting inventory with invalid player ID");
+		assertTrue(db.insertInventory(playerID + 1, -1, 1) == null);
+		System.out.println("*TEST: Inserting inventory with duplicate item ID");
+		db.insertInventory(playerID, -1, 1);
+		assertTrue(db.removeInventory(playerID, -1).getRight() == 2);
+		
+		db.removeAccount(db.findAccountByUsername(username).getId());
+	}
+	
+	@Test
+	public void testModifyPlayer() {
+		//NOT REAL PLAYER
+		//PLAYER FOUND
+		System.out.println("\n*** Testing modifyPlayer ***");
+		//db.removePlayer(28);
+		String username    		= "testusername";
+		String password   		= "testpassword";
+		String name    			= "testname";
+		int accountID 			= db.insertAccount(username, password);
+		int playerID 			= db.insertPlayerIntoAccount(accountID, name);
+		Player playerStart 		= db.findPlayerByID(playerID);
+		Player playerEnd;
+		
+		playerStart.setStrength(20);
+		playerStart.setDexterity(31);
+		playerStart.setIntellect(44);
+		
+		assertTrue(playerStart.getId() == playerID);
+		assertTrue(playerStart.getName().equals(name));
+		assertTrue(playerStart.getStrength() == 20);
+		assertTrue(playerStart.getDexterity() == 31);
+		assertTrue(playerStart.getIntellect() == 44);
+		
+		System.out.println("*TEST: Modifying player");
+		playerEnd = db.modifyPlayer(playerStart);
+		
+		assertTrue(playerEnd != null);
+		assertTrue(playerStart.getId() == playerEnd.getId());
+		assertTrue(playerStart.getStrength() == playerEnd.getStrength());
+		assertTrue(playerStart.getDexterity() == playerEnd.getDexterity());
+		assertTrue(playerStart.getIntellect() == playerEnd.getIntellect());
+		
+		playerEnd.setId(playerID + 1);
+		System.out.println("*TEST: Modifying player with invalid id");
+		assertTrue(db.modifyPlayer(playerEnd) == null);
+		
+		db.removeAccount(db.findAccountByUsername(username).getId());
 	}
 }
