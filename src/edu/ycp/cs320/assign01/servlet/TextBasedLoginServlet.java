@@ -17,7 +17,7 @@ import edu.ycp.cs320.assign01.model.game.Game;
 import edu.ycp.cs320.assign01.model.movement.WorldMap;
 import edu.ycp.cs320.assign01.model.utility.WordFinder;
 
-public class TextBasedServlet extends HttpServlet {
+public class TextBasedLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private DerbyDatabase db;
 
@@ -82,19 +82,44 @@ public class TextBasedServlet extends HttpServlet {
 		}
 		
 		MetaController controller = new MetaController(model.getWorld(), model.getPlayer(), model.getItems());
-		
+		LoginController loginCon = new LoginController(model.getPlayer());
+
 		// check for errors in the form data before using is in a calculation
 		if (input == null || input.equals("")) {
 			errorMessage = "Please specify input";
+		}
+		else if (input.contains("login")) {
+			WordFinder finder = new WordFinder();
+			ArrayList <String> words = finder.findWords(input);
+			if(words.size() >= 3 && words.get(0).equals("login")) {
+				String username = words.get(1);
+				String password = words.get(2);
+				
+				boolean validLogin = loginCon.validateCredentials(username, password);
+				
+				if (!validLogin) {
+					errorMessage = "Username and/or password invalid";
+				}
+				// if login is valid, start a session
+				if (validLogin) {
+					System.out.println("   Valid login - starting session");
+
+					// store user object in session
+					req.getSession().setAttribute("user", username);
+					req.getSession().setAttribute("player", db.findAccountByUsername(username).getPlayer(0).getId());
+
+					return;
+				}
+				System.out.println("   Invalid login");
+			}
+			else System.out.print("You must specify username and password.");
 		}
 		// otherwise, data is good, do the calculation
 		// must create the controller each time, since it doesn't persist between POSTs
 		// the view does not alter data, only controller methods should be used for that
 		// thus, always call a controller method to operate on the data
 		else {
-			WordFinder finder = new WordFinder();
-			String temp = controller.control(input);
-			output.addAll(finder.findWords(temp, "\n"));
+			System.out.println("You must login first");
 		}
 		
 		// Add parameters as request attributes
