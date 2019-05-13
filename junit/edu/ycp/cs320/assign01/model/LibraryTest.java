@@ -74,7 +74,7 @@ public class LibraryTest {
 		assertTrue(npcList.get(2).getName().equals("Rat"));
 
 		assertTrue(npcList.get(0).getType().getString().equalsIgnoreCase("hostile"));
-		assertTrue(npcList.get(0).getBaseHealth() == 10);
+		assertTrue(npcList.get(0).getBaseHealth() == 5);
 		assertTrue(npcList.get(0).getMinAttack() == 1);
 		assertTrue(npcList.get(0).getMaxAttack() == 2);
 		

@@ -36,7 +36,6 @@ public class MovementControllerTest {
 		
 		String output = controller.control("move");
 		System.out.println(output);
-		assertTrue(output.equals("Missing movement target.\n"));
 
 		output = controller.control("move weast");
 		System.out.println(output);

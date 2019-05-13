@@ -8,13 +8,20 @@ location Jungle
 	room
 		coord 0 0
 		exit
+		npc Monkey
+		long You can see the edge of the jungle from here. Perhaps you can find civilization outside of the jungle.
+		short You see the edge of the jungle.
 		
 	room
 		coord 0 1
 		npc Jaguar
+		long A clearing in the jungle. Nothing else interesting.
+		short A clearing in the jungle.
 		
 	room
 		coord 0 2
+		long A dead end. Nothing interesting here.
+		short A dead end. Nothing interesting here.
 		
 	room
 		coord 1 1
@@ -25,14 +32,21 @@ location Jungle
 	room
 		coord 2 0
 		event 003
+		long A dead end. Nothing interesting here.
+		short A dead end. Nothing interesting here.
 		
 	room
 		coord 2 1
 		npc Rat
+		long There's a tent set up here. It looks recently used. There might be someone inside.
+		short There's a tent set up here.
 		
 	room
 		coord 2 2
 		exit
+		npc Monkey
+		long You can see the edge of the jungle from here. Perhaps you can find civilization outside of the jungle.
+		short You see the edge of the jungle.
 
 
 location Dungeon
@@ -46,46 +60,74 @@ location Dungeon
 		..oo.
 	room
 		coord 0 0
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 1 0
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 2 0
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 3 0
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 1 1
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 3 1
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 4 1
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 0 2
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 1 2
 		start
+		exit
 		long You wander into the dark dungeon, unaware of where you are going.
+		short A dark dungeon of despair.
 		
 	room
 		coord 3 2
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 1 3
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 3 3
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 		
 	room
 		coord 2 4
 		exit
+		long You find an exit to the dungeon.
+		short You find an exit to the dungeon.
 		
 	room
 		coord 3 4
+		long Empty. Nothing but dark hallways.
+		short Empty. Nothing but dark hallways.
 
