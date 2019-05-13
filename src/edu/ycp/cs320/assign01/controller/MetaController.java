@@ -93,7 +93,16 @@ public class MetaController {
 				vendorCon.updateRoom();
 				output += vendorCon.control(input);
 			} else {
-				if(words.get(0).equals("help")) {
+				if(words.get(0).equals("login")) {
+					if(words.size() < 3) {
+						output += "You must specify a Username and Password. \n";
+					}
+					else {
+						String username = words.get(1).trim();
+						String password = words.get(2).trim();
+						output += login(username, password);
+					}
+				} else if(words.get(0).equals("help")) {
 					output += help();
 				} else if(words.get(0).equals("inspect")) {
 					if(words.size() < 2) {
@@ -113,6 +122,21 @@ public class MetaController {
 		if(output.equals(""))
 			output += "This is not a command. \n";
 		
+		return output;
+	}
+	
+
+	private String login(String username, String password) {
+		String output = "";
+		/**
+		 * -encrypt password
+		 * -Check username and password with database
+		 * -if username and password exist in database
+		 * 		-switch account to account with that username
+		 * 		-return that the login was successful
+		 * -if not
+		 * 		-return login credentials were not valid
+		 */
 		return output;
 	}
 
